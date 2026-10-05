@@ -1,0 +1,76 @@
+import Link from "next/link"
+import { Search, ShoppingBag, User } from "lucide-react"
+
+export function Header() {
+  return (
+    <>
+      <div className="w-full bg-brand-slate py-2 text-white text-xs lg:text-sm font-bold overflow-hidden whitespace-nowrap relative">
+        <div className="flex animate-marquee gap-12 items-center px-4">
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> 3.000 TL Üzeri Kargo Ücretsiz</span>
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> İstanbul İçi Aynı Gün Kurye Fırsatı</span>
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> Hızlı Kargo</span>
+          
+          <span className="flex items-center gap-2 ml-12"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> 3.000 TL Üzeri Kargo Ücretsiz</span>
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> İstanbul İçi Aynı Gün Kurye Fırsatı</span>
+          <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-brand-gold"></span> Hızlı Kargo</span>
+        </div>
+      </div>
+      <header className="sticky top-0 z-50 w-full bg-white border-b border-brand-slate/20">
+      <div className="container mx-auto px-4 lg:px-8">
+        {/* Top Header */}
+        <div className="flex items-center justify-between h-20">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="text-2xl font-black tracking-tight text-brand-slate">
+              MARKA<span className="text-brand-gold">LOGO</span>
+            </div>
+          </Link>
+
+          <div className="hidden md:flex flex-1 max-w-xl mx-8">
+            <div className="relative w-full">
+              <input 
+                type="text" 
+                placeholder="Ne aramıştınız? Örn: Antep fıstığı..." 
+                className="w-full bg-white border-2 border-brand-slate/20 rounded-full py-2.5 pl-5 pr-12 text-sm focus:outline-none focus:border-brand-gold text-brand-slate placeholder:text-brand-slate/50 transition-colors"
+              />
+              <button className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 bg-brand-slate text-white rounded-full hover:bg-brand-gold hover:text-brand-slate transition-colors">
+                <Search className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/giris" className="flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors group">
+              <User className="h-6 w-6" />
+              <span className="text-[10px] font-bold hidden sm:block">GİRİŞ YAP</span>
+            </Link>
+            <Link href="/sepet" className="flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors relative group">
+              <div className="relative">
+                <ShoppingBag className="h-6 w-6" />
+                <span className="absolute -top-1.5 -right-1.5 bg-brand-gold text-brand-slate h-4 w-4 rounded-full text-[10px] font-bold flex items-center justify-center">0</span>
+              </div>
+              <span className="text-[10px] font-bold hidden sm:block">SEPETİM</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="hidden md:flex items-center justify-center h-12 border-t border-brand-slate/10">
+          <ul className="flex items-center gap-8">
+            {["Tüm Ürünler", "Kuru Yemiş", "Kuru Meyve", "Lokum & Şekerleme", "Yeni Gelenler", "İndirimler"].map((cat) => {
+              const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+              const href = cat === "Tüm Ürünler" ? "/kategoriler" : cat === "İndirimler" ? "/indirimler" : `/kategori/${slug}`;
+              return (
+              <li key={cat}>
+                <Link href={href} className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                  {cat}
+                </Link>
+              </li>
+              )
+            })}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    </>
+  )
+}
