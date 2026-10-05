@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import Script from "next/script"
 import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, MessageCircle, Eye } from "lucide-react"
 
 import prisma from "@/lib/prisma"
@@ -177,38 +178,9 @@ export default async function HomePage() {
           <p className="text-sm font-bold text-brand-slate/60 mt-2">Bizi sosyal ağlardan takip edin ve yenilikleri kaçırmayın</p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {[
-            { views: "12 B", title: "Özel üretim süreçlerimizden bir kesit." },
-            { views: "45 B", title: "Tarladan sofranıza uzanan lezzet yolculuğu." },
-            { views: "8 B", title: "Yeni sezon paketlemelerimiz başladı!" },
-            { views: "24 B", title: "Siparişleriniz özenle hazırlanıyor." },
-          ].map((reel, i) => (
-            <div key={i} className="relative aspect-[9/16] bg-brand-slate rounded-2xl overflow-hidden group cursor-pointer border-2 border-transparent hover:border-brand-gold transition-colors">
-              <div className="absolute inset-0 flex items-center justify-center bg-brand-slate/80">
-                <Play className="h-12 w-12 text-white/30 group-hover:text-brand-gold transition-colors" />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-brand-slate via-transparent to-brand-slate/60 opacity-90"></div>
-              <div className="absolute top-4 right-4 left-4 flex justify-between items-center text-white text-xs font-bold">
-                <Play className="h-4 w-4" />
-                <div className="flex items-center gap-1">
-                  <Eye className="h-3 w-3" /> {reel.views}
-                </div>
-              </div>
-              <div className="absolute bottom-4 left-4 right-4 text-white">
-                <p className="text-sm font-bold line-clamp-2 mb-3">{reel.title}</p>
-                <div className="flex items-center gap-2 bg-brand-gold text-brand-slate px-3 py-1.5 rounded-lg w-max text-xs font-black">
-                  İncele
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="mt-8 flex justify-center">
-          <button className="px-6 py-3 bg-brand-slate text-white font-black rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-sm">
-            Tüm Paylaşımları Gör
-          </button>
+        <div className="w-full">
+          <Script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" strategy="lazyOnload" />
+          <div className="commonninja_component pid-88a44d98-0d98-4cca-869d-e70bb3041549"></div>
         </div>
       </section>
 
