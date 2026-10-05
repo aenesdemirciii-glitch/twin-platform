@@ -2,13 +2,15 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   eslint: {
-    // Hostinger'ın RAM'ini tüketmemek için build sırasında ESLint'i kapatıyoruz
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // Aynı şekilde TypeScript kontrolünü kapatıp bellek tasarrufu sağlıyoruz
     ignoreBuildErrors: true,
-  }
+  },
+  // Bu özellik sayesinde Next.js Turbopack kullanmayı bırakıp Webpack'e geçer!
+  webpack: (config) => {
+    return config;
+  },
 };
 
 export default nextConfig;
