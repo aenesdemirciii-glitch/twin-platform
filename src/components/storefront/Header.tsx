@@ -26,16 +26,17 @@ export function Header() {
           </Link>
 
           <div className="hidden md:flex flex-1 max-w-xl mx-8">
-            <div className="relative w-full">
+            <form action="/arama" method="GET" className="relative w-full">
               <input 
                 type="text" 
+                name="q"
                 placeholder="Ne aramıştınız? Örn: Antep fıstığı..." 
                 className="w-full bg-white border-2 border-brand-slate/20 rounded-full py-2.5 pl-5 pr-12 text-sm focus:outline-none focus:border-brand-gold text-brand-slate placeholder:text-brand-slate/50 transition-colors"
               />
-              <button className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 bg-brand-slate text-white rounded-full hover:bg-brand-gold hover:text-brand-slate transition-colors">
+              <button type="submit" className="absolute right-1.5 top-1/2 -translate-y-1/2 p-1.5 bg-brand-slate text-white rounded-full hover:bg-brand-gold hover:text-brand-slate transition-colors">
                 <Search className="h-4 w-4" />
               </button>
-            </div>
+            </form>
           </div>
 
           <div className="flex items-center gap-4 sm:gap-6">
@@ -56,9 +57,9 @@ export function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center justify-center h-12 border-t border-brand-slate/10">
           <ul className="flex items-center gap-8">
-            {["Tüm Ürünler", "Kuru Yemiş", "Kuru Meyve", "Lokum & Şekerleme", "Yeni Gelenler", "İndirimler"].map((cat) => {
+            {["Tüm Ürünler", "Kuru Yemiş", "Kuru Meyve", "Lokum & Şekerleme", "Yeni Gelenler"].map((cat) => {
               const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
-              const href = cat === "Tüm Ürünler" ? "/kategoriler" : cat === "İndirimler" ? "/indirimler" : `/kategori/${slug}`;
+              const href = cat === "Tüm Ürünler" ? "/kategoriler" : `/kategori/${slug}`;
               return (
               <li key={cat}>
                 <Link href={href} className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">

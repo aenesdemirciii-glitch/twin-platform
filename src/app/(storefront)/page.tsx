@@ -2,17 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, MessageCircle, Eye } from "lucide-react"
 
-export default function HomePage() {
-  const products = [
-    { name: "Badem Kavrulmuş Tuzsuz", price: "819.00 TL", oldPrice: "950.00 TL", badge: "ÇOK SATAN" },
-    { name: "Antep Fıstığı Ekstra", price: "1.399.00 TL", oldPrice: "1.500.00 TL", badge: "SEPETLE İYİ GİDER" },
-    { name: "Ceviz İçi Kelebek (Extra)", price: "749.00 TL", oldPrice: "850.00 TL", badge: "SEPETLE İYİ GİDER" },
-    { name: "Armut İncir (Dağ İnciri)", price: "699.00 TL", oldPrice: "750.00 TL", badge: "FAVORİ" },
-    { name: "Kavrulmuş Fındık İçi", price: "550.00 TL", oldPrice: "620.00 TL", badge: "YENİ MAHSÜL" },
-    { name: "Sarı Leblebi Çifte Kavrulmuş", price: "220.00 TL", oldPrice: "250.00 TL", badge: "KLASİK" },
-    { name: "Gün Kurusu Kayısı", price: "480.00 TL", oldPrice: "550.00 TL", badge: "DOĞAL" },
-    { name: "Lüks Karışık Kuruyemiş", price: "890.00 TL", oldPrice: "990.00 TL", badge: "HEDİYELİK" },
-  ]
+import prisma from "@/lib/prisma"
+
+export default async function HomePage() {
+  const products = await prisma.product.findMany({
+    take: 8,
+    orderBy: { createdAt: 'desc' }
+  })
 
   return (
     <div className="w-full bg-white text-brand-slate">
@@ -68,48 +64,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* İndirimdeki Ürünler (Discounted Products) */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 lg:px-8">
-          <div className="flex items-center gap-4 mb-10">
-            <div className="h-12 w-12 bg-brand-gold text-brand-slate rounded-lg flex items-center justify-center">
-              <Percent className="h-6 w-6" />
-            </div>
-            <div>
-              <h2 className="text-3xl font-black">İndirimdeki Ürünler</h2>
-              <p className="text-brand-slate/70 font-semibold mt-1">Kaçırılmayacak fırsatlarla taptaze lezzetler</p>
-            </div>
-            <Link href="/indirimler" className="ml-auto font-black text-sm hover:text-brand-gold flex items-center gap-1 hidden md:flex transition-colors">
-              Tüm İndirimler <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-2 gap-4 lg:flex lg:overflow-x-auto lg:pb-8 lg:-mx-4 lg:px-4 lg:gap-6 lg:snap-x lg:snap-mandatory hide-scrollbar">
-            {products.map((prod, i) => (
-              <div key={i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors">
-                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
-                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
-                  <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
-                    %15 İNDİRİM
-                  </div>
-                </div>
-                <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
-                  <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2">{prod.name}</h3>
-                  <div className="mt-auto pt-2">
-                    <div className="flex items-center gap-2 mb-3">
-                      <p className="text-base lg:text-xl font-black text-brand-slate">{prod.price}</p>
-                      <p className="text-xs lg:text-sm font-semibold text-brand-slate/40 line-through">{prod.oldPrice}</p>
-                    </div>
-                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-3 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
-                      Sepete Ekle
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Categories */}
       <section className="py-16 bg-brand-slate/5 border-y border-brand-slate/10 container mx-auto px-4 lg:px-8">
@@ -160,25 +115,25 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 gap-4 lg:flex lg:overflow-x-auto lg:pb-8 lg:-mx-4 lg:px-4 lg:gap-6 lg:snap-x lg:snap-mandatory hide-scrollbar">
             {products.map((prod, i) => (
-              <div key={i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors">
+              <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
                   <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
-                  {prod.badge && (
+                  {prod.isFeatured && (
                     <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
-                      {prod.badge}
+                      ÇOK SATAN
                     </div>
                   )}
                 </div>
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
-                  <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2">{prod.name}</h3>
+                  <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
-                    <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{prod.price}</p>
+                    <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
                     <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-3 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
                       Sepete Ekle
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
