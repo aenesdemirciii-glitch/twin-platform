@@ -3,7 +3,8 @@ import { notFound } from "next/navigation"
 import { getProductBySlug } from "@/services/productService"
 import { ShoppingCart, Heart, ShieldCheck, Truck } from "lucide-react"
 
-export default async function ProductDetailPage({ params }: { params: { slug: string } }) {
+export default async function ProductDetailPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const product = await getProductBySlug(params.slug)
   if (!product) notFound()
 
