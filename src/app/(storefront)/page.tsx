@@ -80,7 +80,7 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-          {["Kampanyalı Paketler", "Kına / Düğün Çerezi", "Karışık Kuruyemiş", "Kuru Meyveler", "Hurma", "Lokum & Şekerleme", "Ceviz", "Kahve"].map((cat, i) => {
+          {["Baharat Ürünleri", "Bal ve Arı Ürünleri", "Fonksiyonel Çaylar", "Kahve Çeşitleri", "Kuruyemişler", "Lokum ve Şekerleme", "Pekmez Çeşitleri", "Sirkeler"].map((cat, i) => {
             const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
             return (
             <Link key={i} href={`/kategori/${slug}`} className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-brand-slate/10 flex items-center justify-center border-2 border-transparent hover:border-brand-gold transition-all">
@@ -198,17 +198,37 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { title: "Sağlıklı Yaşam ve Doğal Beslenme İpuçları", desc: "Günlük enerjinizi doğal yollardan nasıl artırabileceğiniz hakkında uzman görüşleri ve beslenme tüyoları." },
-            { title: "Yeni Sezon Ürünlerimiz Stoklarda", desc: "En taze hasat ürünlerimizin depolama ve paketleme süreçleri hakkında bilmeniz gereken tüm yenilikler." },
-            { title: "Toptan Siparişlerde Dikkat Edilmesi Gerekenler", desc: "İşletmeniz için yüksek hacimli alımlar yaparken ürün kalitesini nasıl korursunuz? İpuçları burada." },
-            { title: "Doğru Saklama Koşulları Nelerdir?", desc: "Aldığınız ürünlerin tazeliğini ilk günkü gibi koruması için evde uygulayabileceğiniz basit saklama yöntemleri." },
+            { 
+              title: "Kış Aylarında Bağışıklığınızı Güçlendirecek Doğal Karışımlar", 
+              desc: "Zencefil, zerdeçal ve balla hazırlayabileceğiniz doğal kürler ile kış aylarına enerjik bir başlangıç yapın. Tamamen doğal malzemelerle sağlığınızı destekleyin.",
+              image: "/images/blog/immunity.jpg",
+              date: "12 Ekim 2026"
+            },
+            { 
+              title: "Kahve Çekirdeklerinin Yolculuğu: Doğru Kahve Seçimi", 
+              desc: "Dünyanın en iyi yörelerinden gelen taze kavrulmuş kahve çekirdekleri arasındaki farkları öğrenin. Damak tadınıza en uygun aromayı nasıl bulabilirsiniz?",
+              image: "/images/blog/coffee.jpg",
+              date: "5 Ekim 2026"
+            },
+            { 
+              title: "Kuruyemiş Tüketiminde Porsiyon Kontrolü ve Faydaları", 
+              desc: "Ceviz, badem ve Antep fıstığı gibi besin deposu kuruyemişleri tüketirken porsiyon kontrolünün önemi ve vücudunuza sağladığı eşsiz katkılar.",
+              image: "/images/blog/nuts.jpg",
+              date: "28 Eylül 2026"
+            },
+            { 
+              title: "Geleneksel Türk Mutfağı Baharatlarının Gizli Gücü", 
+              desc: "Sumak, nane ve pul biber gibi sofralarımızın vazgeçilmezi olan geleneksel baharatların yemeklere kattığı lezzetin ötesindeki mucizevi etkileri.",
+              image: "/images/blog/spices.jpg",
+              date: "15 Eylül 2026"
+            },
           ].map((blog, i) => (
             <div key={i} className="flex flex-col bg-white border-2 border-brand-slate/10 rounded-2xl overflow-hidden hover:border-brand-gold transition-colors group">
-              <div className="aspect-[4/3] bg-brand-slate/5 flex items-center justify-center border-b border-brand-slate/10">
-                <span className="text-brand-slate/40 font-bold">Blog Görseli</span>
+              <div className="relative aspect-[4/3] bg-brand-slate/5 flex items-center justify-center border-b border-brand-slate/10 overflow-hidden">
+                <Image src={blog.image} alt={blog.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-5 flex flex-col flex-1">
-                <span className="text-xs font-bold text-brand-slate/50 mb-2">07.09.2026</span>
+                <span className="text-xs font-bold text-brand-slate/50 mb-2">{blog.date}</span>
                 <h3 className="font-black text-base mb-3 leading-snug group-hover:text-brand-gold transition-colors">{blog.title}</h3>
                 <p className="text-sm text-brand-slate/70 font-medium line-clamp-4 mb-4">{blog.desc}</p>
                 <Link href={`/blog/post-${i}`} className="mt-auto font-black text-xs hover:text-brand-gold transition-colors flex items-center gap-1 uppercase">
