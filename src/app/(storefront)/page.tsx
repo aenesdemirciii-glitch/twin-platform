@@ -80,14 +80,23 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-          {["Baharat Ürünleri", "Bal ve Arı Ürünleri", "Fonksiyonel Çaylar", "Kahve Çeşitleri", "Kuruyemişler", "Lokum ve Şekerleme", "Pekmez Çeşitleri", "Sirkeler"].map((cat, i) => {
-            const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
+          {[
+            { name: "Baharat Ürünleri", img: "/images/blog/spices.jpg" },
+            { name: "Bal ve Arı Ürünleri", img: "/images/category/honey.jpg" },
+            { name: "Fonksiyonel Çaylar", img: "/images/category/tea.jpg" },
+            { name: "Kahve Çeşitleri", img: "/images/blog/coffee.jpg" },
+            { name: "Kuruyemişler", img: "/images/blog/nuts.jpg" },
+            { name: "Lokum ve Şekerleme", img: "/images/category/lokum.jpg" },
+            { name: "Pekmez Çeşitleri", img: "/images/category/pekmez.jpg" },
+            { name: "Sirkeler", img: "/images/category/vinegar.jpg" }
+          ].map((cat, i) => {
+            const slug = cat.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
             return (
             <Link key={i} href={`/kategori/${slug}`} className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-brand-slate/10 flex items-center justify-center border-2 border-transparent hover:border-brand-gold transition-all">
-              <div className="absolute inset-0 flex items-center justify-center text-brand-slate/30 font-bold z-0">Görsel</div>
+              <Image src={cat.img} alt={cat.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-slate via-brand-slate/50 to-transparent z-10 transition-opacity duration-300 opacity-80 group-hover:opacity-90"></div>
               <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between items-end">
-                <span className="text-white font-bold text-sm lg:text-base leading-tight w-2/3">{cat}</span>
+                <span className="text-white font-bold text-sm lg:text-base leading-tight w-2/3">{cat.name}</span>
                 <div className="h-8 w-8 bg-brand-gold text-brand-slate rounded-full flex items-center justify-center transform transition-transform group-hover:scale-110">
                   <ArrowRight className="h-4 w-4" />
                 </div>

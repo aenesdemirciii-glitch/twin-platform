@@ -40,10 +40,6 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/giris" className="flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors group">
-              <User className="h-6 w-6" />
-              <span className="text-[10px] font-bold hidden sm:block">GİRİŞ YAP</span>
-            </Link>
             <Link href="/sepet" className="flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors relative group">
               <div className="relative">
                 <ShoppingBag className="h-6 w-6" />
@@ -57,17 +53,21 @@ export function Header() {
         {/* Navigation */}
         <nav className="hidden md:flex items-center justify-center h-12 border-t border-brand-slate/10">
           <ul className="flex items-center gap-8">
-            {["Tüm Ürünler", "Kuru Yemiş", "Kuru Meyve", "Lokum & Şekerleme", "Yeni Gelenler"].map((cat) => {
-              const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-').replace(/ı/g, 'i').replace(/ü/g, 'u').replace(/ş/g, 's').replace(/ö/g, 'o').replace(/ç/g, 'c');
-              const href = cat === "Tüm Ürünler" ? "/kategoriler" : `/kategori/${slug}`;
-              return (
-              <li key={cat}>
-                <Link href={href} className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
-                  {cat}
-                </Link>
-              </li>
-              )
-            })}
+            <li>
+              <Link href="/" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                Ana Sayfa
+              </Link>
+            </li>
+            <li>
+              <Link href="/kategoriler" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                Kategoriler
+              </Link>
+            </li>
+            <li>
+              <Link href="#iletisim" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                İletişim
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>
