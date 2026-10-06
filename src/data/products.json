@@ -1,4681 +1,2931 @@
 [
   {
-    "Kategori": "Kahve Çeşitleri",
-    "Marka": "",
-    "Ürün Adı": "Taze Çekilmiş Türk Kahvesi",
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çiçek Bamya",
     "Varyant": "100 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
-    "Kategori": "Kahve Çeşitleri",
-    "Marka": "Coffee Bean Box",
-    "Ürün Adı": "Espresso No:1",
-    "Varyant": "1 kg",
-    "Fiyat": 2000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Top Kekik (Bilye Kekik)",
+    "Varyant": "50 g",
+    "Fiyat": 130
   },
   {
-    "Kategori": "Kahve Çeşitleri",
-    "Marka": "Kaffka",
-    "Ürün Adı": "Menengiç Kahvesi",
-    "Varyant": "150 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Yenibahar Toz",
+    "Varyant": "250 g",
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kahve Çeşitleri",
-    "Marka": "Kaffka",
-    "Ürün Adı": "Dibek Kahvesi",
-    "Varyant": "150 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Yaprak Toz",
+    "Varyant": "100 g",
+    "Fiyat": 150
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Talkım Radika",
-    "Ürün Adı": "Organik Elma Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Tane Kişniş",
+    "Varyant": "100 g",
+    "Fiyat": 65
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Tyche Radika",
-    "Ürün Adı": "Alıç Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Tane Sumak",
+    "Varyant": "100 g",
+    "Fiyat": 120
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Tyche Radika",
-    "Ürün Adı": "Organik Üzüm Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Ak Günlük Sakızı",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Tyche Radika",
-    "Ürün Adı": "Enginar Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çok Acı Pul Biber",
+    "Varyant": "100 g",
+    "Fiyat": 130
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Yedier",
-    "Ürün Adı": "Pirinç Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çok Acı Pul Biber",
+    "Varyant": "500 g",
+    "Fiyat": 650
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Yedier",
-    "Ürün Adı": "Balzamik Sirke",
-    "Varyant": "500 ml",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çok Acı Pul Biber",
+    "Varyant": "1000 g",
+    "Fiyat": 1300
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Yedier",
-    "Ürün Adı": "Nar Sirkesi",
-    "Varyant": "500 ml",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Havlıcan Tozu",
+    "Varyant": "100 g",
+    "Fiyat": 70
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Atas İskan",
-    "Ürün Adı": "Kekik Sirkesi",
-    "Varyant": "500 ml",
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Havlıcan Tozu",
+    "Varyant": "500 g",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Sirkeler",
-    "Marka": "Atas",
-    "Ürün Adı": "Kvass Fermente Pancar",
-    "Varyant": "500 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Havlıcan Tozu",
+    "Varyant": "1000 g",
+    "Fiyat": 700
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Keçiboynuzu Özü",
-    "Varyant": "640 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Dolmalık Çam Fıstığı (Bergama)",
+    "Varyant": "50 g",
+    "Fiyat": 400
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Keçiboynuzu Pekmezi",
-    "Varyant": "640 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Dolmalık Çam Fıstığı (Bergama)",
+    "Varyant": "100 g",
+    "Fiyat": 800
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Dut Pekmezi",
-    "Varyant": "640 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kuş Üzümü",
+    "Varyant": "100 g",
+    "Fiyat": 120
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Üzüm Pekmezi",
-    "Varyant": "640 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kuş Üzümü",
+    "Varyant": "500 g",
+    "Fiyat": 600
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Kızılcık Pekmezi",
-    "Varyant": "640 g",
-    "Fiyat": 430,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kuş Üzümü",
+    "Varyant": "1000 g",
+    "Fiyat": 1200
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "Twins Craft",
-    "Ürün Adı": "Karadut Özü",
-    "Varyant": "680 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mahlep",
+    "Varyant": "100 g",
+    "Fiyat": 120
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "Twins Craft",
-    "Ürün Adı": "Nar Ekşisi Özü",
-    "Varyant": "340 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mahlep",
+    "Varyant": "500 g",
+    "Fiyat": 600
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Nar Ekşisi Özü",
-    "Varyant": "650 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mahlep",
+    "Varyant": "1000 g",
+    "Fiyat": 1200
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Sumak Ekşisi Özü",
-    "Varyant": "340 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mavi Haşhaş",
+    "Varyant": "100 g",
+    "Fiyat": 70
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Sumak Ekşisi Özü",
-    "Varyant": "650 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mavi Haşhaş",
+    "Varyant": "500 g",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Hurma Özü",
-    "Varyant": "340 g",
-    "Fiyat": 380,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Mavi Haşhaş",
+    "Varyant": "1000 g",
+    "Fiyat": 700
   },
   {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Tahin",
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Susam",
+    "Varyant": "100 g",
+    "Fiyat": 50
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Susam",
+    "Varyant": "500 g",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Susam",
+    "Varyant": "1000 g",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çiğ (Beyaz) Susam",
+    "Varyant": "100 g",
+    "Fiyat": 50
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çiğ (Beyaz) Susam",
+    "Varyant": "500 g",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Çiğ (Beyaz) Susam",
+    "Varyant": "1000 g",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Limon Tuzu",
+    "Varyant": "100 g",
+    "Fiyat": 50
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Limon Tuzu",
+    "Varyant": "500 g",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Limon Tuzu",
+    "Varyant": "1000 g",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kajun Baharatı",
+    "Varyant": "100 g",
+    "Fiyat": 100
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kajun Baharatı",
+    "Varyant": "500 g",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Kajun Baharatı",
+    "Varyant": "1000 g",
+    "Fiyat": 1000
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Köri",
+    "Varyant": "100 g",
+    "Fiyat": 80
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Köri",
+    "Varyant": "500 g",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Köri",
+    "Varyant": "1000 g",
+    "Fiyat": 800
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Toz Karabiber",
+    "Varyant": "100 g",
+    "Fiyat": 160
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Toz Karabiber",
+    "Varyant": "500 g",
+    "Fiyat": 800
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Tane Karabiber",
+    "Varyant": "100 g",
+    "Fiyat": 160
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Tane Karabiber",
+    "Varyant": "500 g",
+    "Fiyat": 800
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Acı Toz Biber",
+    "Varyant": "100 g",
+    "Fiyat": 75
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Acı Toz Biber",
     "Varyant": "400 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Tahin",
-    "Varyant": "650 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Pekmez Çeşitleri",
-    "Marka": "İkizler Bah.",
-    "Ürün Adı": "Tahin",
-    "Varyant": "1 kg",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Tatlı Badem Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Çörekotu Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kabak Çekirdeği Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Susam Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Sarı Kantaron Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kenevir Tohumu Yağı",
-    "Varyant": "250 ml",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "KRK",
-    "Ürün Adı": "Anason Aroması",
-    "Varyant": "250 ml",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "KRK",
-    "Ürün Adı": "Malt Aroması",
-    "Varyant": "250 ml",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Çam Terebentin Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Çörekotu Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Gliserin Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Hint Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Hodan Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 550,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kabak Çekirdeği Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 280,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Keten Tohumu Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kudret Narı Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 270,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Sarı Kantaron Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Tatlı Badem Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Üzüm Çekirdeği Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Twins Craft",
-    "Ürün Adı": "Hindistan Cevizi Yağı",
-    "Varyant": "95 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Twins Craft",
-    "Ürün Adı": "Hindistan Cevizi Yağı",
-    "Varyant": "320 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Acıbadem Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Adaçayı (Acı Elma) Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Aloe Vera Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Avokado Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Aynısefa Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Biberiye Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Buğday Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Çay Ağacı Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Greyfurt Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Havuç Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "İncir Çekirdeği Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Jojoba Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Karanfil Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 320,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kayısı Çekirdeği Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kekik Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 550,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Kuşburnu Çekirdeği Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Lavanta Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Limon Kabuğu Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Tarçın Yağı",
-    "Varyant": "10 cc",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Itır Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Baobab Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "E Vitamini",
-    "Varyant": "20 cc",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Nar Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Misk Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Nar Çekirdeği Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Okaliptüs Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Papatya Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Portakal Kabuğu Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Sedir Ağacı Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Balen",
-    "Ürün Adı": "Sarımsak Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "MAIA",
-    "Ürün Adı": "Gül Yağı",
-    "Varyant": "20 cc",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "MAIA",
-    "Ürün Adı": "Gül Yağı",
-    "Varyant": "50 cc",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Yağ ve Aromalar",
-    "Marka": "Blue Ocean",
-    "Ürün Adı": "Gül Yağı",
-    "Varyant": "30 cc",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Çiçek Bamya",
-    "Varyant": "250 g",
-    "Fiyat": 1125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Çiçek Bamya",
-    "Varyant": "500 g",
-    "Fiyat": 2250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Çiçek Bamya",
-    "Varyant": "1000 g",
-    "Fiyat": 4500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Top Kekik (Bilye Kekik)",
-    "Varyant": "250 g",
-    "Fiyat": 65,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Top Kekik (Bilye Kekik)",
-    "Varyant": "500 g",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Top Kekik (Bilye Kekik)",
-    "Varyant": "1000 g",
-    "Fiyat": 260,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Yaprak Toz",
-    "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Yaprak Toz",
-    "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Yaprak Toz",
-    "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Kişniş",
-    "Varyant": "250 g",
-    "Fiyat": 162.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Kişniş",
-    "Varyant": "500 g",
-    "Fiyat": 325,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Kişniş",
-    "Varyant": "1000 g",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Sumak",
-    "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Sumak",
-    "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Sumak",
-    "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Al Günlük Sakızı",
-    "Varyant": "250 g",
-    "Fiyat": 875,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Al Günlük Sakızı",
-    "Varyant": "500 g",
-    "Fiyat": 1750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Al Günlük Sakızı",
-    "Varyant": "1000 g",
-    "Fiyat": 3500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Gök Acı Pul Biber",
-    "Varyant": "250 g",
-    "Fiyat": 3250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Gök Acı Pul Biber",
-    "Varyant": "500 g",
-    "Fiyat": 6500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Gök Acı Pul Biber",
-    "Varyant": "1000 g",
-    "Fiyat": 13000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Havlıcan Tozu",
-    "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Havlıcan Tozu",
-    "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Havlıcan Tozu",
-    "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Dolmalık Çam Fıstığı (Bergama)",
-    "Varyant": "250 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Dolmalık Çam Fıstığı (Bergama)",
-    "Varyant": "500 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Dolmalık Çam Fıstığı (Bergama)",
-    "Varyant": "1000 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kuş Üzümü",
-    "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kuş Üzümü",
-    "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kuş Üzümü",
-    "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mahlap",
-    "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mahlap",
-    "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mahlap",
-    "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mavi Haşhaş",
-    "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mavi Haşhaş",
-    "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Mavi Haşhaş",
-    "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Susam",
-    "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Susam",
-    "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Susam",
-    "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Açık (Beyaz) Susam",
-    "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Açık (Beyaz) Susam",
-    "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Açık (Beyaz) Susam",
-    "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Limon Tuzu",
-    "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Limon Tuzu",
-    "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Limon Tuzu",
-    "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kajun Baharatı",
-    "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kajun Baharatı",
-    "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kajun Baharatı",
-    "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Köri",
-    "Varyant": "250 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Köri",
-    "Varyant": "500 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Köri",
-    "Varyant": "1000 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Toz Karabiber",
-    "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Toz Karabiber",
-    "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Toz Karabiber",
-    "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Karabiber",
-    "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Karabiber",
-    "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tane Karabiber",
-    "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Acı Toz Biber",
-    "Varyant": "250 g",
-    "Fiyat": 187.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Acı Toz Biber",
-    "Varyant": "500 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Acı Toz Biber",
-    "Varyant": "1000 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Tatlı Toz Biber",
-    "Varyant": "250 g",
-    "Fiyat": 187.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 75
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Tatlı Toz Biber",
+    "Varyant": "400 g",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Karışık Köfte Baharatı",
+    "Varyant": "100 g",
+    "Fiyat": 100
+  },
+  {
+    "Kategori": "Baharat Ürünleri",
+    "Ürün Adı": "Karışık Köfte Baharatı",
     "Varyant": "500 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tatlı Toz Biber",
-    "Varyant": "1000 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kancalı İsot Bah.",
-    "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kancalı İsot Bah.",
-    "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kancalı İsot Bah.",
-    "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İpek Sumak",
-    "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 120
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İpek Sumak",
     "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "İpek Sumak",
-    "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Renkli Tane Karabiber",
-    "Varyant": "250 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 200
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Renkli Tane Karabiber",
     "Varyant": "500 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Renkli Tane Karabiber",
-    "Varyant": "1000 g",
-    "Fiyat": 2000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Kimyon",
-    "Varyant": "250 g",
-    "Fiyat": 212.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 85
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Kimyon",
     "Varyant": "500 g",
-    "Fiyat": 425,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 425
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Toz Kimyon",
-    "Varyant": "1000 g",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Tatlı Pul Biber",
-    "Varyant": "250 g",
-    "Fiyat": 237.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 95
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Tatlı Pul Biber",
     "Varyant": "500 g",
-    "Fiyat": 475,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 475
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Tatlı Pul Biber",
-    "Varyant": "1000 g",
-    "Fiyat": 950,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İpek Pul Biber (Ortacı)",
-    "Varyant": "250 g",
-    "Fiyat": 237.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 95
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İpek Pul Biber (Ortacı)",
     "Varyant": "500 g",
-    "Fiyat": 475,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 475
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "İpek Pul Biber (Ortacı)",
-    "Varyant": "1000 g",
-    "Fiyat": 950,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İsot",
-    "Varyant": "250 g",
-    "Fiyat": 212.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 85
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "İsot",
     "Varyant": "500 g",
-    "Fiyat": 425,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 425
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "İsot",
-    "Varyant": "1000 g",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Nane",
-    "Varyant": "250 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 80
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Nane",
     "Varyant": "500 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Nane",
-    "Varyant": "1000 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Kekik",
-    "Varyant": "250 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 80
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Kekik",
     "Varyant": "500 g",
-    "Fiyat": 900,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 900
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Kekik",
-    "Varyant": "1000 g",
-    "Fiyat": 1800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Yıldız Anason",
-    "Varyant": "250 g",
-    "Fiyat": 625,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 250
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Yıldız Anason",
     "Varyant": "500 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Yıldız Anason",
-    "Varyant": "1000 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Anason",
-    "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 150
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Anason",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Anason",
-    "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çörekotu",
-    "Varyant": "250 g",
-    "Fiyat": 187.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 75
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çörekotu",
     "Varyant": "500 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çörekotu",
     "Varyant": "1000 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Keten Tohumu",
-    "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 50
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Keten Tohumu",
     "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Keten Tohumu",
     "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çekilmiş Keten Tohumu",
-    "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 50
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çekilmiş Keten Tohumu",
     "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Çekilmiş Keten Tohumu",
     "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zerdeçal",
-    "Varyant": "250 g",
-    "Fiyat": 212.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 85
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zerdeçal",
     "Varyant": "500 g",
-    "Fiyat": 425,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 425
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zerdeçal",
     "Varyant": "1000 g",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 850
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zencefil",
-    "Varyant": "250 g",
-    "Fiyat": 237.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 95
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zencefil",
     "Varyant": "500 g",
-    "Fiyat": 475,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 475
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Zencefil",
     "Varyant": "1000 g",
-    "Fiyat": 950,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 950
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Tarçın",
-    "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 120
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Tarçın",
     "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Toz Tarçın",
     "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1200
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Kabuk Tarçın",
-    "Varyant": "250 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 200
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Kabuk Tarçın",
     "Varyant": "500 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Kabuk Tarçın",
     "Varyant": "1000 g",
-    "Fiyat": 2000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2000
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Nöbet Şekeri",
-    "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 100
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Nöbet Şekeri",
     "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Nöbet Şekeri",
     "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Seylan Kabuk Tarçın",
-    "Varyant": "250 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "50 g",
+    "Fiyat": 280
   },
   {
     "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Seylan Kabuk Tarçın",
-    "Varyant": "500 g",
-    "Fiyat": 2800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Seylan Kabuk Tarçın",
-    "Varyant": "1000 g",
-    "Fiyat": 5600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Saf Salep",
-    "Varyant": "250 g",
-    "Fiyat": 1125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Saf Salep",
-    "Varyant": "500 g",
-    "Fiyat": 2250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Baharat Ürünleri",
-    "Marka": "",
-    "Ürün Adı": "Saf Salep",
-    "Varyant": "1000 g",
-    "Fiyat": 4500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Varyant": "100 g",
+    "Fiyat": 450
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Tarçınlı Akide Şekeri",
     "Varyant": "250 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Tarçınlı Akide Şekeri",
     "Varyant": "500 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Tarçınlı Akide Şekeri",
     "Varyant": "1000 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Renkli Akide Şekeri",
     "Varyant": "250 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Renkli Akide Şekeri",
     "Varyant": "500 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Renkli Akide Şekeri",
     "Varyant": "1000 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Kuş Lokumu",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Kuş Lokumu",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Kuş Lokumu",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
-    "Ürün Adı": "Fıstıklı Üzümlü Narlı Antep Fıstıklı Lokum",
+    "Ürün Adı": "Zereşk Üzümlü Narlı Antep Fıstıklı Lokum",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
-    "Ürün Adı": "Fıstıklı Üzümlü Narlı Antep Fıstıklı Lokum",
+    "Ürün Adı": "Zereşk Üzümlü Narlı Antep Fıstıklı Lokum",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
-    "Ürün Adı": "Fıstıklı Üzümlü Narlı Antep Fıstıklı Lokum",
+    "Ürün Adı": "Zereşk Üzümlü Narlı Antep Fıstıklı Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Yapraklı Narlı Antep Fıstıklı Lokum",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Yapraklı Narlı Antep Fıstıklı Lokum",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Yapraklı Narlı Antep Fıstıklı Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Antep Fıstıklı Lokum",
     "Varyant": "250 g",
-    "Fiyat": 325,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 325
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Antep Fıstıklı Lokum",
     "Varyant": "500 g",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 650
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Antep Fıstıklı Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 1300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1300
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Lüks Fındıklı Lokum",
     "Varyant": "250 g",
-    "Fiyat": 225,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 225
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Lüks Fındıklı Lokum",
     "Varyant": "500 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Lüks Fındıklı Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 900,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 900
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Kaplamalı Fındık Kremalı Rulo Lokum",
     "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Kaplamalı Fındık Kremalı Rulo Lokum",
     "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Kaplamalı Fındık Kremalı Rulo Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çakıltaşı Draje",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çakıltaşı Draje",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Çakıltaşı Draje",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Aromalı Lokum",
     "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 125
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Aromalı Lokum",
     "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Gül Aromalı Lokum",
     "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Şekeri",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Şekeri",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Badem Şekeri",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Mardin Badem Şekeri",
     "Varyant": "250 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Mardin Badem Şekeri",
     "Varyant": "500 g",
-    "Fiyat": 900,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 900
   },
   {
     "Kategori": "Lokum ve Şekerleme",
-    "Marka": "",
     "Ürün Adı": "Mardin Badem Şekeri",
     "Varyant": "1000 g",
-    "Fiyat": 1800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1800
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Balen",
-    "Ürün Adı": "Çiçek Balı",
+    "Ürün Adı": "Balen Çiçek Balı",
     "Varyant": "850 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1200
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Balen",
-    "Ürün Adı": "Çiçek Balı",
+    "Ürün Adı": "Balen Çiçek Balı",
     "Varyant": "450 g",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 850
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Balen",
-    "Ürün Adı": "Çiçek Balı",
+    "Ürün Adı": "Balen Çiçek Balı",
     "Varyant": "250 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Balen",
-    "Ürün Adı": "Kestane Balı",
+    "Ürün Adı": "Balen Kestane Balı",
     "Varyant": "625 g",
-    "Fiyat": 2800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2800
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Balen",
-    "Ürün Adı": "Kestane Balı",
+    "Ürün Adı": "Balen Kestane Balı",
     "Varyant": "250 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Baldudak",
-    "Ürün Adı": "Anzer Çiçek Balı",
+    "Ürün Adı": "Baldudak Anzer Çiçek Balı",
     "Varyant": "250 g",
-    "Fiyat": 6000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 6000
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Baldudak",
-    "Ürün Adı": "Kestane Balı",
+    "Ürün Adı": "Baldudak Kestane Balı",
     "Varyant": "450 g",
-    "Fiyat": 6500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 6500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Baldudak",
-    "Ürün Adı": "VIP Çiçek Balı",
+    "Ürün Adı": "Baldudak VIP Çiçek Balı",
     "Varyant": "450 g",
-    "Fiyat": 12000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 12000
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "",
     "Ürün Adı": "Polen",
     "Varyant": "100 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Umay",
-    "Ürün Adı": "Karakovan Petek Balı",
+    "Ürün Adı": "Umay Karakovan Petek Balı",
     "Varyant": "1 kg",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Su Bazlı Propolis",
-    "Varyant": "",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Ürün Adı": "Eğriçayır Su Bazlı Propolis",
+    "Fiyat": 500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Alkol Bazlı Propolis",
-    "Varyant": "",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Ürün Adı": "Eğriçayır Alkol Bazlı Propolis",
+    "Fiyat": 500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Organik Propolis Sprey",
-    "Varyant": "",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Ürün Adı": "Eğriçayır Organik Propolis Sprey",
+    "Fiyat": 600
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Organik Çiçek Balı",
+    "Ürün Adı": "Eğriçayır Organik Çiçek Balı",
     "Varyant": "850 g",
-    "Fiyat": 1800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1800
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Organik Çiçek Balı",
+    "Ürün Adı": "Eğriçayır Organik Çiçek Balı",
     "Varyant": "300 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 800
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Polifloralı Çiçek Balı",
+    "Ürün Adı": "Eğriçayır Polifloralı Çiçek Balı",
     "Varyant": "850 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Polifloralı Çiçek Balı",
+    "Ürün Adı": "Eğriçayır Polifloralı Çiçek Balı",
     "Varyant": "300 g",
-    "Fiyat": 1600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1600
   },
   {
     "Kategori": "Bal ve Arı Ürünleri",
-    "Marka": "Eğriçayır",
-    "Ürün Adı": "Karamürver Acerola & Propolis",
-    "Varyant": "",
-    "Fiyat": 950,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Ürün Adı": "Eğriçayır Karamürver Acerola & Propolis",
+    "Fiyat": 950
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Fındık",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Fındık",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Fındık",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Fındık",
     "Varyant": "250 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Fındık",
     "Varyant": "500 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 800
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Fındık",
     "Varyant": "1000 g",
-    "Fiyat": 1600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1600
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Fındık",
     "Varyant": "250 g",
-    "Fiyat": 325,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 325
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Fındık",
     "Varyant": "500 g",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 650
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Fındık",
     "Varyant": "1000 g",
-    "Fiyat": 1300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Çiğ Badem",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Çiğ Badem",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Çiğ Badem",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kavrulmuş Badem",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kavrulmuş Badem",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kavrulmuş Badem",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "İthal Çiğ Badem",
     "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "İthal Çiğ Badem",
     "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "İthal Çiğ Badem",
     "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Kaju",
     "Varyant": "250 g",
-    "Fiyat": 287.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 287.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Kaju",
     "Varyant": "500 g",
-    "Fiyat": 575,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 575
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavrulmuş Kaju",
     "Varyant": "1000 g",
-    "Fiyat": 1150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Kaju",
     "Varyant": "250 g",
-    "Fiyat": 287.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 287.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Kaju",
     "Varyant": "500 g",
-    "Fiyat": 575,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 575
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Kaju",
     "Varyant": "1000 g",
-    "Fiyat": 1150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu (Zarlı) Kaju",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu (Zarlı) Kaju",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu (Zarlı) Kaju",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Karışık Kuruyemiş",
     "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Karışık Kuruyemiş",
     "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Karışık Kuruyemiş",
     "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Süper Karışık Kuruyemiş",
     "Varyant": "250 g",
-    "Fiyat": 245,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 245
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Süper Karışık Kuruyemiş",
     "Varyant": "500 g",
-    "Fiyat": 490,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 490
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Süper Karışık Kuruyemiş",
     "Varyant": "1000 g",
-    "Fiyat": 980,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 980
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Double Karışık Kuruyemiş",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Double Karışık Kuruyemiş",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Double Karışık Kuruyemiş",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Kabak Çekirdeği",
+    "Ürün Adı": "İç Kabak Çekirdeği",
     "Varyant": "250 g",
-    "Fiyat": 187.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 187.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Kabak Çekirdeği",
+    "Ürün Adı": "İç Kabak Çekirdeği",
     "Varyant": "500 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Kabak Çekirdeği",
+    "Ürün Adı": "İç Kabak Çekirdeği",
     "Varyant": "1000 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Ay Çekirdeği",
+    "Ürün Adı": "İç Ay Çekirdeği",
     "Varyant": "250 g",
-    "Fiyat": 87.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 87.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Ay Çekirdeği",
+    "Ürün Adı": "İç Ay Çekirdeği",
     "Varyant": "500 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Çiğ Ay Çekirdeği",
+    "Ürün Adı": "İç Ay Çekirdeği",
     "Varyant": "1000 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Boz Antep Fıstığı İçi",
     "Varyant": "250 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Boz Antep Fıstığı İçi",
     "Varyant": "500 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Boz Antep Fıstığı İçi",
     "Varyant": "1000 g",
-    "Fiyat": 5000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 5000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Toz",
     "Varyant": "250 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Toz",
     "Varyant": "500 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Toz",
     "Varyant": "1000 g",
-    "Fiyat": 5000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 5000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Pirinç",
     "Varyant": "250 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Pirinç",
     "Varyant": "500 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı Pirinç",
     "Varyant": "1000 g",
-    "Fiyat": 5000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 5000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı File",
     "Varyant": "250 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı File",
     "Varyant": "500 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Antep Fıstığı File",
     "Varyant": "1000 g",
-    "Fiyat": 5000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 5000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Anaçıtlak Antep Fıstığı",
     "Varyant": "250 g",
-    "Fiyat": 625,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 625
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Anaçıtlak Antep Fıstığı",
     "Varyant": "500 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Anaçıtlak Antep Fıstığı",
     "Varyant": "1000 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Siirt Fıstığı",
     "Varyant": "250 g",
-    "Fiyat": 675,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 675
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Siirt Fıstığı",
     "Varyant": "500 g",
-    "Fiyat": 1350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Siirt Fıstığı",
     "Varyant": "1000 g",
-    "Fiyat": 2700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kırık Ceviz",
     "Varyant": "250 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kırık Ceviz",
     "Varyant": "500 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kırık Ceviz",
     "Varyant": "1000 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kelebek Ceviz",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kelebek Ceviz",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Yerli Kelebek Ceviz",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kilis Çekirdekli Siyah Üzüm",
     "Varyant": "250 g",
-    "Fiyat": 237.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 237.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kilis Çekirdekli Siyah Üzüm",
     "Varyant": "500 g",
-    "Fiyat": 475,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 475
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kilis Çekirdekli Siyah Üzüm",
     "Varyant": "1000 g",
-    "Fiyat": 950,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 950
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cranberry (Turna Yemişi)",
     "Varyant": "250 g",
-    "Fiyat": 212.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 212.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cranberry (Turna Yemişi)",
     "Varyant": "500 g",
-    "Fiyat": 425,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 425
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cranberry (Turna Yemişi)",
     "Varyant": "1000 g",
-    "Fiyat": 850,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 850
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavurga Mısır",
     "Varyant": "250 g",
-    "Fiyat": 75,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 75
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavurga Mısır",
     "Varyant": "500 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kavurga Mısır",
     "Varyant": "1000 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Soslu Mısır",
     "Varyant": "250 g",
-    "Fiyat": 87.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 75
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Soslu Mısır",
     "Varyant": "500 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Soslu Mısır",
     "Varyant": "1000 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu Fıstık",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu Fıstık",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Kabuklu Fıstık",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cips Fıstık",
     "Varyant": "250 g",
-    "Fiyat": 75,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 75
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cips Fıstık",
     "Varyant": "500 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Cips Fıstık",
     "Varyant": "1000 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Sarı Leblebi",
     "Varyant": "250 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Sarı Leblebi",
     "Varyant": "500 g",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 240
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Sarı Leblebi",
     "Varyant": "1000 g",
-    "Fiyat": 480,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 480
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Ballı Susamlı Fıstık",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Ballı Susamlı Fıstık",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Ballı Susamlı Fıstık",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Sarı Leblebi",
     "Varyant": "250 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Sarı Leblebi",
     "Varyant": "500 g",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 240
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çifte Kavrulmuş Sarı Leblebi",
     "Varyant": "1000 g",
-    "Fiyat": 480,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 480
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Köy Leblebisi",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Köy Leblebisi",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Köy Leblebisi",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çıtır Leblebi",
     "Varyant": "250 g",
-    "Fiyat": 87.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 87.5
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çıtır Leblebi",
     "Varyant": "500 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çıtır Leblebi",
     "Varyant": "1000 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Topi Fıstık (Soya Kaplı Fıstık)",
+    "Ürün Adı": "Topy Fıstık (Soya Kaplı Fıstık)",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Topi Fıstık (Soya Kaplı Fıstık)",
+    "Ürün Adı": "Topy Fıstık (Soya Kaplı Fıstık)",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Topi Fıstık (Soya Kaplı Fıstık)",
+    "Ürün Adı": "Topy Fıstık (Soya Kaplı Fıstık)",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Beyaz Leblebi",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Beyaz Leblebi",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Beyaz Leblebi",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Şeker Leblebi",
     "Varyant": "250 g",
-    "Fiyat": 75,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 75
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Şeker Leblebi",
     "Varyant": "500 g",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 150
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Şeker Leblebi",
     "Varyant": "1000 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Fıstık (Jumbo)",
     "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 125
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Fıstık (Jumbo)",
     "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Fıstık (Jumbo)",
     "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Fıstık (Jumbo)",
     "Varyant": "250 g",
-    "Fiyat": 125,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 125
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Fıstık (Jumbo)",
     "Varyant": "500 g",
-    "Fiyat": 250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 250
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Fıstık (Jumbo)",
     "Varyant": "1000 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kavrulmuş Dakota Çekirdek",
     "Varyant": "250 g",
-    "Fiyat": 60,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 60
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kavrulmuş Dakota Çekirdek",
     "Varyant": "500 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kavrulmuş Dakota Çekirdek",
     "Varyant": "1000 g",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 240
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kavrulmuş Dakota Çekirdek",
     "Varyant": "250 g",
-    "Fiyat": 60,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 60
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kavrulmuş Dakota Çekirdek",
     "Varyant": "500 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kavrulmuş Dakota Çekirdek",
     "Varyant": "1000 g",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 240
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Dakota Çekirdek",
     "Varyant": "250 g",
-    "Fiyat": 60,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 60
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Dakota Çekirdek",
     "Varyant": "500 g",
-    "Fiyat": 120,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Dakota Çekirdek",
     "Varyant": "1000 g",
-    "Fiyat": 240,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 240
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Nevşehir Kabak Çekirdeği",
     "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Nevşehir Kabak Çekirdeği",
     "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Çiğ Nevşehir Kabak Çekirdeği",
     "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kabak Çekirdeği",
     "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kabak Çekirdeği",
     "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzsuz Kabak Çekirdeği",
     "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kabak Çekirdeği",
     "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kabak Çekirdeği",
     "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Tuzlu Kabak Çekirdeği",
     "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Brezilya Cevizi",
     "Varyant": "250 g",
-    "Fiyat": 875,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 875
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Brezilya Cevizi",
     "Varyant": "500 g",
-    "Fiyat": 1750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1750
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Brezilya Cevizi",
     "Varyant": "1000 g",
-    "Fiyat": 3500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 3500
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Pikan Cevizi",
     "Varyant": "250 g",
-    "Fiyat": 875,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 875
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Pikan Cevizi",
     "Varyant": "500 g",
-    "Fiyat": 1750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1750
   },
   {
     "Kategori": "Kuruyemişler",
-    "Marka": "",
     "Ürün Adı": "Pikan Cevizi",
     "Varyant": "1000 g",
-    "Fiyat": 3500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 3500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Medine Hurması",
     "Varyant": "250 g",
-    "Fiyat": 325,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 325
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Medine Hurması",
     "Varyant": "500 g",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 650
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Medine Hurması",
     "Varyant": "1000 g",
-    "Fiyat": 1300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1300
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Kudüs Hurması",
     "Varyant": "250 g",
-    "Fiyat": 325,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 325
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Kudüs Hurması",
     "Varyant": "500 g",
-    "Fiyat": 650,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 650
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Duble Kudüs Hurması",
     "Varyant": "1000 g",
-    "Fiyat": 1300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1300
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Süper Jumbo Kudüs Hurması",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Süper Jumbo Kudüs Hurması",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Süper Jumbo Kudüs Hurması",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Karışık Meyve Kurusu",
     "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Karışık Meyve Kurusu",
     "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Karışık Meyve Kurusu",
     "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1200
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu",
     "Varyant": "250 g",
-    "Fiyat": 112.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 112.5
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu",
     "Varyant": "500 g",
-    "Fiyat": 225,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 225
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu",
     "Varyant": "1000 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Ürgüp İğdeli Kayısı (Ekşi)",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Ürgüp Zerdali Kayısı (Ekşi)",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Ürgüp İğdeli Kayısı (Ekşi)",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Ürgüp Zerdali Kayısı (Ekşi)",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Ürgüp İğdeli Kayısı (Ekşi)",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Ürgüp Zerdali Kayısı (Ekşi)",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sıra İncir",
     "Varyant": "250 g",
-    "Fiyat": 300,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 300
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sıra İncir",
     "Varyant": "500 g",
-    "Fiyat": 600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 600
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sıra İncir",
     "Varyant": "1000 g",
-    "Fiyat": 1200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1200
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Dağ İnciri",
     "Varyant": "250 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Dağ İnciri",
     "Varyant": "500 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 800
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Dağ İnciri",
     "Varyant": "1000 g",
-    "Fiyat": 1600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1600
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Lüks Sarı Üzüm",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Lüks Sarı Üzüm",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Lüks Sarı Üzüm",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Ulukale Dut",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Ulukale Dut",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Ulukale Dut",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Konya Karaman Çekirdekli Üzüm",
     "Varyant": "250 g",
-    "Fiyat": 187.5,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 187.5
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Konya Karaman Çekirdekli Üzüm",
     "Varyant": "500 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Konya Karaman Çekirdekli Üzüm",
     "Varyant": "1000 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Gün Kurusu Kayısı",
     "Varyant": "250 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Gün Kurusu Kayısı",
     "Varyant": "500 g",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 800
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Gün Kurusu Kayısı",
     "Varyant": "1000 g",
-    "Fiyat": 1600,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1600
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Sarı Kayısı",
     "Varyant": "250 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Sarı Kayısı",
     "Varyant": "500 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Jumbo Sarı Kayısı",
     "Varyant": "1000 g",
-    "Fiyat": 1400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1400
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Kabuklu Ceviz",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Kabuklu Ceviz",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Kabuklu Ceviz",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Özbek Üzümü",
     "Varyant": "250 g",
-    "Fiyat": 225,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 225
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Özbek Üzümü",
     "Varyant": "500 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Özbek Üzümü",
     "Varyant": "1000 g",
-    "Fiyat": 900,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 900
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Cevizli Sucuk",
     "Varyant": "250 g",
-    "Fiyat": 175,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 175
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Cevizli Sucuk",
     "Varyant": "500 g",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Cevizli Sucuk",
     "Varyant": "1000 g",
-    "Fiyat": 700,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 700
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Domates Kurusu",
     "Varyant": "250 g",
-    "Fiyat": 225,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 225
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Domates Kurusu",
     "Varyant": "500 g",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Domates Kurusu",
     "Varyant": "1000 g",
-    "Fiyat": 900,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 900
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sarma Tatlı (Dut-Fıstık)",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sarma Tatlı (Dut-Fıstık)",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Sarma Tatlı (Dut-Fıstık)",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Wasabi Soslu Bezelye",
     "Varyant": "250 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Wasabi Soslu Bezelye",
     "Varyant": "500 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Wasabi Soslu Bezelye",
     "Varyant": "1000 g",
-    "Fiyat": 2000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2000
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Soyulmuş Çiğ Badem",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Soyulmuş İç Badem",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Soyulmuş Çiğ Badem",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Soyulmuş İç Badem",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
-    "Ürün Adı": "Soyulmuş Çiğ Badem",
+    "Kategori": "Kuru Meyveler",
+    "Ürün Adı": "Soyulmuş İç Badem",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Badem",
     "Varyant": "250 g",
-    "Fiyat": 375,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 375
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Badem",
     "Varyant": "500 g",
-    "Fiyat": 750,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 750
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Badem",
     "Varyant": "1000 g",
-    "Fiyat": 1500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Fındık",
     "Varyant": "250 g",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Fındık",
     "Varyant": "500 g",
-    "Fiyat": 1000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1000
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "File Fındık",
     "Varyant": "1000 g",
-    "Fiyat": 2000,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2000
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Antep Fıstıklı Sucuk",
     "Varyant": "250 g",
-    "Fiyat": 625,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 625
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Antep Fıstıklı Sucuk",
     "Varyant": "500 g",
-    "Fiyat": 1250,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 1250
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Antep Fıstıklı Sucuk",
     "Varyant": "1000 g",
-    "Fiyat": 2500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 2500
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu Meyvesi",
     "Varyant": "250 g",
-    "Fiyat": 100,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 100
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu Meyvesi",
     "Varyant": "500 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
-    "Kategori": "Kuruyemişler",
-    "Marka": "",
+    "Kategori": "Kuru Meyveler",
     "Ürün Adı": "Keçiboynuzu Meyvesi",
     "Varyant": "1000 g",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Balen's Beauty",
-    "Ürün Adı": "Tar Doğal Sabun - Lavanta Yaprağı",
-    "Varyant": "Standart",
-    "Fiyat": 280,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Keçiboynuzu Özü",
+    "Varyant": "640 g",
+    "Fiyat": 400
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Balen's Beauty",
-    "Ürün Adı": "Tar Doğal Sabun - Zeytinyağlı",
-    "Varyant": "Standart",
-    "Fiyat": 280,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Keçiboynuzu Pekmezi",
+    "Varyant": "640 g",
+    "Fiyat": 400
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Balen's Beauty",
-    "Ürün Adı": "Tar Doğal Sabun - Aynısefa",
-    "Varyant": "Standart",
-    "Fiyat": 280,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Dut Pekmezi",
+    "Varyant": "640 g",
+    "Fiyat": 450
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Balen's Beauty",
-    "Ürün Adı": "Tar Doğal Sabun - Bıttım",
-    "Varyant": "Standart",
-    "Fiyat": 280,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Üzüm Pekmezi",
+    "Varyant": "640 g",
+    "Fiyat": 450
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Karden",
-    "Ürün Adı": "Bıttım Sabunu",
-    "Varyant": "Standart",
-    "Fiyat": 190,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Kızılcık Pekmezi",
+    "Varyant": "640 g",
+    "Fiyat": 430
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Eşek Sütü Sabunu",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "Twins Craft Karadut Özü",
+    "Varyant": "680 g",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Keçi Sütü Sabunu",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "Twins Craft Nar Ekşisi Özü",
+    "Varyant": "340 g",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Acil Sabunu",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Nar Ekşisi Özü",
+    "Varyant": "650 g",
+    "Fiyat": 500
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Retinol Sabun",
-    "Varyant": "Standart",
-    "Fiyat": 220,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Sumak Ekşisi Özü",
+    "Varyant": "340 g",
+    "Fiyat": 350
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Lavanta Sabun",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Sumak Ekşisi Özü",
+    "Varyant": "650 g",
+    "Fiyat": 500
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Kükürtlü Sabun",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Hurma Özü",
+    "Varyant": "340 g",
+    "Fiyat": 380
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Salyangoz Sabun",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Tahin",
+    "Varyant": "400 g",
+    "Fiyat": 200
   },
   {
-    "Kategori": "Sabun Çeşitleri",
-    "Marka": "Maia",
-    "Ürün Adı": "Argan Sabun",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Tahin",
+    "Varyant": "650 g",
+    "Fiyat": 300
   },
   {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "İkizler Baharatçılık",
-    "Ürün Adı": "Atom Çayı",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Kategori": "Pekmez Çeşitleri",
+    "Ürün Adı": "İkizler Baharatçılık Tahin",
+    "Varyant": "1000 g",
+    "Fiyat": 400
   },
   {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Anadolu Altın Otlu Çay",
-    "Varyant": "40'lı",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Civanperçemi + Hayıt Tohumlu Çay",
-    "Varyant": "25'li",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Melisa Kantaronlu Çay",
-    "Varyant": "Standart",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Zeytin Yaprağı Isırgan Otlu Çay",
-    "Varyant": "60'lı",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Gece Çayı",
-    "Varyant": "60'lı",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Kudret Narlı Çay",
-    "Varyant": "60'lı",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Coffee Blend Hindiba Kahvesi",
-    "Varyant": "50'li",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Natur Blend",
-    "Ürün Adı": "30'lu",
-    "Varyant": "30'lu",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Kiraz Sapı, Mısır Püsküllü Karışık Bitki Çayı",
-    "Varyant": "60'lı",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Bitki Karışımı Toz",
+    "Kategori": "Kahve Çeşitleri",
+    "Ürün Adı": "Taze Çekilmiş Türk Kahvesi",
     "Varyant": "100 g",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 120
+  },
+  {
+    "Kategori": "Kahve Çeşitleri",
+    "Ürün Adı": "Taze Çekilmiş Türk Kahvesi",
+    "Varyant": "500 g",
+    "Fiyat": 600
+  },
+  {
+    "Kategori": "Kahve Çeşitleri",
+    "Ürün Adı": "Coffee Bean Box Espresso No:1",
+    "Varyant": "1 kg",
+    "Fiyat": 2000
+  },
+  {
+    "Kategori": "Kahve Çeşitleri",
+    "Ürün Adı": "Kaffka Menengiç Kahvesi",
+    "Varyant": "150 g",
+    "Fiyat": 150
+  },
+  {
+    "Kategori": "Kahve Çeşitleri",
+    "Ürün Adı": "Kaffka Dibek Kahvesi",
+    "Varyant": "150 g",
+    "Fiyat": 150
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Talkım Radika Organik Elma Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Tyche Ralila Alıç Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Tyche Ralila Organik Üzüm Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Tyche Ralila Enginar Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Yedier Pirinç Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Yedier Balzamik Sirke",
+    "Varyant": "500 ml",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Yedier Nar Sirkesi",
+    "Varyant": "500 ml",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Sirkeler",
+    "Ürün Adı": "Akzer Kvass Fermente Pancar",
+    "Varyant": "500 ml",
+    "Fiyat": 400
   },
   {
     "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Yeşil Çay Sallama",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Yaseminli Yeşil Çay",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Papatya",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Rezene",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Kuşburnu",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Biberiye",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Melisa",
-    "Varyant": "20'li",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Ihlamur",
-    "Varyant": "20'li",
-    "Fiyat": 130,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Fonksiyonel Çaylar",
-    "Marka": "Akzer",
-    "Ürün Adı": "Ekinezya",
-    "Varyant": "20'li",
-    "Fiyat": 150,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
-  },
-  {
-    "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Twins Craft",
-    "Ürün Adı": "Gülsuyu",
+    "Ürün Adı": "İkizler Baharatçılık Atom Çayı",
     "Varyant": "Standart",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Anadolu Altın Otlu Çay",
+    "Varyant": "25'li",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Civanperçemli + Hayıt Tohumlu Çay",
+    "Varyant": "25'li",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Melisalı Kantaronlu Çay",
+    "Varyant": "25'li",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Zeytin Yaprağı Isırgan Otlu Çay",
+    "Varyant": "60'lı",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Gece Çayı",
+    "Varyant": "60'lı",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Kudret Narlı Çay",
+    "Varyant": "60'lı",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Coffee Blend Hindiba Kahvesi",
+    "Varyant": "50'li",
+    "Fiyat": 350
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Natur Blend",
+    "Varyant": "30'lu",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Kiraz Sapı, Mısır Püsküllü Karışık Bitki Çayı",
+    "Varyant": "60'lı",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Bitki Karışımı Toz",
+    "Varyant": "100 g",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Yeşil Çay Sallama",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Yaseminli Yeşil Çay",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Papatya",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Rezene",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Kuşburnu",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Biberiye",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Melisa",
+    "Varyant": "20'li",
+    "Fiyat": 150
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Ihlamur",
+    "Varyant": "20'li",
+    "Fiyat": 130
+  },
+  {
+    "Kategori": "Fonksiyonel Çaylar",
+    "Ürün Adı": "Akzer Ekinezya",
+    "Varyant": "20'li",
+    "Fiyat": 150
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Rose Night",
-    "Ürün Adı": "Gül Mayası",
+    "Ürün Adı": "Twins Craft Gülsuyu",
     "Varyant": "Standart",
-    "Fiyat": 450,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 450
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Balen",
-    "Ürün Adı": "Kaş Kirpik Bakım Yağı",
+    "Ürün Adı": "Rose Night Gül Mayası",
+    "Varyant": "Standart",
+    "Fiyat": 450
+  },
+  {
+    "Kategori": "Bitkisel Kozmetik",
+    "Ürün Adı": "Balen Kaş Kirpik Bakım Yağı",
     "Varyant": "15 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Mecitefendi",
-    "Ürün Adı": "Sarımsak Şampuanı",
+    "Ürün Adı": "Mecitefendi Sarımsak Şampuanı",
     "Varyant": "400 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Mecitefendi",
-    "Ürün Adı": "Isırgan Şampuanı",
+    "Ürün Adı": "Mecitefendi Isırgan Şampuanı",
     "Varyant": "400 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Mecitefendi",
-    "Ürün Adı": "Çam Terebentin Şampuanı",
+    "Ürün Adı": "Mecitefendi Çam Terebentin Şampuanı",
     "Varyant": "400 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Mecitefendi",
-    "Ürün Adı": "Argan Yağlı Şampuan",
+    "Ürün Adı": "Mecitefendi Argan Yağlı Şampuan",
     "Varyant": "400 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Mecitefendi",
-    "Ürün Adı": "Ardıç Katranı Şampuanı",
+    "Ürün Adı": "Mecitefendi Ardıç Katranı Şampuanı",
     "Varyant": "400 ml",
-    "Fiyat": 350,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 350
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Balen",
-    "Ürün Adı": "Organik Hindistan Cevizi Yağı",
+    "Ürün Adı": "Balen Organik Hindistan Cevizi Yağı",
     "Varyant": "330 ml",
-    "Fiyat": 800,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 800
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Maia",
-    "Ürün Adı": "Collagen Serum",
+    "Ürün Adı": "Maia Collagen Serum",
     "Varyant": "30 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Maia",
-    "Ürün Adı": "C Serum",
+    "Ürün Adı": "Maia C Serum",
     "Varyant": "30 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Maia",
-    "Ürün Adı": "Saf Argan Yağı",
+    "Ürün Adı": "Maia Saf Argan Yağı",
     "Varyant": "30 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Maia",
-    "Ürün Adı": "Saf Baobab Yağı",
+    "Ürün Adı": "Maia Saf Baobab Yağı",
     "Varyant": "30 ml",
-    "Fiyat": 500,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 500
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Maia",
-    "Ürün Adı": "Saf Baobab Yağı",
+    "Ürün Adı": "Maia Saf Baobab Yağı",
     "Varyant": "20 ml",
-    "Fiyat": 400,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 400
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Akzer",
-    "Ürün Adı": "Biberiye Suyu Sprey",
+    "Ürün Adı": "Akzer Biberiye Suyu Sprey",
     "Varyant": "150 ml",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
   },
   {
     "Kategori": "Bitkisel Kozmetik",
-    "Marka": "Akzer",
-    "Ürün Adı": "Papatya Suyu Sprey",
+    "Ürün Adı": "Akzer Papatya Suyu Sprey",
     "Varyant": "150 ml",
-    "Fiyat": 200,
-    "Para Birimi": "TRY",
-    "Stok": "Var"
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Balen's Beauty Taş Dövme Sabun - Lavanta Yaprağı",
+    "Varyant": "Standart",
+    "Fiyat": 280
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Balen's Beauty Taş Dövme Sabun - Zeytinyağlı",
+    "Varyant": "Standart",
+    "Fiyat": 280
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Balen's Beauty Taş Dövme Sabun - Aynısefa",
+    "Varyant": "Standart",
+    "Fiyat": 280
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Balen's Beauty Taş Dövme Sabun - Bıttım",
+    "Varyant": "Standart",
+    "Fiyat": 280
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Karden Bıttım Sabunu",
+    "Varyant": "Standart",
+    "Fiyat": 190
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Eşek Sütü Sabunu",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Keçi Sütü Sabunu",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Gül Sabunu",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Retinol Sabun",
+    "Varyant": "Standart",
+    "Fiyat": 220
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Lavanta Sabun",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Kükürtlü Sabun",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Salyangoz Sabun",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Sabun Çeşitleri",
+    "Ürün Adı": "Maia Argan Sabun",
+    "Varyant": "Standart",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Tatlı Badem Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 450
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Çörekotu Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 750
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kabak Çekirdeği Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Susam Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 500
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Sarı Kantaron Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 600
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kenevir Tohumu Yağı",
+    "Varyant": "250 ml",
+    "Fiyat": 1400
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "KRK Anason Aroması",
+    "Varyant": "250 ml",
+    "Fiyat": 650
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "KRK Malt Aroması",
+    "Varyant": "250 ml",
+    "Fiyat": 850
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Çam Terebentin Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Çörekotu Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Gliserin Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Hint Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Hodan Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 550
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kabak Çekirdeği Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 280
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Keten Tohumu Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kudret Narı Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 270
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Sarı Kantaron Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 240
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Tatlı Badem Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Üzüm Çekirdeği Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Twins Craft Hindistan Cevizi Yağı",
+    "Varyant": "95 g",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Twins Craft Hindistan Cevizi Yağı",
+    "Varyant": "320 g",
+    "Fiyat": 600
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Acıbadem Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Adaçayı (Acı Elma) Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 450
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Aloe Vera Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Avokado Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Aynısefa Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Biberiye Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Buğday Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Çay Ağacı Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 350
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Greyfurt Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Havuç Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen İncir Çekirdeği Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Jojoba Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Karanfil Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 320
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kayısı Çekirdeği Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kekik Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 550
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Kuşburnu Çekirdeği Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Lavanta Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Limon Kabuğu Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Tarçın Yağı",
+    "Varyant": "10 cc",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Itır Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Baobab Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 350
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen E Vitamini",
+    "Varyant": "20 cc",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Nane Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Nioli Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Nar Çekirdeği Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 200
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Okaliptüs Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 350
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Papatya Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Portakal Kabuğu Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Sedir Ağacı Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 300
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Balen Sarımsak Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 250
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "MAIA Gül Yağı",
+    "Varyant": "20 cc",
+    "Fiyat": 400
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "MAIA Gül Yağı",
+    "Varyant": "50 cc",
+    "Fiyat": 650
+  },
+  {
+    "Kategori": "Yağ ve Aromalar",
+    "Ürün Adı": "Blue Ocean Gül Yağı",
+    "Varyant": "30 cc",
+    "Fiyat": 400
   }
 ]
