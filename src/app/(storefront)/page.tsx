@@ -3,6 +3,7 @@ import Link from "next/link"
 import Script from "next/script"
 import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, MessageCircle, Eye } from "lucide-react"
 
+import prisma from "@/lib/prisma"
 import { getCategories } from "@/services/productService"
 
 export default async function HomePage() {
