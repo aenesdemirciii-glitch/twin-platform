@@ -2,10 +2,12 @@ import prisma from "@/lib/prisma"
 import { ProductForm } from "../yeni/ProductForm"
 import { notFound } from "next/navigation"
 
-export default async function EditProductPage({ params }: { params: { id: string } }) {
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  
   const [product, categories] = await Promise.all([
     prisma.product.findUnique({
-      where: { id: params.id },
+      where: { id: resolvedParams.id },
       include: { images: { orderBy: { sortOrder: 'asc' } } }
     }),
     prisma.category.findMany({
