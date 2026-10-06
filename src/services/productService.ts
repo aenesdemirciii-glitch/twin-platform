@@ -24,7 +24,7 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
     const whereClause: any = { isActive: true }
     
     if (params?.categorySlug) {
-      whereClause.category = { slug: params.categorySlug }
+      whereClause.category = { slug: params.categorySlug.toLowerCase() }
     }
 
     const products = await prisma.product.findMany({
