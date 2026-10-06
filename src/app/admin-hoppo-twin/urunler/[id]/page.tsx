@@ -17,10 +17,16 @@ export default async function EditProductPage({ params }: { params: { id: string
     notFound()
   }
 
-  // Serialize price to string or number to pass to Client Component safely
+  // Serialize safely to pass to Client Component
   const serializedProduct = {
-    ...product,
+    id: product.id,
+    name: product.name,
+    sku: product.sku,
+    categoryId: product.categoryId,
     price: product.price.toString(),
+    stock: product.stock,
+    isActive: product.isActive,
+    images: product.images,
   }
 
   return (
