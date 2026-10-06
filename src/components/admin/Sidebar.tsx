@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { 
   LayoutDashboard, 
@@ -12,18 +13,28 @@ import {
   Settings, 
   FileText,
   BarChart3,
-  LogOut
+  LogOut,
+  FolderTree,
+  Boxes,
+  Truck,
+  Shield,
+  History
 } from "lucide-react"
 
 const menuItems = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Siparişler", href: "/admin/orders", icon: ShoppingCart },
-  { name: "Ürünler", href: "/admin/products", icon: Package },
-  { name: "Müşteriler", href: "/admin/customers", icon: Users },
-  { name: "Kampanyalar", href: "/admin/campaigns", icon: Tag },
-  { name: "İçerik", href: "/admin/content", icon: FileText },
-  { name: "Raporlar", href: "/admin/reports", icon: BarChart3 },
-  { name: "Ayarlar", href: "/admin/settings", icon: Settings },
+  { name: "Genel Bakış", href: "/admin-hoppo-twin", icon: LayoutDashboard },
+  { name: "Siparişler", href: "/admin-hoppo-twin/siparisler", icon: ShoppingCart },
+  { name: "Ürünler", href: "/admin-hoppo-twin/urunler", icon: Package },
+  { name: "Kategoriler", href: "/admin-hoppo-twin/kategoriler", icon: FolderTree },
+  { name: "Stok", href: "/admin-hoppo-twin/stok", icon: Boxes },
+  { name: "Müşteriler", href: "/admin-hoppo-twin/musteriler", icon: Users },
+  { name: "Kampanyalar", href: "/admin-hoppo-twin/kampanyalar", icon: Tag },
+  { name: "İçerik Yönetimi", href: "/admin-hoppo-twin/icerik", icon: FileText },
+  { name: "Kargo ve Teslimat", href: "/admin-hoppo-twin/kargo", icon: Truck },
+  { name: "Raporlar", href: "/admin-hoppo-twin/raporlar", icon: BarChart3 },
+  { name: "Kullanıcılar ve Yetkiler", href: "/admin-hoppo-twin/kullanicilar", icon: Shield },
+  { name: "Site Ayarları", href: "/admin-hoppo-twin/ayarlar", icon: Settings },
+  { name: "İşlem Geçmişi", href: "/admin-hoppo-twin/gecmis", icon: History },
 ]
 
 export function Sidebar() {
@@ -38,7 +49,7 @@ export function Sidebar() {
       <div className="flex-1 overflow-y-auto py-4">
         <nav className="space-y-1 px-3">
           {menuItems.map((item) => {
-            const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/admin")
+            const isActive = pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/admin-hoppo-twin")
             return (
               <Link
                 key={item.name}
@@ -59,7 +70,10 @@ export function Sidebar() {
       </div>
 
       <div className="p-4 border-t border-slate-800">
-        <button className="flex items-center gap-3 w-full px-3 py-2.5 rounded-md text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+        <button 
+          onClick={() => signOut({ callbackUrl: '/login' })}
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-md text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+        >
           <LogOut className="h-5 w-5" />
           Çıkış Yap
         </button>
