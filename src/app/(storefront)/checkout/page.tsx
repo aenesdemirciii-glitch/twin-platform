@@ -11,6 +11,9 @@ export default function CheckoutPage() {
   const [mounted, setMounted] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [shippingMethod, setShippingMethod] = useState("standard")
+  const [discountCode, setDiscountCode] = useState("")
+  const [discountApplied, setDiscountApplied] = useState<{ code: string; amount: number } | null>(null)
 
   // Hydration fix
   useEffect(() => {
@@ -18,8 +21,22 @@ export default function CheckoutPage() {
   }, [])
 
   const subtotal = getTotal()
-  const shippingCost = subtotal > 3000 ? 0 : 79.90
-  const totalAmount = subtotal + (items.length > 0 ? shippingCost : 0)
+  let shippingCost = 0
+  if (shippingMethod === "standard") {
+    shippingCost = subtotal > 3000 ? 0 : 79.90
+  } else if (shippingMethod === "sameday") {
+    shippingCost = 149.90
+  }
+
+  const discountAmount = discountApplied ? discountApplied.amount : 0
+  const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? shippingCost : 0)
+
+  const applyDiscount = () => {
+    if (!discountCode.trim()) return
+    // Mock discount logic: 10% off for any code
+    const amount = subtotal * 0.10
+    setDiscountApplied({ code: discountCode.toUpperCase(), amount })
+  }
 
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault()
@@ -140,11 +157,63 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
+              {/* Kargo Seçenekleri */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-full bg-brand-slate text-white flex items-center justify-center text-sm">3</span> 
+                  Kargo Seçeneği
+                </h2>
+                <div className="space-y-3">
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "standard" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="radio" 
+                        name="shipping" 
+                        value="standard" 
+                        checked={shippingMethod === "standard"} 
+                        onChange={() => setShippingMethod("standard")}
+                        className="w-5 h-5 accent-brand-gold" 
+                      />
+                      <div>
+                        <div className="font-bold text-brand-slate">Standart Teslimat</div>
+                        <div className="text-sm text-slate-500">2-3 iş günü içinde kargoda</div>
+                      </div>
+                    </div>
+                    <div className="font-black text-brand-slate">
+                      {subtotal > 3000 ? "Ücretsiz" : "79,90 TL"}
+                    </div>
+                  </label>
+                  
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="radio" 
+                        name="shipping" 
+                        value="sameday" 
+                        checked={shippingMethod === "sameday"} 
+                        onChange={() => setShippingMethod("sameday")}
+                        className="w-5 h-5 accent-brand-gold" 
+                      />
+                      <div>
+                        <div className="font-bold text-brand-slate flex items-center gap-2">
+                          Aynı Gün Hızlı Teslimat
+                          <span className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wider">HIZLI</span>
+                        </div>
+                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir (İstanbul içi)</div>
+                      </div>
+                    </div>
+                    <div className="font-black text-brand-slate">
+                      149,90 TL
+                    </div>
+                  </label>
+                </div>
+              </div>
+
               {/* Ödeme Bilgileri (iyzico mockup) */}
               <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-0"></div>
                 <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2 relative z-10">
-                  <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm">3</span> 
+                  <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm">4</span> 
                   Ödeme Bilgileri
                 </h2>
                 <div className="mb-6 flex items-center gap-2 relative z-10">
@@ -203,10 +272,53 @@ export default function CheckoutPage() {
               </div>
 
               <div className="space-y-3 py-4 border-t border-b border-slate-100 mb-6">
-                <div className="flex justify-between text-slate-600 font-medium text-sm">
+                
+                {/* İndirim Kodu Alanı */}
+                {!discountApplied ? (
+                  <div className="flex gap-2 mb-2">
+                    <input 
+                      type="text" 
+                      value={discountCode}
+                      onChange={(e) => setDiscountCode(e.target.value)}
+                      placeholder="İndirim Kodu" 
+                      className="flex-1 border-2 border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-gold text-brand-slate uppercase" 
+                    />
+                    <button 
+                      type="button" 
+                      onClick={applyDiscount}
+                      className="bg-brand-slate text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-brand-gold hover:text-brand-slate transition-colors"
+                    >
+                      Uygula
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-between bg-green-50 border border-green-200 p-3 rounded-lg mb-2">
+                    <div className="flex items-center gap-2 text-green-700">
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span className="font-bold text-sm">{discountApplied.code}</span>
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={() => { setDiscountApplied(null); setDiscountCode(""); }}
+                      className="text-xs font-bold text-red-500 hover:underline"
+                    >
+                      İptal
+                    </button>
+                  </div>
+                )}
+
+                <div className="flex justify-between text-slate-600 font-medium text-sm mt-4">
                   <span>Ara Toplam</span>
                   <span>{subtotal.toLocaleString('tr-TR')} TL</span>
                 </div>
+                
+                {discountApplied && (
+                  <div className="flex justify-between text-green-600 font-bold text-sm">
+                    <span>İndirim ({discountApplied.code})</span>
+                    <span>-{discountApplied.amount.toLocaleString('tr-TR')} TL</span>
+                  </div>
+                )}
+
                 <div className="flex justify-between text-slate-600 font-medium text-sm">
                   <span>Kargo Ücreti</span>
                   {shippingCost === 0 ? (
