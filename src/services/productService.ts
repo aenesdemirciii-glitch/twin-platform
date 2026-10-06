@@ -44,6 +44,36 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
   }
 }
 
+export async function getCategoryData(slug: string, params?: { take?: number, skip?: number, sort?: string }) {
+  try {
+    const category = await prisma.category.findUnique({ where: { slug: slug.toLowerCase() } })
+    
+    const whereClause: any = { isActive: true, category: { slug: slug.toLowerCase() } }
+    
+    let orderBy: any = { createdAt: 'desc' }
+    if (params?.sort === 'price_asc') orderBy = { price: 'asc' }
+    if (params?.sort === 'price_desc') orderBy = { price: 'desc' }
+    if (params?.sort === 'newest') orderBy = { createdAt: 'desc' }
+
+    const products = await prisma.product.findMany({
+      where: whereClause,
+      include: {
+        images: { where: { isMain: true }, take: 1 }
+      },
+      take: params?.take || 12,
+      skip: params?.skip || 0,
+      orderBy
+    })
+    
+    const total = await prisma.product.count({ where: whereClause })
+    
+    return { category, products, total }
+  } catch (error) {
+    console.error("Error fetching category data:", error)
+    return { category: null, products: [], total: 0 }
+  }
+}
+
 export async function getCategories() {
   try {
     const categories = await prisma.category.findMany({

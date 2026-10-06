@@ -1,19 +1,29 @@
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, SlidersHorizontal, ChevronDown } from "lucide-react"
-import { getActiveProducts } from "@/services/productService"
+import { ArrowRight, SlidersHorizontal } from "lucide-react"
+import { getCategoryData } from "@/services/productService"
+import { CategorySort } from "@/components/storefront/CategorySort"
 
-export default async function CategoryPage(props: { params: Promise<{ slug: string | string[] }> }) {
+export default async function CategoryPage(props: { params: Promise<{ slug: string | string[] }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
   const slugArray = Array.isArray(params.slug) ? params.slug : (params.slug ? [params.slug] : []);
   const rawSlug = slugArray.join('/') || "kategori";
   
-  const categoryName = rawSlug
+  const page = typeof searchParams.page === "string" ? Number(searchParams.page) : 1;
+  const sort = typeof searchParams.sort === "string" ? searchParams.sort : "";
+  const perPage = 12;
+  const skip = (page - 1) * perPage;
+
+  const { category, products, total } = await getCategoryData(rawSlug, { take: perPage, skip, sort });
+  
+  const categoryName = category ? category.name : rawSlug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+    .replace(/[0-9]/g, '').trim();
 
-  const products = await getActiveProducts({ categorySlug: rawSlug })
+  const totalPages = Math.ceil(total / perPage);
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
@@ -35,25 +45,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
         </div>
         
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
-          {/* Fiyat Aralığı */}
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <input type="number" placeholder="En Az" className="w-full sm:w-24 px-3 py-2.5 bg-white border-2 border-brand-slate/20 rounded-lg text-sm font-bold text-brand-slate focus:border-brand-gold outline-none" />
-            <span className="text-brand-slate/50 font-bold">-</span>
-            <input type="number" placeholder="En Çok" className="w-full sm:w-24 px-3 py-2.5 bg-white border-2 border-brand-slate/20 rounded-lg text-sm font-bold text-brand-slate focus:border-brand-gold outline-none" />
-            <button className="bg-brand-slate text-white font-black px-4 py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs uppercase tracking-wider h-[44px] flex items-center">Bul</button>
-          </div>
-
-          {/* Sıralama */}
-          <div className="relative w-full sm:w-56">
-            <select className="w-full appearance-none bg-white border-2 border-brand-slate/20 text-brand-slate font-bold px-4 py-2.5 rounded-lg focus:outline-none focus:border-brand-gold cursor-pointer h-[44px]">
-              <option>Akıllı Sıralama</option>
-              <option>Fiyata Göre Artan</option>
-              <option>Fiyata Göre Azalan</option>
-              <option>En Çok Satanlar</option>
-              <option>En Yeniler</option>
-            </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-brand-slate pointer-events-none" />
-          </div>
+          <CategorySort />
         </div>
       </div>
 
@@ -90,23 +82,37 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
           </div>
 
           {/* Pagination */}
-          <div className="mt-16 flex items-center justify-center gap-2">
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-brand-slate/20 text-brand-slate/50 font-black hover:border-brand-slate hover:text-brand-slate transition-colors">
-              &lt;
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-brand-gold bg-brand-gold text-brand-slate font-black">
-              1
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-transparent text-brand-slate font-black hover:border-brand-slate/20 transition-colors">
-              2
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-transparent text-brand-slate font-black hover:border-brand-slate/20 transition-colors">
-              3
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-brand-slate/20 text-brand-slate font-black hover:border-brand-slate transition-colors">
-              &gt;
-            </button>
-          </div>
+          {totalPages > 1 && (
+            <div className="mt-16 flex items-center justify-center gap-2">
+              <Link 
+                href={`?page=${Math.max(1, page - 1)}${sort ? `&sort=${sort}` : ''}`}
+                className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-brand-slate/20 text-brand-slate/50 font-black hover:border-brand-slate hover:text-brand-slate transition-colors"
+              >
+                &lt;
+              </Link>
+              
+              {Array.from({ length: totalPages }).map((_, i) => (
+                <Link 
+                  key={i} 
+                  href={`?page=${i + 1}${sort ? `&sort=${sort}` : ''}`}
+                  className={`w-10 h-10 flex items-center justify-center rounded-lg border-2 font-black transition-colors ${
+                    page === i + 1 
+                      ? "border-brand-gold bg-brand-gold text-brand-slate" 
+                      : "border-transparent text-brand-slate hover:border-brand-slate/20"
+                  }`}
+                >
+                  {i + 1}
+                </Link>
+              ))}
+
+              <Link 
+                href={`?page=${Math.min(totalPages, page + 1)}${sort ? `&sort=${sort}` : ''}`}
+                className="w-10 h-10 flex items-center justify-center rounded-lg border-2 border-brand-slate/20 text-brand-slate font-black hover:border-brand-slate transition-colors"
+              >
+                &gt;
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </div>
