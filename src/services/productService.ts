@@ -44,6 +44,19 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
   }
 }
 
+export async function getCategories() {
+  try {
+    const categories = await prisma.category.findMany({
+      where: { active: true },
+      orderBy: { name: 'asc' }
+    })
+    return categories
+  } catch (error) {
+    console.error("Error fetching categories:", error)
+    return []
+  }
+}
+
 // Admin function
 export async function createProductFromDraft(draftData: any) {
   // Logic to convert draft JSON into a real DB product (status: false/draft)
