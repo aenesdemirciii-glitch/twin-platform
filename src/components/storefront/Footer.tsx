@@ -67,7 +67,7 @@ export async function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Kategoriler</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                {categories.slice(0, 7).map((cat: any) => (
+                {categories.slice(0, 12).map((cat: any) => (
                   <li key={cat.id}>
                     <Link href={`/kategori/${cat.slug}`} className="hover:text-brand-gold transition-colors">
                       {cat.name}
