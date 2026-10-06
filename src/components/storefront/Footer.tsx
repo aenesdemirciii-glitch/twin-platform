@@ -12,7 +12,7 @@ export async function Footer() {
         {/* Top Feature Icons */}
         <div className="flex flex-col items-center justify-center mb-12 text-brand-slate">
           <div className="text-3xl font-black tracking-tight mb-10">
-            İKİZLER<span className="text-brand-gold"> KURUYEMİŞ</span>
+            İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
             <div className="flex items-start gap-4">

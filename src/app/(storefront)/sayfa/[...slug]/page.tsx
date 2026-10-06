@@ -31,7 +31,7 @@ export default async function GenericPage(props: { params: Promise<{ slug: strin
 
         <div className="prose prose-lg prose-slate max-w-none text-brand-slate/80 font-medium">
           <p className="mb-6 leading-relaxed">
-            Bu sayfa içeriği hukuk ve içerik ekibimiz tarafından hazırlanmaktadır. İkizler Kuruyemiş olarak sizlere en doğru ve şeffaf bilgiyi sunmak için çalışmalarımızı sürdürüyoruz.
+            Bu sayfa içeriği hukuk ve içerik ekibimiz tarafından hazırlanmaktadır. İkizler Baharatçılık olarak sizlere en doğru ve şeffaf bilgiyi sunmak için çalışmalarımızı sürdürüyoruz.
           </p>
           <p className="mb-6 leading-relaxed">
             Daha fazla bilgi almak veya sorularınız için <strong>info@ikizlerbaharatcilik.com</strong> adresinden bizimle iletişime geçebilirsiniz.
