@@ -23,9 +23,11 @@ export default function CheckoutPage() {
   const subtotal = getTotal()
   let shippingCost = 0
   if (shippingMethod === "standard") {
-    shippingCost = subtotal > 3000 ? 0 : 79.90
-  } else if (shippingMethod === "sameday") {
-    shippingCost = 149.90
+    shippingCost = subtotal >= 3000 ? 0 : 249.00
+  } else if (shippingMethod === "sameday-anadolu") {
+    shippingCost = 199.00
+  } else if (shippingMethod === "sameday-avrupa") {
+    shippingCost = 299.00
   }
 
   const discountAmount = discountApplied ? discountApplied.amount : 0
@@ -180,30 +182,53 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                     <div className="font-black text-brand-slate">
-                      {subtotal > 3000 ? "Ücretsiz" : "79,90 TL"}
+                      {subtotal >= 3000 ? "Ücretsiz" : "249,00 TL"}
                     </div>
                   </label>
                   
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-anadolu" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
                     <div className="flex items-center gap-3">
                       <input 
                         type="radio" 
                         name="shipping" 
-                        value="sameday" 
-                        checked={shippingMethod === "sameday"} 
-                        onChange={() => setShippingMethod("sameday")}
+                        value="sameday-anadolu" 
+                        checked={shippingMethod === "sameday-anadolu"} 
+                        onChange={() => setShippingMethod("sameday-anadolu")}
                         className="w-5 h-5 accent-brand-gold" 
                       />
                       <div>
                         <div className="font-bold text-brand-slate flex items-center gap-2">
-                          Aynı Gün Hızlı Teslimat
+                          Aynı Gün Kurye (Anadolu Yakası)
                           <span className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wider">HIZLI</span>
                         </div>
-                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir (İstanbul içi)</div>
+                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir</div>
                       </div>
                     </div>
                     <div className="font-black text-brand-slate">
-                      149,90 TL
+                      199,00 TL
+                    </div>
+                  </label>
+
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-avrupa" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="radio" 
+                        name="shipping" 
+                        value="sameday-avrupa" 
+                        checked={shippingMethod === "sameday-avrupa"} 
+                        onChange={() => setShippingMethod("sameday-avrupa")}
+                        className="w-5 h-5 accent-brand-gold" 
+                      />
+                      <div>
+                        <div className="font-bold text-brand-slate flex items-center gap-2">
+                          Aynı Gün Kurye (Avrupa Yakası)
+                          <span className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wider">HIZLI</span>
+                        </div>
+                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir</div>
+                      </div>
+                    </div>
+                    <div className="font-black text-brand-slate">
+                      299,00 TL
                     </div>
                   </label>
                 </div>

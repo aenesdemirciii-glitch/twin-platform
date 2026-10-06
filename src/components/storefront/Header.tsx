@@ -25,7 +25,7 @@ export async function Header() {
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center gap-2">
             <div className="text-2xl font-black tracking-tight text-brand-slate">
-              MARKA<span className="text-brand-gold">LOGO</span>
+              İKİZLER<span className="text-brand-gold"> KURUYEMİŞ</span>
             </div>
           </Link>
 

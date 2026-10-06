@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { Truck, Package, Award } from "lucide-react"
+import { getCategories } from "@/services/productService"
 
-export function Footer() {
+export async function Footer() {
+  const categories = await getCategories()
+
   return (
     <footer className="bg-white pt-12 border-t-4 border-brand-gold">
       <div className="container mx-auto px-4 lg:px-8">
@@ -9,7 +12,7 @@ export function Footer() {
         {/* Top Feature Icons */}
         <div className="flex flex-col items-center justify-center mb-12 text-brand-slate">
           <div className="text-3xl font-black tracking-tight mb-10">
-            MARKA<span className="text-brand-gold">LOGO</span>
+            İKİZLER<span className="text-brand-gold"> KURUYEMİŞ</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
             <div className="flex items-start gap-4">
@@ -47,12 +50,12 @@ export function Footer() {
             {/* Column 1: Info */}
             <div>
               <p className="text-sm text-brand-slate/80 mb-6 font-medium leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                1989 yılından günümüze, en taze ve kaliteli kuruyemişleri özenle işleyerek sofralarınıza taşıyoruz. Güvenilir ve sağlıklı lezzetler.
               </p>
               <div className="text-sm text-brand-slate/80 font-medium space-y-4">
-                <p>Lorem ipsum dolor sit amet, 1234. Sokak No:12/3, 34000 Ipsum/Lorem</p>
+                <p>Eminönü Mah. Mısır Çarşısı İçi No: 12, Fatih/İstanbul</p>
                 <p className="font-black text-brand-slate text-base">0850 123 45 67</p>
-                <p>info@markalogo.net</p>
+                <p>info@ikizlerbaharatcilik.com</p>
               </div>
               <div className="flex items-center gap-3 mt-6">
                 <div className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">FB</div>
@@ -65,13 +68,13 @@ export function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Kategoriler</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 1</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 2</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 3</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 4</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 5</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 6</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kategori 7</Link></li>
+                {categories.slice(0, 7).map((cat: any) => (
+                  <li key={cat.id}>
+                    <Link href={`/kategori/${cat.slug}`} className="hover:text-brand-gold transition-colors">
+                      {cat.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -79,13 +82,11 @@ export function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Kurumsal</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Mağazalarımız</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Belgelerimiz</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Franchise</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Kariyer</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">İletişim</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Blog</Link></li>
+                <li><Link href="/hakkimizda" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
+                <li><Link href="/belgelerimiz" className="hover:text-brand-gold transition-colors">Kalite Belgelerimiz</Link></li>
+                <li><Link href="/iletisim" className="hover:text-brand-gold transition-colors">Mağazalarımız & İletişim</Link></li>
+                <li><Link href="/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış</Link></li>
+                <li><Link href="/blog" className="hover:text-brand-gold transition-colors">Kuruyemiş Rehberi (Blog)</Link></li>
               </ul>
             </div>
 
@@ -93,13 +94,11 @@ export function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Bilgilendirme</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">KVKK Aydınlatma Metni</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Sıkça Sorulan Sorular</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Sipariş / Kargo Takibi</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Gizlilik Sözleşmesi</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Üyelik Sözleşmesi</Link></li>
-                <li><Link href="#" className="hover:text-brand-gold transition-colors">Çerez Politikası</Link></li>
+                <li><Link href="/sayfa/mesafeli-satis" className="hover:text-brand-gold transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
+                <li><Link href="/sayfa/kvkk" className="hover:text-brand-gold transition-colors">KVKK Aydınlatma Metni</Link></li>
+                <li><Link href="/sayfa/sss" className="hover:text-brand-gold transition-colors">Sıkça Sorulan Sorular</Link></li>
+                <li><Link href="/sayfa/iade" className="hover:text-brand-gold transition-colors">İade ve İptal Koşulları</Link></li>
+                <li><Link href="/sayfa/gizlilik" className="hover:text-brand-gold transition-colors">Gizlilik Sözleşmesi</Link></li>
               </ul>
             </div>
           </div>
