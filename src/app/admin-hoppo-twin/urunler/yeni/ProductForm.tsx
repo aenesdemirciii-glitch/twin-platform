@@ -1,16 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { createProduct } from "../actions"
+import { createProduct, updateProduct } from "../actions"
 import { useRouter } from "next/navigation"
 import { Search, Image as ImageIcon, X, Loader2, Save, DownloadCloud } from "lucide-react"
 
-export function ProductForm({ categories }: { categories: any[] }) {
+export function ProductForm({ categories, initialData }: { categories: any[], initialData?: any }) {
   const router = useRouter()
   const [isPending, setIsPending] = useState(false)
   const [error, setError] = useState("")
   
-  const [images, setImages] = useState<any[]>([])
+  const [images, setImages] = useState<any[]>(initialData?.images || [])
   const [showImageModal, setShowImageModal] = useState(false)
   
   // Unsplash state
@@ -83,7 +83,11 @@ export function ProductForm({ categories }: { categories: any[] }) {
     }
 
     try {
-      await createProduct(data)
+      if (initialData?.id) {
+        await updateProduct(initialData.id, data)
+      } else {
+        await createProduct(data)
+      }
       router.push("/admin-hoppo-twin/urunler")
       router.refresh()
     } catch (e: any) {
@@ -108,16 +112,16 @@ export function ProductForm({ categories }: { categories: any[] }) {
               <h3 className="font-semibold text-slate-800 border-b border-slate-100 pb-2">Temel Bilgiler</h3>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Ürün Adı</label>
-                <input required type="text" name="name" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                <input required type="text" name="name" defaultValue={initialData?.name || ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Stok Kodu (SKU)</label>
-                  <input required type="text" name="sku" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                  <input required type="text" name="sku" defaultValue={initialData?.sku || ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Kategori</label>
-                  <select name="categoryId" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none bg-white">
+                  <select name="categoryId" defaultValue={initialData?.categoryId || ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none bg-white">
                     <option value="">Kategori Seçin</option>
                     {categories.map(c => (
                       <option key={c.id} value={c.id}>{c.name}</option>
@@ -132,11 +136,11 @@ export function ProductForm({ categories }: { categories: any[] }) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Fiyat (TL)</label>
-                  <input required type="number" step="0.01" name="price" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                  <input required type="number" step="0.01" name="price" defaultValue={initialData?.price ? Number(initialData.price) : ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Stok Adedi</label>
-                  <input required type="number" name="stock" defaultValue={0} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                  <input required type="number" name="stock" defaultValue={initialData?.stock ?? 0} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
                 </div>
               </div>
             </div>
@@ -177,7 +181,7 @@ export function ProductForm({ categories }: { categories: any[] }) {
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
               <h3 className="font-semibold text-slate-800 border-b border-slate-100 pb-2">Yayın Durumu</h3>
               <label className="flex items-center gap-3 cursor-pointer">
-                <input type="checkbox" name="isActive" defaultChecked className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
+                <input type="checkbox" name="isActive" defaultChecked={initialData ? initialData.isActive : true} className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
                 <span className="text-sm font-medium text-slate-700">Ürünü hemen yayına al</span>
               </label>
             </div>

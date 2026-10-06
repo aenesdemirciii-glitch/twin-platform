@@ -79,3 +79,61 @@ export async function createProduct(data: any) {
   revalidatePath("/admin-hoppo-twin/urunler")
   return { success: true, id: product.id }
 }
+
+export async function updateProduct(id: string, data: any) {
+  const session = await getServerSession(authOptions)
+  if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
+    throw new Error("Yetkisiz işlem")
+  }
+
+  const { name, sku, categoryId, price, stock, isActive, images } = data
+
+  if (!name || !sku || !price) {
+    throw new Error("İsim, SKU ve Fiyat zorunludur.")
+  }
+
+  // Check unique sku
+  const existingSku = await prisma.product.findUnique({ where: { sku } })
+  if (existingSku && existingSku.id !== id) {
+    throw new Error("Bu SKU kodu başka bir üründe kullanılıyor.")
+  }
+
+  // Prepare images data
+  const productImages = images?.map((img: any, index: number) => ({
+    url: img.url,
+    altText: name,
+    isMain: index === 0,
+    sortOrder: index,
+    sourceUrl: img.sourceUrl || null,
+    creator: img.creator || null
+  })) || []
+
+  // Update Product (Delete old images, create new ones)
+  const product = await prisma.product.update({
+    where: { id },
+    data: {
+      name,
+      sku,
+      price: parseFloat(price),
+      stock: parseInt(stock) || 0,
+      categoryId: categoryId || null,
+      isActive: isActive === true,
+      images: {
+        deleteMany: {},
+        create: productImages
+      }
+    }
+  })
+
+  await prisma.auditLog.create({
+    data: {
+      userId: (session.user as any)?.id,
+      action: "UPDATE",
+      resource: "Product",
+      details: `Ürün güncellendi: ${name} (${sku})`
+    }
+  })
+
+  revalidatePath("/admin-hoppo-twin/urunler")
+  return { success: true, id: product.id }
+}

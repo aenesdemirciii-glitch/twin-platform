@@ -90,9 +90,9 @@ export default async function ProductsPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Düzenleme geliştirme aşamasında">
+                        <Link href={`/admin-hoppo-twin/urunler/${product.id}`} className="p-1.5 text-slate-400 hover:text-amber-600 transition-colors" title="Düzenle">
                           <Edit className="h-4 w-4" />
-                        </button>
+                        </Link>
                         <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Silme geliştirme aşamasında">
                           <Trash2 className="h-4 w-4" />
                         </button>
