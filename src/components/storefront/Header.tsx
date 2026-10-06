@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Search, ShoppingBag, User } from "lucide-react"
+import { Search, User } from "lucide-react"
+import { CartIcon } from "@/components/storefront/CartIcon"
 import { getCategories } from "@/services/productService"
 
 export async function Header() {
@@ -43,13 +44,7 @@ export async function Header() {
           </div>
 
           <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/sepet" className="flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors relative group">
-              <div className="relative">
-                <ShoppingBag className="h-6 w-6" />
-                <span className="absolute -top-1.5 -right-1.5 bg-brand-gold text-brand-slate h-4 w-4 rounded-full text-[10px] font-bold flex items-center justify-center">0</span>
-              </div>
-              <span className="text-[10px] font-bold hidden sm:block">SEPETİM</span>
-            </Link>
+            <CartIcon />
           </div>
         </div>
 
