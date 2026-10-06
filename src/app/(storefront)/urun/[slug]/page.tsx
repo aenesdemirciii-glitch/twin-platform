@@ -1,12 +1,16 @@
 import Image from "next/image"
+import Link from "next/link"
 import { notFound } from "next/navigation"
-import { getProductBySlug } from "@/services/productService"
+import { getProductBySlug, getActiveProducts } from "@/services/productService"
 import { ShoppingCart, Heart, ShieldCheck, Truck } from "lucide-react"
+import { ProductOptions } from "@/components/storefront/ProductOptions"
 
 export default async function ProductDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
   const product = await getProductBySlug(params.slug)
   if (!product) notFound()
+  
+  const popularProducts = await getActiveProducts({ take: 4 })
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16">
@@ -37,38 +41,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
               {product.shortDescription || "Bu ürün için henüz bir açıklama eklenmedi. En taze ve doğal ürünlerimizden biridir."}
             </p>
             
-            <div className="flex items-center gap-4 mb-8">
-              <span className="text-4xl font-extrabold text-brand-slate">{Number(product.price).toLocaleString('tr-TR')} TL</span>
-            </div>
-
-            {/* Gramaj Seçenekleri: Eğer varyantlar varsa göster, yoksa gizle */}
-            {product.variants && product.variants.length > 0 && (
-              <div className="space-y-4 mb-8">
-                <h3 className="font-semibold text-brand-slate">Seçenekler</h3>
-                <div className="flex flex-wrap gap-3">
-                  {product.variants.map((variant, i) => (
-                    <button key={i} className={`px-5 py-2.5 border-2 font-medium rounded-xl transition-colors ${i === 0 ? 'border-brand-gold bg-brand-gold/10 text-brand-slate font-bold' : 'border-slate-200 text-slate-600 hover:border-slate-300'}`}>
-                      {variant.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center gap-4 border-t border-slate-200 pt-8 mt-auto">
-              <div className="flex items-center border border-slate-300 rounded-xl overflow-hidden h-14 bg-white">
-                <button className="px-4 py-2 hover:bg-slate-50 text-slate-600 transition-colors">-</button>
-                <span className="px-4 font-bold text-brand-slate">1</span>
-                <button className="px-4 py-2 hover:bg-slate-50 text-slate-600 transition-colors">+</button>
-              </div>
-              <button className="flex-1 bg-brand-slate text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200">
-                <ShoppingCart className="h-5 w-5" />
-                Sepete Ekle
-              </button>
-              <button className="h-14 w-14 border border-slate-300 rounded-xl flex items-center justify-center text-slate-400 hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors">
-                <Heart className="h-6 w-6" />
-              </button>
-            </div>
+            <ProductOptions product={product} />
           </div>
 
           <div className="grid grid-cols-2 gap-4 mt-8 pt-8 border-t border-slate-100">
@@ -89,6 +62,46 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
           </div>
         </div>
       </div>
+
+      {/* Bunları da Deneyebilirsiniz / Popüler Ürünler */}
+      {popularProducts && popularProducts.length > 0 && (
+        <div className="mt-24 border-t border-brand-slate/10 pt-16">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-black text-brand-slate">Bunları Da Deneyebilirsiniz</h2>
+            <p className="text-brand-slate/60 mt-2 font-medium">Müşterilerimizin en çok tercih ettiği diğer lezzetleri keşfedin</p>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+            {popularProducts.map((prod: any, i: number) => (
+              <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
+                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                  {prod.images && prod.images[0] ? (
+                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                  ) : (
+                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  )}
+                  {prod.isFeatured && (
+                    <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
+                      POPÜLER
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
+                  <h3 className="font-bold text-sm lg:text-base mb-2 line-clamp-2 text-brand-slate group-hover:text-brand-gold transition-colors">{prod.name}</h3>
+                  <div className="mt-auto pt-2">
+                    <div className="flex items-center gap-2 mb-3">
+                      <p className="text-base lg:text-xl font-black text-brand-slate">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                    </div>
+                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
+                      Sepete Ekle
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

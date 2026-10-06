@@ -61,7 +61,12 @@ export async function Header() {
                 Ana Sayfa
               </Link>
             </li>
-            {categories.map((cat: any) => (
+            <li>
+              <Link href="/hakkimizda" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                Hakkımızda
+              </Link>
+            </li>
+            {categories.slice(0, 6).map((cat: any) => (
               <li key={cat.id}>
                 <Link href={`/kategori/${cat.slug}`} className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
                   {cat.name}
