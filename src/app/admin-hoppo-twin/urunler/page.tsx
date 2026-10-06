@@ -1,12 +1,14 @@
 import { Plus, Search, Filter, Edit, Trash2 } from "lucide-react"
 import prisma from "@/lib/prisma"
+import Link from "next/link"
 
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: 'desc' },
     include: {
       category: true,
-      variants: true
+      variants: true,
+      images: true
     }
   })
 
@@ -18,10 +20,10 @@ export default async function ProductsPage() {
           <p className="text-sm text-slate-500 mt-1">Tüm ürünlerinizi yönetin.</p>
         </div>
         <div className="flex items-center gap-3">
-          <button disabled className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-400 rounded-lg text-sm font-medium cursor-not-allowed">
+          <Link href="/admin-hoppo-twin/urunler/yeni" className="flex items-center gap-2 px-4 py-2 bg-amber-400 text-slate-900 rounded-lg text-sm font-bold hover:bg-amber-500 transition-colors">
             <Plus className="h-4 w-4" />
-            Yeni Ürün (Geliştirme Aşamasında)
-          </button>
+            Yeni Ürün Ekle
+          </Link>
         </div>
       </div>
 
@@ -58,8 +60,8 @@ export default async function ProductsPage() {
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 bg-slate-100 rounded-lg border border-slate-200 flex-shrink-0 flex items-center justify-center text-slate-400 text-xs overflow-hidden">
                           {product.images && product.images.length > 0 ? (
-                            <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
-                          ) : 'Görsel Yok'}
+                            <img src={product.images[0].url} alt={product.name} className="w-full h-full object-cover" />
+                          ) : 'Yok'}
                         </div>
                         <div>
                           <p className="font-medium text-slate-800">{product.name}</p>
