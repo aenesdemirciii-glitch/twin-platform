@@ -26,8 +26,17 @@ export default async function EditProductPage({ params }: { params: { id: string
     price: product.price.toString(),
     stock: product.stock,
     isActive: product.isActive,
-    images: product.images,
+    images: product.images.map(img => ({
+      url: img.url,
+      sourceUrl: img.sourceUrl,
+      creator: img.creator,
+    })),
   }
+
+  const cleanCategories = categories.map(c => ({
+    id: c.id,
+    name: c.name
+  }))
 
   return (
     <div className="space-y-6 max-w-4xl pb-20">
@@ -36,7 +45,7 @@ export default async function EditProductPage({ params }: { params: { id: string
         <p className="text-sm text-slate-500 mt-1">Ürün detaylarını, fiyatlandırmayı ve görselleri güncelleyin.</p>
       </div>
 
-      <ProductForm categories={categories} initialData={serializedProduct} />
+      <ProductForm categories={cleanCategories} initialData={serializedProduct} />
     </div>
   )
 }
