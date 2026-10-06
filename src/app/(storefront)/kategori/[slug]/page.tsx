@@ -1,24 +1,17 @@
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowRight, SlidersHorizontal, ChevronDown } from "lucide-react"
+import { getActiveProducts } from "@/services/productService"
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params;
   const safeSlug = params?.slug || "kategori";
   const categoryName = safeSlug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
-  const products = [
-    { name: "Badem Kavrulmuş Tuzsuz", price: "819.00 TL", oldPrice: "950.00 TL", badge: "ÇOK SATAN" },
-    { name: "Antep Fıstığı Ekstra", price: "1.399.00 TL", oldPrice: "1.500.00 TL", badge: "SEPETLE İYİ GİDER" },
-    { name: "Ceviz İçi Kelebek (Extra)", price: "749.00 TL", oldPrice: "850.00 TL", badge: "" },
-    { name: "Armut İncir (Dağ İnciri)", price: "699.00 TL", oldPrice: "750.00 TL", badge: "FAVORİ" },
-    { name: "Kavrulmuş Fındık İçi", price: "550.00 TL", oldPrice: "620.00 TL", badge: "YENİ MAHSÜL" },
-    { name: "Sarı Leblebi Çifte Kavrulmuş", price: "220.00 TL", oldPrice: "250.00 TL", badge: "KLASİK" },
-    { name: "Gün Kurusu Kayısı", price: "480.00 TL", oldPrice: "550.00 TL", badge: "DOĞAL" },
-    { name: "Lüks Karışık Kuruyemiş", price: "890.00 TL", oldPrice: "990.00 TL", badge: "HEDİYELİK" },
-    { name: "Kavrulmuş Kaju Fıstığı", price: "720.00 TL", oldPrice: "800.00 TL", badge: "" },
-  ]
+  const products = await getActiveProducts({ categorySlug: safeSlug })
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
@@ -65,24 +58,20 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
       <div>
         <div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
-            {products.map((prod, i) => (
-              <Link href={`/urun/ornek-urun-${i}`} key={i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
+            {products.map((prod: any, i: number) => (
+              <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
-                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
-                  {prod.badge && (
-                    <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
-                      {prod.badge}
-                    </div>
+                  {prod.images && prod.images[0] ? (
+                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                  ) : (
+                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
                 </div>
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                   <h3 className="font-bold text-sm lg:text-base mb-2 line-clamp-2 text-brand-slate group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
                     <div className="flex items-center gap-2 mb-3">
-                      <p className="text-base lg:text-xl font-black text-brand-slate">{prod.price}</p>
-                      {prod.oldPrice && (
-                        <p className="text-xs lg:text-sm font-semibold text-brand-slate/40 line-through">{prod.oldPrice}</p>
-                      )}
+                      <p className="text-base lg:text-xl font-black text-brand-slate">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
                     </div>
                     <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
                       İncele
@@ -91,6 +80,11 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
                 </div>
               </Link>
             ))}
+            {products.length === 0 && (
+              <div className="col-span-full py-10 text-center text-brand-slate/50 font-bold">
+                Bu kategoride ürün bulunamadı.
+              </div>
+            )}
           </div>
 
           {/* Pagination */}
