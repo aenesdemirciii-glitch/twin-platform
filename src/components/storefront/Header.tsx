@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { Search, ShoppingBag, User } from "lucide-react"
+import { getCategories } from "@/services/productService"
 
-export function Header() {
+export async function Header() {
+  const categories = await getCategories()
+
   return (
     <>
       <div className="w-full bg-brand-slate py-2 text-white text-xs lg:text-sm font-bold overflow-hidden whitespace-nowrap relative">
@@ -51,16 +54,23 @@ export function Header() {
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center justify-center h-12 border-t border-brand-slate/10">
-          <ul className="flex items-center gap-8">
+        <nav className="hidden md:flex items-center justify-center h-12 border-t border-brand-slate/10 overflow-x-auto whitespace-nowrap hide-scrollbar">
+          <ul className="flex items-center gap-6">
             <li>
               <Link href="/" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
                 Ana Sayfa
               </Link>
             </li>
+            {categories.map((cat: any) => (
+              <li key={cat.id}>
+                <Link href={`/kategori/${cat.slug}`} className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+                  {cat.name}
+                </Link>
+              </li>
+            ))}
             <li>
               <Link href="/kategoriler" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
-                Kategoriler
+                Tüm Kategoriler
               </Link>
             </li>
             <li>

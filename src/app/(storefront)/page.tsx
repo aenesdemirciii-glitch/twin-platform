@@ -12,6 +12,11 @@ export default async function HomePage() {
     orderBy: { createdAt: 'desc' }
   })
   
+  const popularProducts = await prisma.product.findMany({
+    take: 8,
+    orderBy: { name: 'asc' }
+  })
+  
   const categories = await getCategories()
   const displayCategories = categories.slice(0, 8)
 
@@ -70,6 +75,45 @@ export default async function HomePage() {
       </section>
 
 
+
+      {/* Popüler Ürünler (Popular Products) */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="flex items-center gap-4 mb-10">
+            <div className="h-12 w-12 bg-brand-gold text-brand-slate rounded-lg flex items-center justify-center">
+              <Eye className="h-6 w-6" />
+            </div>
+            <div>
+              <h2 className="text-3xl font-black">Popüler Ürünler</h2>
+              <p className="text-brand-slate/70 font-semibold mt-1">Bu haftanın en çok incelenen favori lezzetleri</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 lg:flex lg:overflow-x-auto lg:pb-8 lg:-mx-4 lg:px-4 lg:gap-6 lg:snap-x lg:snap-mandatory hide-scrollbar">
+            {popularProducts.map((prod, i) => (
+              <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
+                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  {prod.isFeatured && (
+                    <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
+                      POPÜLER
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
+                  <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
+                  <div className="mt-auto pt-2">
+                    <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-3 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
+                      İncele
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Categories */}
       <section className="py-16 bg-brand-slate/5 border-y border-brand-slate/10 container mx-auto px-4 lg:px-8">
