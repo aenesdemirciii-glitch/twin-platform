@@ -3,15 +3,17 @@ import Image from "next/image"
 import { ArrowRight, SlidersHorizontal, ChevronDown } from "lucide-react"
 import { getActiveProducts } from "@/services/productService"
 
-export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
+export default async function CategoryPage(props: { params: Promise<{ slug: string | string[] }> }) {
   const params = await props.params;
-  const safeSlug = params?.slug || "kategori";
-  const categoryName = safeSlug
+  const slugArray = Array.isArray(params.slug) ? params.slug : (params.slug ? [params.slug] : []);
+  const rawSlug = slugArray.join('/') || "kategori";
+  
+  const categoryName = rawSlug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
 
-  const products = await getActiveProducts({ categorySlug: safeSlug })
+  const products = await getActiveProducts({ categorySlug: rawSlug })
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-8 lg:py-12">
