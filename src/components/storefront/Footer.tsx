@@ -21,7 +21,7 @@ export async function Footer() {
               </div>
               <div>
                 <h4 className="font-bold mb-1">Ücretsiz Kargo</h4>
-                <p className="text-sm text-brand-slate/70">1.500 TL ve üzeri siparişlerde Türkiye geneli ücretsiz kargo</p>
+                <p className="text-sm text-brand-slate/70">3.000 TL ve üzeri siparişlerde Türkiye geneli ücretsiz kargo</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -53,14 +53,13 @@ export async function Footer() {
                 1989 yılından günümüze, en taze ve kaliteli kuruyemişleri özenle işleyerek sofralarınıza taşıyoruz. Güvenilir ve sağlıklı lezzetler.
               </p>
               <div className="text-sm text-brand-slate/80 font-medium space-y-4">
-                <p>Eminönü Mah. Mısır Çarşısı İçi No: 12, Fatih/İstanbul</p>
-                <p className="font-black text-brand-slate text-base">0850 123 45 67</p>
+                <p>Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul</p>
+                <p className="font-black text-brand-slate text-base">0534 720 19 00</p>
                 <p>info@ikizlerbaharatcilik.com</p>
               </div>
               <div className="flex items-center gap-3 mt-6">
-                <div className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">FB</div>
-                <div className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">IN</div>
-                <div className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">IG</div>
+                <Link href="https://www.facebook.com/ikizlerbaharatcilik/" target="_blank" className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">FB</Link>
+                <Link href="https://www.instagram.com/ikizlerbaharatcilik/" target="_blank" className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">IG</Link>
               </div>
             </div>
 
@@ -82,10 +81,10 @@ export async function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Kurumsal</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                <li><Link href="/hakkimizda" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
-                <li><Link href="/belgelerimiz" className="hover:text-brand-gold transition-colors">Kalite Belgelerimiz</Link></li>
-                <li><Link href="/iletisim" className="hover:text-brand-gold transition-colors">Mağazalarımız & İletişim</Link></li>
-                <li><Link href="/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış</Link></li>
+                <li><Link href="/sayfa/hakkimizda" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
+                <li><Link href="/sayfa/kalite-belgelerimiz" className="hover:text-brand-gold transition-colors">Kalite Belgelerimiz</Link></li>
+                <li><Link href="/sayfa/iletisim" className="hover:text-brand-gold transition-colors">Mağazalarımız & İletişim</Link></li>
+                <li><Link href="/sayfa/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış</Link></li>
                 <li><Link href="/blog" className="hover:text-brand-gold transition-colors">Kuruyemiş Rehberi (Blog)</Link></li>
               </ul>
             </div>
