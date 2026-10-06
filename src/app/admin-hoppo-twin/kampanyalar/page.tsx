@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma"
-import { Search, Tag, Edit, Plus, Trash2 } from "lucide-react"
+import { Search, Tag, Edit } from "lucide-react"
+import { NewCouponModal, DeleteCouponButton } from "./ClientCouponActions"
 
 export default async function AdminCampaignsPage() {
   const coupons = await prisma.coupon.findMany({
@@ -13,10 +14,7 @@ export default async function AdminCampaignsPage() {
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Kampanyalar ve Kuponlar</h2>
           <p className="text-sm text-slate-500 mt-1">İndirim kodlarını ve kampanya koşullarını yönetin.</p>
         </div>
-        <button disabled className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-400 rounded-lg text-sm font-medium cursor-not-allowed">
-          <Plus className="h-4 w-4" />
-          Kupon Oluştur (Geliştirme Aşamasında)
-        </button>
+        <NewCouponModal />
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
@@ -26,7 +24,7 @@ export default async function AdminCampaignsPage() {
             <input 
               type="text" 
               disabled
-              placeholder="Kupon veya kampanya ara..." 
+              placeholder="Arama geliştirme aşamasındadır..." 
               className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 focus:outline-none cursor-not-allowed"
             />
           </div>
@@ -55,10 +53,12 @@ export default async function AdminCampaignsPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-medium text-slate-700">
-                      {coupon.type === "PERCENTAGE" ? `%${coupon.value}` : `₺${coupon.value}`}
+                      {coupon.type === "PERCENTAGE" ? `%${coupon.value}` : 
+                       coupon.type === "FREE_SHIPPING" ? "Kargo Bedava" : 
+                       `₺${coupon.value}`}
                     </td>
                     <td className="px-6 py-4 text-slate-500">
-                      {coupon.usedCount} {coupon.usageLimit ? `/ ${coupon.usageLimit}` : 'Kullanım'}
+                      {coupon.usedCount} {coupon.usageLimit ? `/ ${coupon.usageLimit}` : 'Kullanım (Sınırsız)'}
                     </td>
                     <td className="px-6 py-4 text-slate-500">
                       {coupon.endDate ? coupon.endDate.toLocaleDateString('tr-TR') : 'Süresiz'}
@@ -75,9 +75,7 @@ export default async function AdminCampaignsPage() {
                         <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Düzenleme geliştirme aşamasında">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Silme geliştirme aşamasında">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        <DeleteCouponButton id={coupon.id} />
                       </div>
                     </td>
                   </tr>
