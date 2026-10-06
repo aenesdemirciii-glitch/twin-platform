@@ -5,6 +5,7 @@ import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, Me
 
 import prisma from "@/lib/prisma"
 import { getCategories } from "@/services/productService"
+import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
 export default async function HomePage() {
   const products = await prisma.product.findMany({
@@ -104,9 +105,7 @@ export default async function HomePage() {
                   <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
                     <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
-                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-3 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
-                      İncele
-                    </button>
+                    <AddToCartButton product={prod} />
                   </div>
                 </div>
               </Link>
@@ -176,9 +175,7 @@ export default async function HomePage() {
                   <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
                     <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
-                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-3 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
-                      Sepete Ekle
-                    </button>
+                    <AddToCartButton product={prod} />
                   </div>
                 </div>
               </Link>

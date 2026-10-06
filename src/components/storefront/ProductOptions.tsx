@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import { ShoppingCart, Heart } from "lucide-react"
+import { useCartStore } from "@/store/useCartStore"
 
 export function ProductOptions({ product }: { product: any }) {
+  const addItem = useCartStore((state) => state.addItem)
   const [selectedVariant, setSelectedVariant] = useState(product.variants?.[0] || null)
   const [quantity, setQuantity] = useState(1)
 
@@ -47,7 +49,21 @@ export function ProductOptions({ product }: { product: any }) {
            <span className="px-4 font-bold text-brand-slate">{quantity}</span>
            <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 hover:bg-slate-50 text-slate-600 transition-colors">+</button>
          </div>
-         <button className="flex-1 bg-brand-slate text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200">
+         <button 
+           onClick={() => {
+             const cartItem = {
+               id: selectedVariant ? selectedVariant.id : product.id,
+               productId: product.id,
+               name: selectedVariant ? `${product.name} (${selectedVariant.name})` : product.name,
+               price: Number(currentPrice),
+               quantity: quantity,
+               image: product.images?.[0]?.url,
+               sku: selectedVariant ? selectedVariant.sku : product.sku,
+             }
+             addItem(cartItem)
+           }}
+           className="flex-1 bg-brand-slate text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200"
+         >
            <ShoppingCart className="h-5 w-5" />
            Sepete Ekle
          </button>

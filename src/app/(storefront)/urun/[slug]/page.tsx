@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getProductBySlug, getActiveProducts } from "@/services/productService"
 import { ShoppingCart, Heart, ShieldCheck, Truck } from "lucide-react"
 import { ProductOptions } from "@/components/storefront/ProductOptions"
+import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
 export default async function ProductDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -92,9 +93,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-base lg:text-xl font-black text-brand-slate">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
                     </div>
-                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
-                      Sepete Ekle
-                    </button>
+                    <AddToCartButton product={prod} />
                   </div>
                 </div>
               </Link>

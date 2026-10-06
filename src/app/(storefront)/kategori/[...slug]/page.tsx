@@ -3,6 +3,7 @@ import Image from "next/image"
 import { ArrowRight, SlidersHorizontal } from "lucide-react"
 import { getCategoryData } from "@/services/productService"
 import { CategorySort } from "@/components/storefront/CategorySort"
+import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
 export default async function CategoryPage(props: { params: Promise<{ slug: string | string[] }>, searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const params = await props.params;
@@ -67,9 +68,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                     <div className="flex items-center gap-2 mb-3">
                       <p className="text-base lg:text-xl font-black text-brand-slate">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
                     </div>
-                    <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
-                      İncele
-                    </button>
+                    <AddToCartButton product={prod} />
                   </div>
                 </div>
               </Link>
