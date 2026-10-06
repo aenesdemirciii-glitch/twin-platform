@@ -56,6 +56,7 @@ model Category {
   name        String
   slug        String     @unique
   description String?    @db.Text
+  imageUrl    String?    // Added for category cover image
   parentId    String?
   parent      Category?  @relation("SubCategories", fields: [parentId], references: [id])
   children    Category[] @relation("SubCategories")

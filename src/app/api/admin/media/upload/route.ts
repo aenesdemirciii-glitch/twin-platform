@@ -1,40 +1,60 @@
 import { NextResponse } from "next/server"
-import { downloadAndOptimizeImage } from "@/services/mediaService"
-// import prisma from "@/lib/prisma"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import fs from "fs/promises"
+import path from "path"
+import crypto from "crypto"
 
 export async function POST(req: Request) {
   try {
-    // Auth check here
-
-    const body = await req.json()
-    const { url, slug, altText, creator, sourceUrl } = body
-
-    if (!url || !slug) {
-      return NextResponse.json({ error: "Görsel URL ve SEO slug zorunludur." }, { status: 400 })
+    const session = await getServerSession(authOptions)
+    if (!session || (session.user as any)?.role !== "SUPER_ADMIN") {
+      return NextResponse.json({ error: "Yetkisiz işlem" }, { status: 401 })
     }
 
-    const publicPath = await downloadAndOptimizeImage(url, slug)
+    const formData = await req.formData()
+    const file = formData.get("file") as File
 
-    // Save to Database Media Library
-    /*
-    const media = await prisma.mediaLibrary.create({
-      data: {
-        fileName: publicPath.split("/").pop() || slug,
-        fileUrl: publicPath,
-        mimeType: "image/webp",
-        size: 0, // In real scenario, get size from fs.statSync
-        altText: altText || slug,
-        uploadedBy: "Admin", // Session user id
-      }
-    })
-    */
+    if (!file) {
+      return NextResponse.json({ error: "Dosya bulunamadı" }, { status: 400 })
+    }
 
-    return NextResponse.json({ 
-      success: true, 
-      url: publicPath,
-      message: "Görsel başarıyla sunucuya kaydedildi."
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+
+    // Validate type
+    const mimeType = file.type
+    if (!mimeType.startsWith('image/')) {
+      return NextResponse.json({ error: "Sadece görsel dosyaları yüklenebilir" }, { status: 400 })
+    }
+
+    // Generate unique name
+    const ext = file.name.split(".").pop() || "jpg"
+    const uniqueId = crypto.randomBytes(8).toString("hex")
+    const fileName = `upload-${uniqueId}.${ext}`
+
+    // Ensure directory exists
+    const uploadsDir = path.join(process.cwd(), "public", "uploads")
+    try {
+      await fs.access(uploadsDir)
+    } catch {
+      await fs.mkdir(uploadsDir, { recursive: true })
+    }
+
+    const filePath = path.join(uploadsDir, fileName)
+    await fs.writeFile(filePath, buffer)
+
+    const localUrl = `/uploads/${fileName}`
+
+    return NextResponse.json({
+      localUrl,
+      fileName,
+      mimeType,
+      size: buffer.length
     })
+
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Bilinmeyen bir hata oluştu." }, { status: 500 })
+    console.error("Upload Error:", error)
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
