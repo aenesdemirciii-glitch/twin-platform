@@ -109,6 +109,7 @@ model Product {
   // Status & Flags
   isActive         Boolean  @default(false) // Draft by default
   isFeatured       Boolean  @default(false)
+  
   isNew            Boolean  @default(false)
   
   // SEO

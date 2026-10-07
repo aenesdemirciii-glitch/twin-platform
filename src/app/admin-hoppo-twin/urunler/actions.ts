@@ -11,7 +11,7 @@ export async function createProduct(data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, isFeatured, images, variants } = data
+  const { name, sku, categoryId, price, stock, isActive, isFeatured, isNew, images, variants } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -70,6 +70,7 @@ export async function createProduct(data: any) {
       categoryId: categoryId || null,
       isActive: isActive === true,
       isFeatured: isFeatured === true,
+      isNew: isNew === true,
       images: {
         create: productImages
       },
@@ -98,7 +99,7 @@ export async function updateProduct(id: string, data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, isFeatured, images, variants } = data
+  const { name, sku, categoryId, price, stock, isActive, isFeatured, isNew, images, variants } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -139,6 +140,7 @@ export async function updateProduct(id: string, data: any) {
       categoryId: categoryId || null,
       isActive: isActive === true,
       isFeatured: isFeatured === true,
+      isNew: isNew === true,
       images: {
         deleteMany: {},
         create: productImages

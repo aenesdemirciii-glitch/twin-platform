@@ -110,6 +110,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
       stock: formData.get("stock"),
       isActive: formData.get("isActive") === "on",
       isFeatured: formData.get("isFeatured") === "on",
+      isNew: formData.get("isNew") === "on",
       images,
       variants
     }
@@ -269,14 +270,24 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
               </label>
             </div>
             
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm space-y-4">
               <label className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" name="isFeatured" defaultChecked={initialData ? initialData.isFeatured : false} className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
                 <div>
-                  <h4 className="font-semibold text-slate-800">Öne Çıkan / Çok Satan Ürün</h4>
-                  <p className="text-sm text-slate-500 mt-1">Bu ürün ana sayfada Çok Satanlar ve Popüler Ürünler kısımlarında gösterilir.</p>
+                  <h4 className="font-semibold text-slate-800">Çok Satan Ürün</h4>
+                  <p className="text-sm text-slate-500 mt-1">Bu ürün ana sayfada "Çok Satanlar" kısmında gösterilir.</p>
                 </div>
               </label>
+
+              <div className="border-t border-slate-100 pt-4">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="checkbox" name="isNew" defaultChecked={initialData ? initialData.isNew : false} className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
+                  <div>
+                    <h4 className="font-semibold text-slate-800">Popüler Ürün</h4>
+                    <p className="text-sm text-slate-500 mt-1">Bu ürün ana sayfada "Popüler Ürünler" kısmında gösterilir.</p>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
         </div>

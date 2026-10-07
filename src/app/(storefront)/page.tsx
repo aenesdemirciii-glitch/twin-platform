@@ -8,30 +8,48 @@ import { getCategories } from "@/services/productService"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
 export default async function HomePage() {
-  const featuredProducts = await prisma.product.findMany({
+  // Çok Satanlar
+  let products = await prisma.product.findMany({
     where: { isFeatured: true, isActive: true },
-    take: 16,
+    take: 8,
     orderBy: { createdAt: 'desc' },
     include: { images: true }
   })
   
-  let allProducts = featuredProducts
-  
-  if (allProducts.length < 16) {
+  if (products.length < 8) {
     const fallback = await prisma.product.findMany({
       where: { 
         isActive: true,
-        id: { notIn: allProducts.map(p => p.id) }
+        id: { notIn: products.map(p => p.id) }
       },
-      take: 16 - allProducts.length,
+      take: 8 - products.length,
       orderBy: { createdAt: 'desc' },
       include: { images: true }
     })
-    allProducts = [...allProducts, ...fallback]
+    products = [...products, ...fallback]
   }
 
-  const products = allProducts.slice(0, 8)
-  const popularProducts = allProducts.slice(8, 16)
+  // Popüler Ürünler
+  let popularProducts = await prisma.product.findMany({
+    where: { isNew: true, isActive: true },
+    take: 8,
+    orderBy: { createdAt: 'desc' },
+    include: { images: true }
+  })
+
+  if (popularProducts.length < 8) {
+    const excludeIds = [...products.map(p => p.id), ...popularProducts.map(p => p.id)]
+    const fallbackPop = await prisma.product.findMany({
+      where: { 
+        isActive: true,
+        id: { notIn: excludeIds }
+      },
+      take: 8 - popularProducts.length,
+      orderBy: { createdAt: 'desc' },
+      include: { images: true }
+    })
+    popularProducts = [...popularProducts, ...fallbackPop]
+  }
   
   const categories = await getCategories()
   const displayCategories = categories.slice(0, 8)
