@@ -128,7 +128,7 @@ export default async function HomePage() {
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
                   {prod.images && prod.images[0] ? (
-                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
                   ) : (
                     <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
@@ -202,7 +202,7 @@ export default async function HomePage() {
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
                   {prod.images && prod.images[0] ? (
-                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
                   ) : (
                     <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
@@ -310,7 +310,7 @@ export default async function HomePage() {
           ].map((blog, i) => (
             <div key={i} className="flex flex-col bg-white border-2 border-brand-slate/10 rounded-2xl overflow-hidden hover:border-brand-gold transition-colors group">
               <div className="relative aspect-[4/3] bg-brand-slate/5 flex items-center justify-center border-b border-brand-slate/10 overflow-hidden">
-                <Image src={blog.image} alt={blog.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-5 flex flex-col flex-1">
                 <span className="text-xs font-bold text-brand-slate/50 mb-2">{blog.date}</span>

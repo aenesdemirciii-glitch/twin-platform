@@ -280,7 +280,7 @@ export default function CheckoutPage() {
                   <div key={item.id} className="flex gap-4 items-center">
                     <div className="w-16 h-16 bg-slate-100 rounded-lg overflow-hidden shrink-0 relative">
                       {item.image ? (
-                        <Image src={item.image} alt={item.name} fill className="object-cover" />
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-[10px] text-slate-400 font-bold">GÖRSEL</div>
                       )}

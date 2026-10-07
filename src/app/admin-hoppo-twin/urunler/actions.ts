@@ -90,6 +90,7 @@ export async function createProduct(data: any) {
   })
 
   revalidatePath("/admin-hoppo-twin/urunler")
+  revalidatePath("/")
   return { success: true, id: product.id }
 }
 
@@ -162,5 +163,6 @@ export async function updateProduct(id: string, data: any) {
   })
 
   revalidatePath("/admin-hoppo-twin/urunler")
+  revalidatePath("/")
   return { success: true, id: product.id }
 }

@@ -29,7 +29,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
         <div className="space-y-4">
           <div className="aspect-square bg-slate-100 rounded-2xl border-2 border-slate-200 flex items-center justify-center overflow-hidden">
             {product.images && product.images[0] ? (
-              <Image src={product.images[0].url} alt={product.name} width={600} height={600} className="w-full h-full object-cover" />
+              <img src={product.images[0].url} alt={product.name} className="w-full h-full object-cover" />
             ) : (
               <span className="text-slate-400 font-medium text-lg">Ürün Görseli (Yakında Eklenecek)</span>
             )}
@@ -81,7 +81,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
                   {prod.images && prod.images[0] ? (
-                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
                   ) : (
                     <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}

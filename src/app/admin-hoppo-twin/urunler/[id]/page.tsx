@@ -31,6 +31,8 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
     price: product.price.toString(),
     stock: product.stock,
     isActive: product.isActive,
+    isFeatured: product.isFeatured,
+    isNew: product.isNew,
     variants: product.variants.map(v => ({
       id: v.id,
       sku: v.sku,
