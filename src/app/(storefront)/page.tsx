@@ -126,11 +126,11 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 gap-4 lg:flex lg:overflow-x-auto lg:pb-8 lg:-mx-4 lg:px-4 lg:gap-6 lg:snap-x lg:snap-mandatory hide-scrollbar">
             {popularProducts.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
-                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
                   {prod.images && prod.images[0] ? (
-                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
-                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                    <span className="absolute inset-0 flex items-center justify-center text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
                   {prod.isFeatured && (
                     <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
@@ -200,11 +200,11 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 gap-4 lg:flex lg:overflow-x-auto lg:pb-8 lg:-mx-4 lg:px-4 lg:gap-6 lg:snap-x lg:snap-mandatory hide-scrollbar">
             {products.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
-                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
                   {prod.images && prod.images[0] ? (
-                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
-                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                    <span className="absolute inset-0 flex items-center justify-center text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
                   {prod.isFeatured && (
                     <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">

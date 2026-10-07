@@ -55,11 +55,11 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6">
             {products.map((prod: any, i: number) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
-                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
                   {prod.images && prod.images[0] ? (
-                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
-                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                    <span className="absolute inset-0 flex items-center justify-center text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
                 </div>
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">

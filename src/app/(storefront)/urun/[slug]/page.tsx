@@ -27,11 +27,11 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
         {/* Product Images (Left) */}
         <div className="space-y-4">
-          <div className="aspect-square bg-slate-100 rounded-2xl border-2 border-slate-200 flex items-center justify-center overflow-hidden">
+          <div className="relative w-full pb-[100%] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden">
             {product.images && product.images[0] ? (
-              <img src={product.images[0].url} alt={product.name} className="w-full h-full object-cover" />
+              <img src={product.images[0].url} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
             ) : (
-              <span className="text-slate-400 font-medium text-lg">Ürün Görseli (Yakında Eklenecek)</span>
+              <span className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium text-lg">Ürün Görseli (Yakında Eklenecek)</span>
             )}
           </div>
         </div>
@@ -79,9 +79,9 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
             {popularProducts.map((prod: any, i: number) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
-                <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
+                <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
                   {prod.images && prod.images[0] ? (
-                    <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
                     <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
