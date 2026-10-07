@@ -43,8 +43,25 @@ export default async function AdminDashboard() {
         {/* Placeholder for Chart */}
         <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
           <h3 className="text-base font-semibold text-slate-800 mb-4">Satış Grafiği</h3>
-          <div className="h-64 flex items-center justify-center bg-slate-50 border border-dashed border-slate-200 rounded-lg text-slate-400">
-            [Grafik Modülü Geliştirme Aşamasında]
+          <div className="flex items-end gap-2 h-64 mt-4 px-2">
+            {[
+              { month: "Oca", sales: 40 },
+              { month: "Şub", sales: 55 },
+              { month: "Mar", sales: 70 },
+              { month: "Nis", sales: 60 },
+              { month: "May", sales: 85 },
+              { month: "Haz", sales: 100 },
+            ].map((d, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
+                <div className="w-full relative flex items-end justify-center h-full bg-slate-50 rounded-t-lg">
+                  <div 
+                    className="w-full bg-amber-400 rounded-t-lg transition-all duration-500 group-hover:bg-amber-500 relative"
+                    style={{ height: `${d.sales}%` }}
+                  ></div>
+                </div>
+                <span className="text-xs font-semibold text-slate-500">{d.month}</span>
+              </div>
+            ))}
           </div>
         </div>
 

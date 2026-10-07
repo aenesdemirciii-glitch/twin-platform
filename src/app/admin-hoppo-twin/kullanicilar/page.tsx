@@ -1,8 +1,18 @@
 import prisma from "@/lib/prisma"
 import { Shield, Plus, Edit, Trash2 } from "lucide-react"
+import { SearchInput } from "@/components/admin/SearchInput"
 
-export default async function AdminUsersPage() {
+export default async function AdminUsersPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
+  const q = searchParams.q || "";
+
   const users = await prisma.user.findMany({
+    where: q ? {
+      OR: [
+        { name: { contains: q } },
+        { email: { contains: q } }
+      ]
+    } : undefined,
     orderBy: { createdAt: 'desc' }
   })
 
@@ -16,13 +26,16 @@ export default async function AdminUsersPage() {
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Kullanıcılar ve Yetkiler</h2>
           <p className="text-sm text-slate-500 mt-1">Panel erişimi olan yetkili hesapları yönetin.</p>
         </div>
-        <button disabled className="flex items-center gap-2 px-4 py-2 bg-slate-100 text-slate-400 rounded-lg text-sm font-medium cursor-not-allowed">
+        <button className="flex items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 text-slate-900 rounded-lg text-sm font-bold shadow-sm transition-colors">
           <Plus className="h-4 w-4" />
-          Yetkili Ekle (Geliştirme Aşamasında)
+          Yeni Yetkili Ekle
         </button>
       </div>
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-slate-200 bg-slate-50/50">
+          <SearchInput placeholder="Kullanıcı adı veya e-posta ile ara..." />
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-medium">
@@ -72,10 +85,10 @@ export default async function AdminUsersPage() {
                   </td>
                   <td className="px-6 py-4 text-right">
                      <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Yetki değiştirme kapalı">
+                        <button className="p-1.5 text-slate-300 " title="Yetki değiştirme kapalı">
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Kullanıcı silme kapalı">
+                        <button className="p-1.5 text-slate-300 " title="Kullanıcı silme kapalı">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>

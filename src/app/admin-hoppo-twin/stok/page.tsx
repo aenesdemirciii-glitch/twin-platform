@@ -1,8 +1,14 @@
 import prisma from "@/lib/prisma"
 import { Search, History, Edit2 } from "lucide-react"
 
-export default async function AdminStockPage() {
+import { SearchInput } from "@/components/admin/SearchInput"
+
+export default async function AdminStockPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
+  const q = searchParams.q || "";
+
   const products = await prisma.product.findMany({
+    where: q ? { name: { contains: q } } : undefined,
     orderBy: { stock: 'asc' }, // Show lowest stock first
     include: {
       variants: true
@@ -41,15 +47,7 @@ export default async function AdminStockPage() {
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-slate-200 bg-slate-50/50">
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input 
-              type="text" 
-              disabled
-              placeholder="Arama geliştirme aşamasındadır..." 
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 focus:outline-none cursor-not-allowed"
-            />
-          </div>
+          <SearchInput placeholder="Ürün adı ile ara..." />
         </div>
 
         <div className="overflow-x-auto">
@@ -83,10 +81,10 @@ export default async function AdminStockPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Geçmiş geliştirme aşamasında">
+                        <button className="p-1.5 text-slate-300 " >
                           <History className="h-4 w-4" />
                         </button>
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Güncelleme geliştirme aşamasında">
+                        <button className="p-1.5 text-slate-300 " >
                           <Edit2 className="h-4 w-4" />
                         </button>
                       </div>

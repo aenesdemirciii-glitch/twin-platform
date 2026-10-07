@@ -1,9 +1,16 @@
 import { Plus, Search, Filter, Edit, Trash2 } from "lucide-react"
 import prisma from "@/lib/prisma"
 import Link from "next/link"
+import { SearchInput } from "@/components/admin/SearchInput"
 
-export default async function ProductsPage() {
+export default async function ProductsPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
+  const q = searchParams.q || "";
+
   const products = await prisma.product.findMany({
+    where: q ? {
+      name: { contains: q }
+    } : undefined,
     orderBy: { createdAt: 'desc' },
     include: {
       category: true,
@@ -29,15 +36,7 @@ export default async function ProductsPage() {
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row gap-4 items-center justify-between bg-slate-50/50">
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input 
-              type="text" 
-              disabled
-              placeholder="Arama geliştirme aşamasındadır..." 
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 focus:outline-none cursor-not-allowed"
-            />
-          </div>
+          <SearchInput placeholder="Ürün adı ile ara..." />
         </div>
 
         <div className="overflow-x-auto">
@@ -93,7 +92,7 @@ export default async function ProductsPage() {
                         <Link href={`/admin-hoppo-twin/urunler/${product.id}`} className="p-1.5 text-slate-400 hover:text-amber-600 transition-colors" title="Düzenle">
                           <Edit className="h-4 w-4" />
                         </Link>
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Silme geliştirme aşamasında">
+                        <button className="p-1.5 text-slate-300 " >
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>

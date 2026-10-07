@@ -34,7 +34,7 @@ export default async function CategoriesPage() {
               type="text" 
               disabled
               placeholder="Arama..." 
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 cursor-not-allowed"
+              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 "
             />
           </div>
         </div>
@@ -83,7 +83,7 @@ export default async function CategoriesPage() {
                       <Link href={`/admin-hoppo-twin/kategoriler/${cat.id}`} className="p-1.5 text-slate-400 hover:text-amber-600 transition-colors" title="Düzenle">
                         <Edit className="h-4 w-4" />
                       </Link>
-                      <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Silme geliştirme aşamasında">
+                      <button className="p-1.5 text-slate-300 " >
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>

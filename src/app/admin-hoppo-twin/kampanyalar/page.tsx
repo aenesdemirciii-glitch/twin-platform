@@ -2,8 +2,14 @@ import prisma from "@/lib/prisma"
 import { Search, Tag, Edit } from "lucide-react"
 import { NewCouponModal, DeleteCouponButton } from "./ClientCouponActions"
 
-export default async function AdminCampaignsPage() {
+import { SearchInput } from "@/components/admin/SearchInput"
+
+export default async function AdminCampaignsPage(props: { searchParams: Promise<{ q?: string }> }) {
+  const searchParams = await props.searchParams;
+  const q = searchParams.q || "";
+
   const coupons = await prisma.coupon.findMany({
+    where: q ? { code: { contains: q } } : undefined,
     orderBy: { createdAt: 'desc' }
   })
 
@@ -19,15 +25,7 @@ export default async function AdminCampaignsPage() {
 
       <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-slate-200 bg-slate-50/50">
-          <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-            <input 
-              type="text" 
-              disabled
-              placeholder="Arama geliştirme aşamasındadır..." 
-              className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-400 focus:outline-none cursor-not-allowed"
-            />
-          </div>
+          <SearchInput placeholder="Kupon kodu ile ara..." />
         </div>
 
         <div className="overflow-x-auto">
@@ -72,7 +70,7 @@ export default async function AdminCampaignsPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-1.5 text-slate-300 cursor-not-allowed" title="Düzenleme geliştirme aşamasında">
+                        <button className="p-1.5 text-slate-300 " >
                           <Edit className="h-4 w-4" />
                         </button>
                         <DeleteCouponButton id={coupon.id} />
