@@ -1,9 +1,12 @@
 import Link from "next/link"
 import { Truck, Package, Award } from "lucide-react"
 import { getCategories } from "@/services/productService"
+import prisma from "@/lib/prisma"
 
 export async function Footer() {
   const categories = await getCategories()
+  const logoSetting = await prisma.settings.findUnique({ where: { key: "site_logo" } })
+  const logoUrl = logoSetting?.value
 
   return (
     <footer className="bg-white pt-12 border-t-4 border-brand-gold">
@@ -11,8 +14,14 @@ export async function Footer() {
         
         {/* Top Feature Icons */}
         <div className="flex flex-col items-center justify-center mb-12 text-brand-slate">
-          <div className="text-3xl font-black tracking-tight mb-10">
-            İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
+          <div className="mb-10 flex justify-center">
+            {logoUrl ? (
+              <img src={logoUrl} alt="Logo" className="h-16 w-auto object-contain" />
+            ) : (
+              <div className="text-3xl font-black tracking-tight text-brand-slate">
+                İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
+              </div>
+            )}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
             <div className="flex items-start gap-4">

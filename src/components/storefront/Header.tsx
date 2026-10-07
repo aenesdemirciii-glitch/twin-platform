@@ -2,9 +2,12 @@ import Link from "next/link"
 import { Search, User } from "lucide-react"
 import { CartIcon } from "@/components/storefront/CartIcon"
 import { getCategories } from "@/services/productService"
+import prisma from "@/lib/prisma"
 
 export async function Header() {
   const categories = await getCategories()
+  const logoSetting = await prisma.settings.findUnique({ where: { key: "site_logo" } })
+  const logoUrl = logoSetting?.value
 
   return (
     <>
@@ -24,9 +27,13 @@ export async function Header() {
         {/* Top Header */}
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center gap-2">
-            <div className="text-2xl font-black tracking-tight text-brand-slate">
-              İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
-            </div>
+            {logoUrl ? (
+              <img src={logoUrl} alt="Logo" className="h-12 w-auto object-contain" />
+            ) : (
+              <div className="text-2xl font-black tracking-tight text-brand-slate">
+                İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
+              </div>
+            )}
           </Link>
 
           <div className="hidden md:flex flex-1 max-w-xl mx-8">

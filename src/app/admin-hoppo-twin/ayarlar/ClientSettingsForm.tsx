@@ -1,12 +1,53 @@
 "use client"
 
-import { useState } from "react"
-import { Save, CheckCircle2 } from "lucide-react"
+import { useState, useRef } from "react"
+import { Save, CheckCircle2, Upload, Loader2, X } from "lucide-react"
 import { saveSettings } from "./actions"
 
 export function ClientSettingsForm({ initialSettings }: { initialSettings: Record<string, string> }) {
   const [isPending, setIsPending] = useState(false)
   const [message, setMessage] = useState("")
+  
+  const [logoUrl, setLogoUrl] = useState(initialSettings['site_logo'] || "")
+  const [faviconUrl, setFaviconUrl] = useState(initialSettings['site_favicon'] || "")
+  const [isUploadingLogo, setIsUploadingLogo] = useState(false)
+  const [isUploadingFavicon, setIsUploadingFavicon] = useState(false)
+  
+  const logoInputRef = useRef<HTMLInputElement>(null)
+  const faviconInputRef = useRef<HTMLInputElement>(null)
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'favicon') {
+    if (!e.target.files || e.target.files.length === 0) return
+    const file = e.target.files[0]
+    
+    if (type === 'logo') setIsUploadingLogo(true)
+    else setIsUploadingFavicon(true)
+    
+    const formData = new FormData()
+    formData.append("file", file)
+    
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData
+      })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        if (type === 'logo') setLogoUrl(data.url)
+        else setFaviconUrl(data.url)
+      } else {
+        alert(data.error || "Yükleme başarısız")
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Yükleme sırasında hata oluştu")
+    }
+    
+    if (type === 'logo') setIsUploadingLogo(false)
+    else setIsUploadingFavicon(false)
+    
+    e.target.value = "" // reset
+  }
 
   async function action(formData: FormData) {
     setIsPending(true)
@@ -74,24 +115,66 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
         <h3 className="text-lg font-semibold text-slate-800">Görünüm Ayarları</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Logo URL (Header/Footer)</label>
-            <input 
-              type="text" 
-              name="site_logo"
-              defaultValue={initialSettings['site_logo'] || ""}
-              placeholder="https://cdn.../logo.png"
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
-            />
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Logo (Header/Footer)</label>
+            <div className="flex items-start gap-4">
+              <div className="w-24 h-24 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 relative overflow-hidden shrink-0 group">
+                {logoUrl ? (
+                  <>
+                    <img src={logoUrl} alt="Logo" className="w-full h-full object-contain p-2" />
+                    <button type="button" onClick={() => setLogoUrl("")} className="absolute top-1 right-1 bg-white/90 p-1 rounded-full text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-xs text-slate-400 font-medium">Yok</span>
+                )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <input type="hidden" name="site_logo" value={logoUrl} />
+                <input type="file" accept="image/*" className="hidden" ref={logoInputRef} onChange={(e) => handleFileUpload(e, 'logo')} />
+                <button 
+                  type="button" 
+                  onClick={() => logoInputRef.current?.click()}
+                  disabled={isUploadingLogo}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors text-sm font-medium"
+                >
+                  {isUploadingLogo ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {isUploadingLogo ? "Yükleniyor..." : "PC'den Logo Yükle"}
+                </button>
+                <p className="text-xs text-slate-500">Önerilen: Şeffaf arka planlı PNG (Örn: 200x50px)</p>
+              </div>
+            </div>
           </div>
           <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">Favicon / Site İkonu URL</label>
-            <input 
-              type="text" 
-              name="site_favicon"
-              defaultValue={initialSettings['site_favicon'] || ""}
-              placeholder="https://cdn.../favicon.ico"
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
-            />
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Favicon / Site İkonu</label>
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-50 relative overflow-hidden shrink-0 group">
+                {faviconUrl ? (
+                  <>
+                    <img src={faviconUrl} alt="Favicon" className="w-full h-full object-contain p-1" />
+                    <button type="button" onClick={() => setFaviconUrl("")} className="absolute top-0 right-0 bg-white/90 p-1 rounded-full text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <X className="w-3 h-3" />
+                    </button>
+                  </>
+                ) : (
+                  <span className="text-xs text-slate-400 font-medium">Yok</span>
+                )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <input type="hidden" name="site_favicon" value={faviconUrl} />
+                <input type="file" accept="image/*" className="hidden" ref={faviconInputRef} onChange={(e) => handleFileUpload(e, 'favicon')} />
+                <button 
+                  type="button" 
+                  onClick={() => faviconInputRef.current?.click()}
+                  disabled={isUploadingFavicon}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors text-sm font-medium"
+                >
+                  {isUploadingFavicon ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+                  {isUploadingFavicon ? "Yükleniyor..." : "PC'den İkon Yükle"}
+                </button>
+                <p className="text-xs text-slate-500">Önerilen: Kare formatta PNG veya ICO (Örn: 32x32px veya 128x128px)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

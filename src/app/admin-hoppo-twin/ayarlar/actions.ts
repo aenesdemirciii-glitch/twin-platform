@@ -34,5 +34,6 @@ export async function saveSettings(formData: FormData) {
   })
 
   revalidatePath("/admin-hoppo-twin/ayarlar")
+  revalidatePath("/", "layout")
   return { success: true }
 }
