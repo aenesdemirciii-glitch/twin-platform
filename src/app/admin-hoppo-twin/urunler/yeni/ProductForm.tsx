@@ -13,12 +13,41 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
   const [images, setImages] = useState<any[]>(initialData?.images || [])
   const [variants, setVariants] = useState<any[]>(initialData?.variants || [])
   const [showImageModal, setShowImageModal] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   
   // Unsplash state
   const [searchQuery, setSearchQuery] = useState("")
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [isDownloading, setIsDownloading] = useState<string | null>(null) // stores ID of currently downloading image
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files || e.target.files.length === 0) return
+    const file = e.target.files[0]
+    setIsUploading(true)
+    
+    const formData = new FormData()
+    formData.append("file", file)
+    
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData
+      })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        setImages([...images, { url: data.url, creator: "Yüklenen", license: "Yerel" }])
+      } else {
+        alert(data.error || "Yükleme başarısız")
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Yükleme sırasında hata oluştu")
+    }
+    
+    setIsUploading(false)
+    e.target.value = "" // Reset input
+  }
 
   async function handleSearch() {
     if (!searchQuery.trim()) return
@@ -209,9 +238,22 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
                     )}
                   </div>
                 ))}
+                
+                {/* Manuel Yükleme Butonu */}
+                <label className={`aspect-square rounded-lg border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 hover:text-emerald-500 hover:border-emerald-400 transition-colors bg-slate-50 cursor-pointer ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                  <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+                  {isUploading ? (
+                    <Loader2 className="h-6 w-6 mb-2 animate-spin text-emerald-500" />
+                  ) : (
+                    <DownloadCloud className="h-6 w-6 mb-2" />
+                  )}
+                  <span className="text-xs font-medium text-center px-2">Cihazdan<br/>Yükle</span>
+                </label>
+
+                {/* API Modal Butonu */}
                 <button type="button" onClick={() => setShowImageModal(true)} className="aspect-square rounded-lg border-2 border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 hover:text-amber-500 hover:border-amber-400 transition-colors bg-slate-50">
                   <ImageIcon className="h-6 w-6 mb-2" />
-                  <span className="text-xs font-medium">Görsel Ekle</span>
+                  <span className="text-xs font-medium text-center px-2">Görsel<br/>Bul (API)</span>
                 </button>
               </div>
             </div>
