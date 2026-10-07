@@ -26,9 +26,12 @@ export async function POST(req: Request) {
     const arrayBuffer = await response.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
-    // Generate unique filename
-    const ext = url.split("?")[0].split(".").pop() || "jpg"
-    const finalExt = ext.length > 4 ? "jpg" : ext
+    const contentType = response.headers.get("content-type") || "image/jpeg"
+    let finalExt = "jpg"
+    if (contentType.includes("webp")) finalExt = "webp"
+    else if (contentType.includes("png")) finalExt = "png"
+    else if (contentType.includes("gif")) finalExt = "gif"
+    
     const uniqueId = crypto.randomBytes(8).toString("hex")
     const fileName = `product-${uniqueId}.${finalExt}`
 

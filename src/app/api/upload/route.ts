@@ -21,9 +21,23 @@ export async function POST(req: Request) {
       await mkdir(uploadDir, { recursive: true })
     }
 
+    // Determine correct extension from mime type
+    const mimeType = file.type || "image/jpeg"
+    let ext = "jpg"
+    if (mimeType.includes("png")) ext = "png"
+    else if (mimeType.includes("webp")) ext = "webp"
+    else if (mimeType.includes("gif")) ext = "gif"
+    else if (mimeType.includes("heic")) ext = "heic"
+
     // Generate unique filename
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`
-    const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "") // Sanitize filename
+    let originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "") // Sanitize filename
+    
+    // Ensure filename ends with correct extension
+    if (!originalName.toLowerCase().endsWith(`.${ext}`)) {
+      originalName = `${originalName}.${ext}`
+    }
+    
     const filename = `${uniqueSuffix}-${originalName}`
     const filepath = join(uploadDir, filename)
 
