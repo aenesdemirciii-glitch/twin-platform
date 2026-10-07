@@ -11,6 +11,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
   const [error, setError] = useState("")
   
   const [images, setImages] = useState<any[]>(initialData?.images || [])
+  const [variants, setVariants] = useState<any[]>(initialData?.variants || [])
   const [showImageModal, setShowImageModal] = useState(false)
   
   // Unsplash state
@@ -79,7 +80,8 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
       price: formData.get("price"),
       stock: formData.get("stock"),
       isActive: formData.get("isActive") === "on",
-      images
+      images,
+      variants
     }
 
     try {
@@ -143,6 +145,44 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
                   <input required type="number" name="stock" defaultValue={initialData?.stock ?? 0} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
                 </div>
               </div>
+            </div>
+
+            {/* Varyasyonlar */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-2">
+                <h3 className="font-semibold text-slate-800">Seçenekler & Varyasyonlar</h3>
+                <button type="button" onClick={() => setVariants([...variants, { id: crypto.randomUUID(), name: "", sku: "", price: "", stock: 0 }])} className="text-sm font-medium text-amber-600 hover:text-amber-700">
+                  + Seçenek Ekle (Örn: 250g)
+                </button>
+              </div>
+              
+              {variants.length > 0 && (
+                <div className="space-y-4">
+                  {variants.map((v, i) => (
+                    <div key={v.id || i} className="flex gap-4 items-end bg-slate-50 p-4 rounded-lg border border-slate-200">
+                      <div className="flex-1">
+                        <label className="block text-xs font-medium text-slate-500 mb-1">Seçenek Adı (Örn: 250g, Kavrulmuş)</label>
+                        <input type="text" value={v.name} onChange={e => { const newV = [...variants]; newV[i].name = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" placeholder="250g" />
+                      </div>
+                      <div className="w-32">
+                        <label className="block text-xs font-medium text-slate-500 mb-1">SKU</label>
+                        <input type="text" value={v.sku} onChange={e => { const newV = [...variants]; newV[i].sku = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" placeholder="SKU-250" />
+                      </div>
+                      <div className="w-32">
+                        <label className="block text-xs font-medium text-slate-500 mb-1">Fiyat (TL)</label>
+                        <input type="number" step="0.01" value={v.price} onChange={e => { const newV = [...variants]; newV[i].price = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" />
+                      </div>
+                      <div className="w-24">
+                        <label className="block text-xs font-medium text-slate-500 mb-1">Stok</label>
+                        <input type="number" value={v.stock} onChange={e => { const newV = [...variants]; newV[i].stock = parseInt(e.target.value) || 0; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" />
+                      </div>
+                      <button type="button" onClick={() => setVariants(variants.filter((_, idx) => idx !== i))} className="p-2 bg-rose-50 text-rose-500 rounded-lg hover:bg-rose-100 mb-[1px]">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             
             {/* Görseller */}

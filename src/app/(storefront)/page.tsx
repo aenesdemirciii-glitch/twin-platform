@@ -11,7 +11,8 @@ export default async function HomePage() {
   const highPriceProducts = await prisma.product.findMany({
     where: { price: { gte: 800 } },
     take: 16,
-    orderBy: { price: 'asc' }
+    orderBy: { price: 'asc' },
+    include: { images: true }
   })
   
   let allProducts = highPriceProducts
@@ -19,7 +20,8 @@ export default async function HomePage() {
   if (allProducts.length < 16) {
     const fallback = await prisma.product.findMany({
       take: 16 - allProducts.length,
-      orderBy: { price: 'desc' }
+      orderBy: { price: 'desc' },
+      include: { images: true }
     })
     allProducts = [...allProducts, ...fallback]
   }
@@ -103,7 +105,11 @@ export default async function HomePage() {
             {popularProducts.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
-                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  {prod.images && prod.images[0] ? (
+                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                  ) : (
+                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  )}
                   {prod.isFeatured && (
                     <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
                       POPÜLER
@@ -173,7 +179,11 @@ export default async function HomePage() {
             {products.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
-                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  {prod.images && prod.images[0] ? (
+                    <Image src={prod.images[0].url} alt={prod.name} fill className="object-cover" />
+                  ) : (
+                    <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                  )}
                   {prod.isFeatured && (
                     <div className="absolute top-2 right-2 lg:top-3 lg:right-3 bg-brand-slate text-brand-gold text-[10px] font-black px-2 py-1 rounded shadow-sm z-10 uppercase">
                       ÇOK SATAN

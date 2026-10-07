@@ -6,7 +6,11 @@ import { useCartStore } from "@/store/useCartStore"
 
 export function ProductOptions({ product }: { product: any }) {
   const addItem = useCartStore((state) => state.addItem)
-  const [selectedVariant, setSelectedVariant] = useState(product.variants?.[0] || null)
+  const sortedVariants = product.variants 
+    ? [...product.variants].sort((a, b) => Number(a.price || product.price) - Number(b.price || product.price)) 
+    : []
+    
+  const [selectedVariant, setSelectedVariant] = useState(sortedVariants[0] || null)
   const [quantity, setQuantity] = useState(1)
 
   const currentPrice = selectedVariant?.price || product.price
@@ -19,11 +23,11 @@ export function ProductOptions({ product }: { product: any }) {
          </span>
        </div>
 
-       {product.variants && product.variants.length > 0 && (
+       {sortedVariants.length > 0 && (
          <div className="space-y-4 mb-8">
            <h3 className="font-semibold text-brand-slate">Seçenekler</h3>
            <div className="flex flex-wrap gap-3">
-             {product.variants.map((variant: any, i: number) => {
+             {sortedVariants.map((variant: any, i: number) => {
                const isSelected = selectedVariant?.id === variant.id
                return (
                  <button 

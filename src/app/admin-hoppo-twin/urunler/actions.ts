@@ -11,7 +11,7 @@ export async function createProduct(data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, images } = data
+  const { name, sku, categoryId, price, stock, isActive, images, variants } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -51,6 +51,14 @@ export async function createProduct(data: any) {
     creator: img.creator || null
   })) || []
 
+  // Prepare variants data
+  const productVariants = variants?.map((v: any) => ({
+    name: v.name,
+    sku: v.sku,
+    price: v.price ? parseFloat(v.price) : null,
+    stock: parseInt(v.stock) || 0,
+  })) || []
+
   // Create Product
   const product = await prisma.product.create({
     data: {
@@ -63,6 +71,9 @@ export async function createProduct(data: any) {
       isActive: isActive === true,
       images: {
         create: productImages
+      },
+      variants: {
+        create: productVariants
       }
     }
   })
@@ -86,7 +97,7 @@ export async function updateProduct(id: string, data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, images } = data
+  const { name, sku, categoryId, price, stock, isActive, images, variants } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -108,6 +119,14 @@ export async function updateProduct(id: string, data: any) {
     creator: img.creator || null
   })) || []
 
+  // Prepare variants data
+  const productVariants = variants?.map((v: any) => ({
+    name: v.name,
+    sku: v.sku,
+    price: v.price ? parseFloat(v.price) : null,
+    stock: parseInt(v.stock) || 0,
+  })) || []
+
   // Update Product (Delete old images, create new ones)
   const product = await prisma.product.update({
     where: { id },
@@ -121,6 +140,10 @@ export async function updateProduct(id: string, data: any) {
       images: {
         deleteMany: {},
         create: productImages
+      },
+      variants: {
+        deleteMany: {},
+        create: productVariants
       }
     }
   })
