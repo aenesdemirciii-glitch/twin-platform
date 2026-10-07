@@ -1,11 +1,45 @@
 "use client"
 
 import Link from "next/link"
+import { useState } from "react"
 import { useCartStore } from "@/store/useCartStore"
-import { Trash2, Plus, Minus, ArrowRight } from "lucide-react"
+import { Trash2, Plus, Minus, ArrowRight, X } from "lucide-react"
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, getTotal } = useCartStore()
+  const { items, removeItem, updateQuantity, getTotal, coupon, applyCoupon, getDiscount, getGrandTotal } = useCartStore()
+  
+  const [couponCode, setCouponCode] = useState("")
+  const [couponError, setCouponError] = useState("")
+  const [isApplying, setIsApplying] = useState(false)
+
+  const handleApplyCoupon = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!couponCode) return
+    
+    setIsApplying(true)
+    setCouponError("")
+    
+    try {
+      const res = await fetch("/api/coupon/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: couponCode, cartTotal: getTotal() })
+      })
+      
+      const data = await res.json()
+      
+      if (!res.ok) {
+        throw new Error(data.error || "Kupon doğrulanamadı")
+      }
+      
+      applyCoupon(data.coupon)
+      setCouponCode("")
+    } catch (err: any) {
+      setCouponError(err.message)
+    } finally {
+      setIsApplying(false)
+    }
+  }
 
   if (items.length === 0) {
     return (
@@ -30,8 +64,12 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-6">
           {items.map((item) => (
             <div key={item.id} className="flex gap-4 p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
-              <div className="h-24 w-24 bg-slate-100 rounded-lg flex-shrink-0 flex items-center justify-center">
-                <span className="text-xs text-slate-400">Görsel</span>
+              <div className="h-24 w-24 bg-slate-100 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden border border-slate-200">
+                {item.image ? (
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-xs text-slate-400">Görsel</span>
+                )}
               </div>
               <div className="flex-1 flex flex-col justify-between">
                 <div className="flex justify-between">
@@ -77,15 +115,50 @@ export default function CartPage() {
                 <span>Ara Toplam</span>
                 <span className="font-medium text-slate-800">{getTotal().toFixed(2)} TL</span>
               </div>
+              
+              {coupon && (
+                <div className="flex justify-between text-emerald-600">
+                  <span className="flex items-center gap-2">
+                    Kupon İndirimi ({coupon.code})
+                    <button onClick={() => applyCoupon(null)} className="text-slate-400 hover:text-rose-500">
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                  <span className="font-medium">- {getDiscount().toFixed(2)} TL</span>
+                </div>
+              )}
+              
               <div className="flex justify-between text-slate-600">
                 <span>Kargo</span>
                 <span className="text-emerald-600 font-medium">Ücretsiz</span>
               </div>
             </div>
             
+            <form onSubmit={handleApplyCoupon} className="mb-6 pb-6 border-b border-slate-200">
+              <label className="block text-xs font-semibold text-slate-500 mb-2">İndirim Kodu</label>
+              <div className="flex gap-2">
+                <input 
+                  type="text" 
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                  placeholder="Kodu girin" 
+                  className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-brand-gold"
+                  disabled={isApplying || !!coupon}
+                />
+                <button 
+                  type="submit" 
+                  disabled={!couponCode || isApplying || !!coupon}
+                  className="px-4 py-2 bg-brand-slate text-white text-sm font-semibold rounded-lg hover:bg-slate-800 disabled:opacity-50 transition-colors"
+                >
+                  {isApplying ? "..." : "Uygula"}
+                </button>
+              </div>
+              {couponError && <p className="text-xs text-rose-500 mt-2 font-medium">{couponError}</p>}
+            </form>
+            
             <div className="flex justify-between items-center mb-8">
               <span className="text-lg font-bold text-brand-slate">Genel Toplam</span>
-              <span className="text-2xl font-bold text-brand-gold">{getTotal().toFixed(2)} TL</span>
+              <span className="text-2xl font-bold text-brand-gold">{getGrandTotal().toFixed(2)} TL</span>
             </div>
             
             <Link 

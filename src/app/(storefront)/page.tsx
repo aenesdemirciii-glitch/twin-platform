@@ -8,19 +8,23 @@ import { getCategories } from "@/services/productService"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
 export default async function HomePage() {
-  const highPriceProducts = await prisma.product.findMany({
-    where: { price: { gte: 800 } },
+  const featuredProducts = await prisma.product.findMany({
+    where: { isFeatured: true, isActive: true },
     take: 16,
-    orderBy: { price: 'asc' },
+    orderBy: { createdAt: 'desc' },
     include: { images: true }
   })
   
-  let allProducts = highPriceProducts
+  let allProducts = featuredProducts
   
   if (allProducts.length < 16) {
     const fallback = await prisma.product.findMany({
+      where: { 
+        isActive: true,
+        id: { notIn: allProducts.map(p => p.id) }
+      },
       take: 16 - allProducts.length,
-      orderBy: { price: 'desc' },
+      orderBy: { createdAt: 'desc' },
       include: { images: true }
     })
     allProducts = [...allProducts, ...fallback]

@@ -80,6 +80,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
       price: formData.get("price"),
       stock: formData.get("stock"),
       isActive: formData.get("isActive") === "on",
+      isFeatured: formData.get("isFeatured") === "on",
       images,
       variants
     }
@@ -223,6 +224,16 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
               <label className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" name="isActive" defaultChecked={initialData ? initialData.isActive : true} className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
                 <span className="text-sm font-medium text-slate-700">Ürünü hemen yayına al</span>
+              </label>
+            </div>
+            
+            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" name="isFeatured" defaultChecked={initialData ? initialData.isFeatured : false} className="w-5 h-5 rounded border-slate-300 text-amber-500 focus:ring-amber-500" />
+                <div>
+                  <h4 className="font-semibold text-slate-800">Öne Çıkan / Çok Satan Ürün</h4>
+                  <p className="text-sm text-slate-500 mt-1">Bu ürün ana sayfada Çok Satanlar ve Popüler Ürünler kısımlarında gösterilir.</p>
+                </div>
               </label>
             </div>
           </div>

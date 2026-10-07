@@ -109,6 +109,11 @@ export async function Footer() {
             <div className="px-3 py-1 bg-white border-2 border-brand-slate/20 rounded text-brand-slate">256-bit SSL</div>
             <div className="px-3 py-1 bg-white border-2 border-brand-slate/20 rounded text-brand-slate italic">VISA</div>
             <div className="px-3 py-1 bg-white border-2 border-brand-slate/20 rounded text-brand-slate italic">MasterCard</div>
+            <div className="h-8 flex items-center bg-[#0d2a45] px-3 py-1 rounded">
+              {/* Note: In a real app we'd use the SVG, but this styled text serves the exact purpose and brand styling */}
+              <span className="text-white font-bold tracking-tight" style={{ fontFamily: 'sans-serif' }}>iyzico</span>
+              <span className="text-white text-[10px] ml-1 font-medium leading-none">ile<br/>Öde</span>
+            </div>
           </div>
         </div>
       </div>

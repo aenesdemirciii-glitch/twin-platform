@@ -15,6 +15,7 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
         { shortDescription: { contains: q } }
       ]
     },
+    include: { images: true },
     orderBy: { createdAt: 'desc' }
   })
 
@@ -40,7 +41,11 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
           {products.map((prod) => (
             <Link href={`/urun/${prod.slug}`} key={prod.id} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors block">
               <div className="relative aspect-square bg-brand-slate/5 flex items-center justify-center">
-                <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                {prod.images && prod.images[0] ? (
+                  <img src={prod.images[0].url} alt={prod.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
+                )}
               </div>
               <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                 <h3 className="font-bold text-sm lg:text-base mb-2 line-clamp-2 text-brand-slate group-hover:text-brand-gold transition-colors">{prod.name}</h3>
