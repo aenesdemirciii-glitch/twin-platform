@@ -18,7 +18,11 @@ export default async function CategoriesPage() {
         {categories.length > 0 ? (
           categories.map((cat: any) => (
             <Link key={cat.id} href={`/kategori/${cat.slug}`} className="group relative w-full pb-[100%] rounded-2xl overflow-hidden bg-brand-slate/10 border-2 border-transparent hover:border-brand-gold transition-all block">
-              <div className="absolute inset-0 flex items-center justify-center text-brand-slate/30 font-bold z-0 text-sm">Görsel Alanı</div>
+              {cat.imageUrl ? (
+                <img src={cat.imageUrl} alt={cat.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-brand-slate/30 font-bold z-0 text-sm">Görsel Alanı</div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-brand-slate via-brand-slate/30 to-transparent z-10 transition-opacity duration-300 opacity-80 group-hover:opacity-90"></div>
               <div className="absolute bottom-6 left-6 right-6 z-20 flex flex-col items-start gap-4">
                 <span className="text-white font-black text-lg lg:text-xl leading-tight">{cat.name}</span>

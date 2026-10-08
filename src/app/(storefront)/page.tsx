@@ -54,7 +54,7 @@ export default async function HomePage() {
   }
   
   const categories = await getCategories()
-  const displayCategories = categories.slice(0, 8)
+  const displayCategories = categories.slice(0, 12)
 
   return (
     <div className="w-full bg-white text-brand-slate">
@@ -169,7 +169,11 @@ export default async function HomePage() {
           {displayCategories.map((cat: any, i: number) => {
             return (
             <Link key={cat.id || i} href={`/kategori/${cat.slug}`} className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-brand-slate/10 flex items-center justify-center border-2 border-transparent hover:border-brand-gold transition-all">
-              <div className="absolute inset-0 flex items-center justify-center text-brand-slate/30 font-bold z-0 text-sm">Görsel Alanı</div>
+              {cat.imageUrl ? (
+                <img src={cat.imageUrl} alt={cat.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-brand-slate/30 font-bold z-0 text-sm">Görsel Alanı</div>
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-brand-slate via-brand-slate/50 to-transparent z-10 transition-opacity duration-300 opacity-80 group-hover:opacity-90"></div>
               <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between items-end">
                 <span className="text-white font-bold text-sm lg:text-base leading-tight w-2/3">{cat.name}</span>
