@@ -1,8 +1,15 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-import { blogPosts } from "@/lib/blogData"
+import prisma from "@/lib/prisma"
 
-export default function BlogListPage() {
+export const dynamic = "force-dynamic"
+
+export default async function BlogListPage() {
+  const blogPosts = await prisma.blogPost.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: 'desc' }
+  })
+
   return (
     <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16 min-h-[70vh]">
       <div className="text-center mb-12">
@@ -16,26 +23,35 @@ export default function BlogListPage() {
         {blogPosts.map((post) => (
           <Link key={post.slug} href={`/blog/${post.slug}`} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 hover:border-brand-gold transition-colors flex flex-col group">
             <div className="aspect-video bg-brand-slate/5 flex items-center justify-center relative overflow-hidden">
-              <span className="text-brand-slate/30 font-bold text-lg z-10">{post.imagePlaceholder}</span>
+              {post.imageUrl ? (
+                <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              ) : (
+                <span className="text-brand-slate/30 font-bold text-lg z-10">Görsel</span>
+              )}
               <div className="absolute inset-0 bg-brand-gold/0 group-hover:bg-brand-gold/10 transition-colors z-0"></div>
             </div>
             <div className="p-6 flex flex-col flex-1">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-xs font-bold text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full uppercase tracking-wider">{post.category}</span>
-                <span className="text-xs font-medium text-brand-slate/60">{post.date}</span>
+                <span className="text-xs font-bold text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full uppercase tracking-wider">{post.category || "Genel"}</span>
+                <span className="text-xs font-medium text-brand-slate/60">{new Date(post.createdAt).toLocaleDateString('tr-TR')}</span>
               </div>
-              <h3 className="text-xl font-black text-brand-slate mb-3 group-hover:text-brand-gold transition-colors leading-snug">
+              <h2 className="text-xl font-bold text-brand-slate leading-snug mb-3 group-hover:text-brand-gold transition-colors line-clamp-2">
                 {post.title}
-              </h3>
-              <p className="text-brand-slate/70 font-medium text-sm mb-6 flex-1 line-clamp-3 leading-relaxed">
+              </h2>
+              <p className="text-brand-slate/70 text-sm mb-6 flex-1 line-clamp-3">
                 {post.excerpt}
               </p>
-              <div className="flex items-center gap-2 text-brand-slate font-bold text-sm mt-auto group-hover:text-brand-gold transition-colors">
-                Devamını Oku <ArrowRight className="w-4 h-4" />
+              <div className="flex items-center text-sm font-bold text-brand-slate group-hover:text-brand-gold transition-colors">
+                Devamını Oku <ArrowRight className="h-4 w-4 ml-2" />
               </div>
             </div>
           </Link>
         ))}
+        {blogPosts.length === 0 && (
+          <div className="col-span-full text-center text-brand-slate/50 py-12">
+            Henüz blog yazısı bulunmamaktadır.
+          </div>
+        )}
       </div>
     </div>
   )

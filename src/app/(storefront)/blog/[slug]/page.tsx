@@ -1,13 +1,15 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
-import { blogPosts } from "@/lib/blogData"
+import prisma from "@/lib/prisma"
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
-  const post = blogPosts.find(p => p.slug === params.slug)
+  const post = await prisma.blogPost.findUnique({
+    where: { slug: params.slug }
+  })
 
-  if (!post) {
+  if (!post || !post.isActive) {
     notFound()
   }
 
@@ -18,20 +20,39 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
       </Link>
       
       <div className="bg-brand-slate/5 aspect-video w-full rounded-3xl mb-10 flex items-center justify-center border-2 border-brand-slate/10 overflow-hidden relative">
-        <span className="text-brand-slate/40 font-bold text-xl">{post.imagePlaceholder}</span>
+        {post.imageUrl ? (
+          <img src={post.imageUrl} alt={post.title} className="w-full h-full object-cover" />
+        ) : (
+          <span className="text-brand-slate/30 font-bold text-2xl">Görsel</span>
+        )}
       </div>
 
-      <div className="flex items-center gap-4 mb-6">
-        <span className="text-sm font-bold text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full uppercase tracking-wider">{post.category}</span>
-        <span className="text-sm font-medium text-brand-slate/60">{post.date}</span>
+      <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
+        <span className="bg-brand-gold text-brand-slate px-4 py-1.5 rounded-full text-sm font-black w-fit uppercase">
+          {post.category || "Genel"}
+        </span>
+        <span className="text-brand-slate/50 font-bold text-sm">
+          {new Date(post.createdAt).toLocaleDateString('tr-TR')}
+        </span>
       </div>
 
-      <h1 className="text-3xl lg:text-5xl font-black text-brand-slate mb-8 leading-tight">
+      <h1 className="text-4xl lg:text-5xl font-black text-brand-slate mb-8 leading-tight">
         {post.title}
       </h1>
 
-      <div className="prose prose-lg prose-slate max-w-none text-brand-slate/80 font-medium">
-        <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\n/g, '<br/>').replace(/### (.*?)<br\/>/g, '<h3>$1</h3>') }} />
+      {/* Very basic markdown rendering - for production use a library like react-markdown */}
+      <div className="prose prose-lg prose-slate max-w-none 
+        prose-headings:font-black prose-headings:text-brand-slate 
+        prose-p:text-brand-slate/80 prose-p:font-medium prose-p:leading-relaxed 
+        prose-strong:text-brand-slate prose-strong:font-bold
+        prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline">
+        {post.content.split('\n').map((paragraph, idx) => {
+          if (paragraph.startsWith('### ')) {
+            return <h3 key={idx} className="text-2xl mt-8 mb-4">{paragraph.replace('### ', '')}</h3>
+          }
+          if (paragraph.trim() === '') return <br key={idx} />
+          return <p key={idx} className="mb-4">{paragraph}</p>
+        })}
       </div>
     </div>
   )

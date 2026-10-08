@@ -67,7 +67,7 @@ export async function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/hakkimizda" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
+              <Link href="/sayfa/hakkimizda" className="text-sm font-bold text-brand-slate hover:text-brand-gold transition-colors">
                 Hakkımızda
               </Link>
             </li>
