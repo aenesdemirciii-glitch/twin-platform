@@ -147,7 +147,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
                 <label className="block text-sm font-medium text-slate-700 mb-1">Ürün Adı</label>
                 <input required type="text" name="name" defaultValue={initialData?.name || ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Stok Kodu (SKU)</label>
                   <input required type="text" name="sku" defaultValue={initialData?.sku || ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
@@ -166,7 +166,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
 
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
               <h3 className="font-semibold text-slate-800 border-b border-slate-100 pb-2">Fiyat ve Stok</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Fiyat (TL)</label>
                   <input required type="number" step="0.01" name="price" defaultValue={initialData?.price ? Number(initialData.price) : ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
@@ -190,20 +190,20 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
               {variants.length > 0 && (
                 <div className="space-y-4">
                   {variants.map((v, i) => (
-                    <div key={v.id || i} className="flex gap-4 items-end bg-slate-50 p-4 rounded-lg border border-slate-200">
-                      <div className="flex-1">
+                    <div key={v.id || i} className="flex flex-col sm:flex-row gap-4 items-start sm:items-end bg-slate-50 p-4 rounded-lg border border-slate-200">
+                      <div className="flex-1 w-full">
                         <label className="block text-xs font-medium text-slate-500 mb-1">Seçenek Adı (Örn: 250g, Kavrulmuş)</label>
                         <input type="text" value={v.name} onChange={e => { const newV = [...variants]; newV[i].name = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" placeholder="250g" />
                       </div>
-                      <div className="w-32">
+                      <div className="w-full sm:w-32">
                         <label className="block text-xs font-medium text-slate-500 mb-1">SKU</label>
                         <input type="text" value={v.sku} onChange={e => { const newV = [...variants]; newV[i].sku = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" placeholder="SKU-250" />
                       </div>
-                      <div className="w-32">
+                      <div className="w-full sm:w-32">
                         <label className="block text-xs font-medium text-slate-500 mb-1">Fiyat (TL)</label>
                         <input type="number" step="0.01" value={v.price} onChange={e => { const newV = [...variants]; newV[i].price = e.target.value; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" />
                       </div>
-                      <div className="w-24">
+                      <div className="w-full sm:w-24">
                         <label className="block text-xs font-medium text-slate-500 mb-1">Stok</label>
                         <input type="number" value={v.stock} onChange={e => { const newV = [...variants]; newV[i].stock = parseInt(e.target.value) || 0; setVariants(newV) }} className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg outline-none focus:ring-1 focus:ring-amber-400" />
                       </div>
@@ -225,7 +225,7 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
                 </button>
               </div>
               
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {images.map((img, i) => (
                   <div key={i} className="relative aspect-square rounded-lg border border-slate-200 overflow-hidden group">
                     <img src={img.url} alt="" className="w-full h-full object-cover" />
