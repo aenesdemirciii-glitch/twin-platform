@@ -8,18 +8,23 @@ export default async function AdminReportsPage() {
     prisma.order.count()
   ])
 
-  // Mock revenue data for demonstration
-  const totalRevenue = 45200.50
+  const orders = await prisma.order.findMany({
+    where: { paymentStatus: 'PAID' },
+    select: { grandTotal: true, createdAt: true }
+  })
+
+  const totalRevenue = orders.reduce((sum, order) => sum + Number(order.grandTotal), 0)
   
+  // Real monthly data calculation can be added here. Currently resetting to 0 for empty states.
   const monthlyData = [
-    { month: "Ocak", sales: 12400 },
-    { month: "Şubat", sales: 15600 },
-    { month: "Mart", sales: 18200 },
-    { month: "Nisan", sales: 16800 },
-    { month: "Mayıs", sales: 22000 },
-    { month: "Haziran", sales: 28500 },
+    { month: "Ocak", sales: 0 },
+    { month: "Şubat", sales: 0 },
+    { month: "Mart", sales: 0 },
+    { month: "Nisan", sales: 0 },
+    { month: "Mayıs", sales: 0 },
+    { month: "Haziran", sales: 0 },
   ]
-  const maxSales = Math.max(...monthlyData.map(d => d.sales))
+  const maxSales = 100 // default to avoid division by zero if no sales
 
   return (
     <div className="space-y-6">

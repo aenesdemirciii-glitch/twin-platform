@@ -14,6 +14,15 @@ export default function CheckoutPage() {
   const [shippingMethod, setShippingMethod] = useState("standard")
   const [discountCode, setDiscountCode] = useState("")
   const [discountApplied, setDiscountApplied] = useState<{ code: string; amount: number } | null>(null)
+  const [iyzicoHtml, setIyzicoHtml] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    firstName: "Test",
+    lastName: "User",
+    email: "test@example.com",
+    phone: "05555555555",
+    city: "Istanbul",
+    address: "Örnek Mah. Test Sk."
+  })
 
   // Hydration fix
   useEffect(() => {
@@ -33,26 +42,61 @@ export default function CheckoutPage() {
   const discountAmount = discountApplied ? discountApplied.amount : 0
   const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? shippingCost : 0)
 
-  const applyDiscount = () => {
+  const applyDiscount = async () => {
     if (!discountCode.trim()) return
-    // Mock discount logic: 10% off for any code
-    const amount = subtotal * 0.10
-    setDiscountApplied({ code: discountCode.toUpperCase(), amount })
+    alert("Kupon sistemi geçici olarak devredışı.")
   }
 
-  const handlePayment = (e: React.FormEvent) => {
+  const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsProcessing(true)
     
-    // Mock iyzico payment processing delay
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items,
+          shippingAddress: formData.address,
+          billingAddress: formData.address,
+          buyer: {
+            name: formData.firstName,
+            surname: formData.lastName,
+            email: formData.email,
+            gsmNumber: formData.phone,
+            city: formData.city,
+            identityNumber: "11111111111" // Iyzico requires this, usually collected in form
+          },
+          discountCode: discountApplied ? discountApplied.code : null
+        })
+      })
+
+      const data = await res.json()
+
+      if (data.success && data.checkoutFormContent) {
+        setIyzicoHtml(data.checkoutFormContent)
+      } else {
+        alert(data.error || "Ödeme başlatılamadı.")
+        setIsProcessing(false)
+      }
+    } catch (error) {
+      alert("Bir hata oluştu.")
       setIsProcessing(false)
-      setPaymentSuccess(true)
-      clearCart()
-    }, 2000)
+    }
   }
 
   if (!mounted) return <div className="min-h-screen bg-slate-50 flex items-center justify-center">Yükleniyor...</div>
+
+  // If Iyzico form is ready, render it
+  if (iyzicoHtml) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center py-12 px-4">
+        <h2 className="text-2xl font-black text-brand-slate mb-6">Güvenli Ödeme Ekranı</h2>
+        <div className="w-full max-w-3xl bg-white p-4 rounded-xl shadow-sm" dangerouslySetInnerHTML={{ __html: iyzicoHtml }} />
+        {/* Iyzico includes a script tag in checkoutFormContent that will render the responsive iframe automatically */}
+      </div>
+    )
+  }
 
   if (paymentSuccess) {
     return (
