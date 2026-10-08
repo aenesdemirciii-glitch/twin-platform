@@ -5,10 +5,11 @@ import { existsSync } from 'fs';
 
 export async function GET(
   req: Request,
-  { params }: { params: { filename: string } }
+  { params }: { params: Promise<{ filename: string }> }
 ) {
   try {
-    const filename = params.filename;
+    const resolvedParams = await params;
+    const filename = resolvedParams.filename;
     if (!filename) {
       return new NextResponse('File not found', { status: 404 });
     }
