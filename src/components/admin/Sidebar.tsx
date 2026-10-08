@@ -18,7 +18,8 @@ import {
   Boxes,
   Truck,
   Shield,
-  History
+  History,
+  Star
 } from "lucide-react"
 
 const menuItems = [
@@ -29,6 +30,7 @@ const menuItems = [
   { name: "Stok", href: "/admin-hoppo-twin/stok", icon: Boxes },
   { name: "Müşteriler", href: "/admin-hoppo-twin/musteriler", icon: Users },
   { name: "Kampanyalar", href: "/admin-hoppo-twin/kampanyalar", icon: Tag },
+  { name: "Vitrin Yönetimi", href: "/admin-hoppo-twin/vitrin", icon: Star },
   { name: "İçerik Yönetimi", href: "/admin-hoppo-twin/icerik", icon: FileText },
   { name: "Kargo ve Teslimat", href: "/admin-hoppo-twin/kargo", icon: Truck },
   { name: "Raporlar", href: "/admin-hoppo-twin/raporlar", icon: BarChart3 },
