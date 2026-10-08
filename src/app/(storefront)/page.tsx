@@ -7,6 +7,8 @@ import prisma from "@/lib/prisma"
 import { getCategories } from "@/services/productService"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
   // Çok Satanlar
   let products = await prisma.product.findMany({
