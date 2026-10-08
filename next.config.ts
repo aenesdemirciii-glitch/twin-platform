@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  serverExternalPackages: ['iyzipay'],
   images: {
     unoptimized: true,
     remotePatterns: [
