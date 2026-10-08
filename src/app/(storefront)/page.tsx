@@ -10,6 +10,32 @@ import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
+  const settings = await prisma.settings.findMany({
+    where: {
+      key: {
+        in: [
+          "home_hero_image",
+          "home_hero_title",
+          "home_hero_subtitle",
+          "home_hero_button_text",
+          "home_hero_button_link",
+          "home_hero_tag"
+        ]
+      }
+    }
+  })
+
+  const getSetting = (key: string, fallback: string) => {
+    return settings.find(s => s.key === key)?.value || fallback
+  }
+
+  const heroImage = getSetting("home_hero_image", "")
+  const heroTitle = getSetting("home_hero_title", "Dolu Kış Paketi ile Enerjinizi Katlayın")
+  const heroSubtitle = getSetting("home_hero_subtitle", "Sevdiklerinizle paylaşacağınız en taze ve seçkin lezzetler tek bir pakette. Sadece sınırlı bir süre için özel fiyatla.")
+  const heroBtnText = getSetting("home_hero_button_text", "Paketi İncele")
+  const heroBtnLink = getSetting("home_hero_button_link", "/urun/kis-paketi")
+  const heroTag = getSetting("home_hero_tag", "KIŞA HAZIR")
+
   // Çok Satanlar
   let products = await prisma.product.findMany({
     where: { isFeatured: true, isActive: true },
@@ -63,24 +89,30 @@ export default async function HomePage() {
         <div className="container mx-auto px-4 lg:px-8 py-16 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="max-w-xl z-10">
-              <div className="inline-block px-4 py-1 bg-brand-gold text-brand-slate font-black text-sm rounded-full mb-6">
-                KIŞA HAZIR
-              </div>
+              {heroTag && (
+                <div className="inline-block px-4 py-1 bg-brand-gold text-brand-slate font-black text-sm rounded-full mb-6 uppercase">
+                  {heroTag}
+                </div>
+              )}
               <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-6">
-                Dolu Kış Paketi ile Enerjinizi Katlayın
+                {heroTitle}
               </h1>
               <p className="text-lg text-brand-slate/80 mb-8 font-medium leading-relaxed">
-                Sevdiklerinizle paylaşacağınız en taze ve seçkin lezzetler tek bir pakette. Sadece sınırlı bir süre için özel fiyatla.
+                {heroSubtitle}
               </p>
               <Link 
-                href="/urun/kis-paketi" 
+                href={heroBtnLink} 
                 className="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-slate font-black px-8 py-4 rounded-lg hover:bg-white hover:text-brand-slate hover:border-brand-gold border-2 border-brand-gold transition-all shadow-lg"
               >
-                Paketi İncele <ArrowRight className="h-5 w-5" />
+                {heroBtnText} <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
-            <div className="relative h-[400px] lg:h-[500px] bg-white rounded-2xl border-2 border-dashed border-brand-slate/20 flex items-center justify-center">
-              <span className="text-brand-slate/40 font-bold">Ana Görsel Alanı (Hero Banner)</span>
+            <div className={`relative h-[400px] lg:h-[500px] bg-white rounded-2xl flex items-center justify-center overflow-hidden ${heroImage ? '' : 'border-2 border-dashed border-brand-slate/20'}`}>
+              {heroImage ? (
+                <img src={heroImage} alt={heroTitle} className="absolute inset-0 w-full h-full object-cover rounded-2xl" />
+              ) : (
+                <span className="text-brand-slate/40 font-bold relative z-10">Ana Görsel Alanı (Hero Banner)</span>
+              )}
             </div>
           </div>
         </div>
