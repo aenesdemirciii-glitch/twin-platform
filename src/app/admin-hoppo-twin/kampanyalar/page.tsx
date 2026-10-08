@@ -10,7 +10,7 @@ export default async function AdminCampaignsPage(props: { searchParams: Promise<
 
   const coupons = await prisma.coupon.findMany({
     where: q ? { code: { contains: q } } : undefined,
-    orderBy: { createdAt: 'desc' }
+    orderBy: { code: 'asc' }
   })
 
   return (
