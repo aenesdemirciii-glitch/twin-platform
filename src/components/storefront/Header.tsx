@@ -51,6 +51,9 @@ export async function Header() {
           </div>
 
           <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/arama" className="md:hidden flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors">
+              <Search className="h-6 w-6" />
+            </Link>
             <CartIcon />
           </div>
         </div>
