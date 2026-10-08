@@ -35,11 +35,25 @@ export async function GET(req: Request) {
             
             await prisma.productImage.update({
               where: { id: img.id },
-              data: { url: `/uploads/${newFilename}` }
+              data: { url: `/api/images/${newFilename}` }
             })
             
             fixedCount++
+          } else {
+             // Just rewrite the URL without renaming
+             await prisma.productImage.update({
+              where: { id: img.id },
+              data: { url: `/api/images/${filename}` }
+            })
+            fixedCount++
           }
+        } else {
+           // Not webp, just rewrite URL
+           await prisma.productImage.update({
+              where: { id: img.id },
+              data: { url: `/api/images/${filename}` }
+           })
+           fixedCount++
         }
       }
       output.push(`Fixed ${fixedCount} WebP images.`)

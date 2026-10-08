@@ -29,7 +29,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
         <div className="space-y-4">
           <div className="relative w-full pb-[100%] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden">
             {product.images && product.images[0] ? (
-              <img src={product.images[0].url} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
+              <img src={product.images[0].url} alt={product.name} className="absolute inset-0 w-full h-full object-cover" onError={(e) => { if (e.currentTarget.src.includes('.jpg')) e.currentTarget.src = e.currentTarget.src.replace('.jpg', '.webp') }} />
             ) : (
               <span className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium text-lg">Ürün Görseli (Yakında Eklenecek)</span>
             )}
@@ -81,7 +81,7 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
                 <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
                   {prod.images && prod.images[0] ? (
-                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
+                    <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" onError={(e) => { if (e.currentTarget.src.includes('.jpg')) e.currentTarget.src = e.currentTarget.src.replace('.jpg', '.webp') }} />
                   ) : (
                     <span className="text-brand-slate/40 font-bold text-xs lg:text-base">Ürün Görseli</span>
                   )}
