@@ -26,11 +26,11 @@ export async function Header() {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Top Header */}
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
             {logoUrl ? (
-              <img src={logoUrl} alt="Logo" className="h-12 w-auto object-contain" />
+              <img src={logoUrl} alt="Logo" className="h-16 lg:h-12 w-auto object-contain max-w-[200px]" />
             ) : (
-              <div className="text-2xl font-black tracking-tight text-brand-slate">
+              <div className="text-xl lg:text-2xl font-black tracking-tight text-brand-slate">
                 İKİZLER<span className="text-brand-gold"> Baharatçılık</span>
               </div>
             )}
