@@ -15,6 +15,7 @@ export async function addImageToProduct(productId: string, imageUrl: string) {
         productId: productId,
         url: imageUrl,
         creator: "Hızlı Yükleyici",
+        isMain: true,
       }
     })
     

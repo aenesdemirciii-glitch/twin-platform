@@ -30,7 +30,7 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {
-        images: { where: { isMain: true }, take: 1 }
+        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 }
       },
       take: params?.take || 20,
       skip: params?.skip || 0,
@@ -58,7 +58,7 @@ export async function getCategoryData(slug: string, params?: { take?: number, sk
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {
-        images: { where: { isMain: true }, take: 1 }
+        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 }
       },
       take: params?.take || 12,
       skip: params?.skip || 0,
