@@ -36,7 +36,16 @@ export function FastUploaderClient({ products }: { products: any[] }) {
         method: "POST",
         body: formData
       })
-      const data = await res.json()
+      let data;
+      const text = await res.text();
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        alert("Sunucu Hatası: " + res.status + " | " + text.slice(0, 100));
+        setIsUploading(false);
+        e.target.value = "";
+        return;
+      }
       
       if (res.ok && data.url) {
         // 2. Attach to product
@@ -44,11 +53,11 @@ export function FastUploaderClient({ products }: { products: any[] }) {
         // 3. Move to next product automatically
         setCurrentIndex(prev => prev + 1)
       } else {
-        alert(data.error || "Yükleme başarısız")
+        alert(data.error || "Yükleme başarısız: " + res.status)
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err)
-      alert("Yükleme sırasında hata oluştu")
+      alert("Hata detayı: " + (err.message || String(err)))
     }
     
     setIsUploading(false)
