@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Search, User } from "lucide-react"
 import { CartIcon } from "@/components/storefront/CartIcon"
+import { MobileNavClient } from "@/components/storefront/MobileNavClient"
 import { getCategories } from "@/services/productService"
 import prisma from "@/lib/prisma"
 
@@ -50,10 +51,8 @@ export async function Header() {
             </form>
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/arama" className="md:hidden flex flex-col items-center gap-1 text-brand-slate hover:text-brand-gold transition-colors">
-              <Search className="h-6 w-6" />
-            </Link>
+          <div className="flex items-center gap-3 sm:gap-6">
+            <MobileNavClient categories={categories} />
             <CartIcon />
           </div>
         </div>
