@@ -14,7 +14,11 @@ export async function GET(
       return new NextResponse('File not found', { status: 404 });
     }
 
-    const filepath = join(process.cwd(), 'public', 'uploads', filename);
+    const uploadDir = process.env.STORAGE_PATH 
+      ? process.env.STORAGE_PATH 
+      : join(process.cwd(), 'public', 'uploads');
+      
+    const filepath = join(uploadDir, filename);
 
     if (!existsSync(filepath)) {
       return new NextResponse('File not found', { status: 404 });

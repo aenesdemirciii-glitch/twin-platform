@@ -16,7 +16,11 @@ export async function POST(req: Request) {
     const buffer = Buffer.from(bytes)
 
     // Ensure upload directory exists
-    const uploadDir = join(process.cwd(), "public", "uploads")
+    // Use external storage path if provided (to prevent deletion on Vercel/Hostinger redeploy)
+    const uploadDir = process.env.STORAGE_PATH 
+      ? process.env.STORAGE_PATH 
+      : join(process.cwd(), "public", "uploads")
+      
     if (!existsSync(uploadDir)) {
       await mkdir(uploadDir, { recursive: true })
     }
