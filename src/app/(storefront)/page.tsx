@@ -275,7 +275,7 @@ export default async function HomePage() {
               İşletmeler, kurumsal hediyeler veya özel organizasyonlarınız için indirimli toptan fiyatlarımızla taptaze ürünler kapınıza gelsin.
             </p>
             <a 
-              href="https://wa.me/905422731712" 
+              href="https://wa.me/905347201903" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 bg-[#25D366] text-white font-black px-8 py-4 rounded-xl hover:bg-[#1EBE57] transition-all transform hover:-translate-y-0.5 shadow-lg text-lg"
