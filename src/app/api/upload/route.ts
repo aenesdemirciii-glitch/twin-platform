@@ -48,8 +48,8 @@ export async function POST(req: Request) {
     await writeFile(filepath, buffer)
 
     return NextResponse.json({ url: `/api/images/${filename}` })
-  } catch (error) {
+  } catch (error: any) {
     console.error("Upload error:", error)
-    return NextResponse.json({ error: "Dosya yüklenirken bir hata oluştu." }, { status: 500 })
+    return NextResponse.json({ error: `Hata: ${error.message || "Bilinmeyen hata"}` }, { status: 500 })
   }
 }
