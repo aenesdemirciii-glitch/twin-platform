@@ -82,6 +82,13 @@ export default async function HomePage() {
     })
     popularProducts = [...popularProducts, ...fallbackPop]
   }
+
+  // Blog Yazıları (Maksimum 4)
+  const blogPosts = await prisma.blogPost.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: 'desc' },
+    take: 4
+  })
   
   const categories = await getCategories()
   const displayCategories = categories.slice(0, 12)
@@ -358,79 +365,79 @@ export default async function HomePage() {
       </section>
 
       {/* Blog / Notes Section */}
-      <section className="py-16 bg-white container mx-auto px-4 lg:px-8">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <h2 className="text-3xl font-black mb-2">Blog & Duyurular</h2>
-            <p className="text-brand-slate/70 font-semibold">Sektörel haberler, sağlıklı yaşam önerileri ve firmamızdan güncel bilgiler.</p>
-          </div>
-          <Link href="/blog" className="font-black text-sm hover:text-brand-gold items-center gap-2 hidden md:flex transition-colors">
-            Tüm Yazılar <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { 
-              title: "Kış Aylarında Bağışıklığınızı Güçlendirecek Doğal Karışımlar", 
-              desc: "Zencefil, zerdeçal ve balla hazırlayabileceğiniz doğal kürler ile kış aylarına enerjik bir başlangıç yapın. Tamamen doğal malzemelerle sağlığınızı destekleyin.",
-              image: "/images/blog/immunity.jpg",
-              date: "12 Ekim 2026"
-            },
-            { 
-              title: "Kahve Çekirdeklerinin Yolculuğu: Doğru Kahve Seçimi", 
-              desc: "Dünyanın en iyi yörelerinden gelen taze kavrulmuş kahve çekirdekleri arasındaki farkları öğrenin. Damak tadınıza en uygun aromayı nasıl bulabilirsiniz?",
-              image: "/images/blog/coffee.jpg",
-              date: "5 Ekim 2026"
-            },
-            { 
-              title: "Kuruyemiş Tüketiminde Porsiyon Kontrolü ve Faydaları", 
-              desc: "Ceviz, badem ve Antep fıstığı gibi besin deposu kuruyemişleri tüketirken porsiyon kontrolünün önemi ve vücudunuza sağladığı eşsiz katkılar.",
-              image: "/images/blog/nuts.jpg",
-              date: "28 Eylül 2026"
-            },
-            { 
-              title: "Geleneksel Türk Mutfağı Baharatlarının Gizli Gücü", 
-              desc: "Sumak, nane ve pul biber gibi sofralarımızın vazgeçilmezi olan geleneksel baharatların yemeklere kattığı lezzetin ötesindeki mucizevi etkileri.",
-              image: "/images/blog/spices.jpg",
-              date: "15 Eylül 2026"
-            },
-          ].map((blog, i) => (
-            <div key={i} className="flex flex-col bg-white border-2 border-brand-slate/10 rounded-2xl overflow-hidden hover:border-brand-gold transition-colors group">
-              <div className="relative aspect-[4/3] bg-brand-slate/5 flex items-center justify-center border-b border-brand-slate/10 overflow-hidden">
-                <img src={blog.image} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-              </div>
-              <div className="p-5 flex flex-col flex-1">
-                <span className="text-xs font-bold text-brand-slate/50 mb-2">{blog.date}</span>
-                <h3 className="font-black text-base mb-3 leading-snug group-hover:text-brand-gold transition-colors">{blog.title}</h3>
-                <p className="text-sm text-brand-slate/70 font-medium line-clamp-4 mb-4">{blog.desc}</p>
-                <Link href={`/blog/post-${i}`} className="mt-auto font-black text-xs hover:text-brand-gold transition-colors flex items-center gap-1 uppercase">
-                  Devamını Oku <ArrowRight className="h-3 w-3" />
-                </Link>
-              </div>
+      {blogPosts.length > 0 && (
+        <section className="py-16 bg-white container mx-auto px-4 lg:px-8">
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <h2 className="text-3xl font-black mb-2">Blog & Duyurular</h2>
+              <p className="text-brand-slate/70 font-semibold">Sektörel haberler, sağlıklı yaşam önerileri ve firmamızdan güncel bilgiler.</p>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Newsletter Banner */}
-      <section className="bg-white container mx-auto px-4 lg:px-8 pb-16">
-        <div className="bg-brand-slate rounded-3xl p-8 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden border-4 border-brand-gold/20">
-          <div className="relative z-10 max-w-lg">
-            <p className="text-brand-gold font-black text-xs uppercase mb-2">Fırsatları İlk Sen Öğren</p>
-            <h2 className="text-3xl font-black text-white mb-2">Bültene Katıl</h2>
-            <p className="text-white/80 font-medium">Haftalık kampanyalardan haberdar ol, avantajlı fiyatları kaçırma.</p>
+            <Link href="/blog" className="font-black text-sm hover:text-brand-gold items-center gap-2 hidden md:flex transition-colors">
+              Tüm Yazılar <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-          <div className="relative z-10 w-full lg:w-auto flex-1 max-w-xl">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input 
-                type="email" 
-                placeholder="E-posta adresiniz" 
-                className="flex-1 px-4 py-3 rounded-lg bg-white border-2 border-transparent text-brand-slate font-bold focus:outline-none focus:border-brand-gold"
-              />
-              <button className="bg-brand-gold text-brand-slate font-black px-8 py-3 rounded-lg hover:bg-white transition-colors whitespace-nowrap">
-                Abone Ol
-              </button>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {blogPosts.map((blog) => (
+              <div key={blog.id} className="flex flex-col bg-white border-2 border-brand-slate/10 rounded-2xl overflow-hidden hover:border-brand-gold transition-colors group">
+                <div className="relative aspect-[4/3] bg-brand-slate/5 flex items-center justify-center border-b border-brand-slate/10 overflow-hidden">
+                  <img src={blog.imageUrl || "/images/placeholder.jpg"} alt={blog.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div className="p-5 flex flex-col flex-1">
+                  <span className="text-xs font-bold text-brand-slate/50 mb-2">
+                    {new Date(blog.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                  <h3 className="font-black text-base mb-3 leading-snug group-hover:text-brand-gold transition-colors">{blog.title}</h3>
+                  <p className="text-sm text-brand-slate/70 font-medium line-clamp-4 mb-4">
+                    {blog.excerpt || (blog.content.substring(0, 120) + "...")}
+                  </p>
+                  <Link href={`/blog/${blog.slug}`} className="mt-auto font-black text-xs hover:text-brand-gold transition-colors flex items-center gap-1 uppercase">
+                    Devamını Oku <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* İletişim Section */}
+      <section id="iletisim" className="py-16 bg-brand-slate/5 border-t border-brand-slate/10 container mx-auto px-4 lg:px-8">
+        <div className="max-w-4xl mx-auto bg-white rounded-3xl p-8 lg:p-12 shadow-sm border border-brand-slate/10">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-black mb-2">Bize Ulaşın</h2>
+            <p className="text-brand-slate/70 font-semibold">Sorularınız, siparişleriniz veya toptan alım talepleriniz için iletişim kanallarımızdan bize ulaşabilirsiniz.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex flex-col items-center text-center p-6 bg-brand-slate/5 rounded-2xl group hover:bg-brand-gold/5 transition-colors">
+              <div className="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-1">Telefon</h3>
+              <a href={`tel:${getSetting("store_phone", "0534 720 19 03")}`} className="text-brand-slate/70 hover:text-brand-gold transition-colors font-medium">
+                {getSetting("store_phone", "0534 720 19 03")}
+              </a>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-6 bg-brand-slate/5 rounded-2xl group hover:bg-brand-gold/5 transition-colors">
+              <div className="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-1">E-Posta</h3>
+              <a href={`mailto:${getSetting("store_email", "info@ikizlerbaharatcilik.com")}`} className="text-brand-slate/70 hover:text-brand-gold transition-colors font-medium break-all">
+                {getSetting("store_email", "info@ikizlerbaharatcilik.com")}
+              </a>
+            </div>
+
+            <div className="flex flex-col items-center text-center p-6 bg-brand-slate/5 rounded-2xl group hover:bg-brand-gold/5 transition-colors">
+              <div className="w-12 h-12 bg-brand-gold rounded-full flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <h3 className="font-bold text-lg mb-1">Adres</h3>
+              <p className="text-brand-slate/70 font-medium leading-tight">
+                {getSetting("store_address", "İkizler Baharatçılık - Adres bilginizi admin panelden güncelleyebilirsiniz.")}
+              </p>
             </div>
           </div>
         </div>
