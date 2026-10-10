@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { retrievePaymentResult } from "@/services/payment/iyzico"
+import { sendOrderEmails } from "@/lib/mail"
 
 export async function POST(req: Request) {
   try {
@@ -23,19 +24,38 @@ export async function POST(req: Request) {
       }
 
       // Update Order Status safely
+      let updatedOrder = null;
       await prisma.$transaction(async (tx) => {
-        const order = await tx.order.findUnique({ where: { id: orderId } })
+        const order = await tx.order.findUnique({ 
+          where: { id: orderId },
+          include: { items: true } // We need items for email
+        })
         
         if (order && order.paymentStatus !== "PAID") {
-          await tx.order.update({
+          updatedOrder = await tx.order.update({
             where: { id: orderId },
             data: { 
               paymentStatus: "PAID",
               status: "PROCESSING" // Payment received, now processing for shipment
-            }
+            },
+            include: { items: true } // get full order for email
           })
+        } else if (order && order.paymentStatus === "PAID") {
+          updatedOrder = order
         }
       })
+
+      if (updatedOrder) {
+        try {
+          // Prepare and send emails
+          const customerEmail = (updatedOrder as any).customerEmail || "info@ikizlerbaharatcilik.com"
+          const customerName = (updatedOrder as any).customerName || "Değerli Müşterimiz"
+          
+          await sendOrderEmails(updatedOrder, customerEmail, customerName)
+        } catch (emailErr) {
+          console.error("Email sending failed during callback:", emailErr)
+        }
+      }
 
       // Redirect user to success page
       return NextResponse.redirect(new URL(`/odeme-basarili?orderId=${orderId}`, req.url))
