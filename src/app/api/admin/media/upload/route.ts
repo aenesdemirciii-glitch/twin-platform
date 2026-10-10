@@ -34,7 +34,10 @@ export async function POST(req: Request) {
     const fileName = `upload-${uniqueId}.${ext}`
 
     // Ensure directory exists
-    const uploadsDir = path.join(process.cwd(), "public", "uploads")
+    const uploadsDir = process.env.STORAGE_PATH 
+      ? process.env.STORAGE_PATH 
+      : path.join(process.cwd(), "public", "uploads")
+      
     try {
       await fs.access(uploadsDir)
     } catch {
