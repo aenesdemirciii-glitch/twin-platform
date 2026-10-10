@@ -94,19 +94,30 @@ export function ClientBlogForm({ initialData = null }: { initialData?: any }) {
 
         <div>
           <label className="block text-sm font-semibold mb-2">Kapak Görseli</label>
-          <div className="flex items-start gap-4">
+          <div className="flex flex-col sm:flex-row items-start gap-4">
             {imageUrl && (
               <div className="w-48 h-32 rounded-lg border overflow-hidden shrink-0">
                 <img src={imageUrl} alt="Kapak" className="w-full h-full object-cover" />
               </div>
             )}
-            <div>
-              <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
-              <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-sm font-semibold flex items-center gap-2">
-                <Upload className="w-4 h-4" />
-                {isUploading ? "Yükleniyor..." : "Görsel Seç"}
-              </button>
-              {imageUrl && <button type="button" onClick={() => setImageUrl("")} className="mt-2 text-sm text-red-600 hover:underline">Görseli Kaldır</button>}
+            <div className="flex-1 w-full space-y-3">
+              <div>
+                <input 
+                  type="text" 
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder="Veya görsel URL'si yapıştırın (/uploads/...)" 
+                  className="w-full px-4 py-2 border rounded-lg text-sm"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
+                <button type="button" onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg text-sm font-semibold flex items-center gap-2">
+                  <Upload className="w-4 h-4" />
+                  {isUploading ? "Yükleniyor..." : "Görsel Yükle"}
+                </button>
+                {imageUrl && <button type="button" onClick={() => setImageUrl("")} className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg">Temizle</button>}
+              </div>
             </div>
           </div>
         </div>
