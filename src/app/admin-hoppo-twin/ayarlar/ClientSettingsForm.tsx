@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { Save, CheckCircle2, Upload, Loader2, X } from "lucide-react"
+import { Save, CheckCircle2, Upload, Loader2, X, Image as ImageIcon } from "lucide-react"
 import { saveSettings } from "./actions"
 
 export function ClientSettingsForm({ initialSettings }: { initialSettings: Record<string, string> }) {
@@ -12,6 +12,14 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
   const [faviconUrl, setFaviconUrl] = useState(initialSettings['site_favicon'] || "")
   const [isUploadingLogo, setIsUploadingLogo] = useState(false)
   const [isUploadingFavicon, setIsUploadingFavicon] = useState(false)
+  
+  const [reelsCovers, setReelsCovers] = useState<string[]>([
+    initialSettings['reel_1_cover'] || "",
+    initialSettings['reel_2_cover'] || "",
+    initialSettings['reel_3_cover'] || "",
+    initialSettings['reel_4_cover'] || ""
+  ])
+  const [isUploadingReel, setIsUploadingReel] = useState([false, false, false, false])
   
   const logoInputRef = useRef<HTMLInputElement>(null)
   const faviconInputRef = useRef<HTMLInputElement>(null)
@@ -47,6 +55,41 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
     else setIsUploadingFavicon(false)
     
     e.target.value = "" // reset
+  }
+
+  async function handleReelUpload(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+    if (!e.target.files || e.target.files.length === 0) return
+    const file = e.target.files[0]
+    
+    const newUploading = [...isUploadingReel]
+    newUploading[index] = true
+    setIsUploadingReel(newUploading)
+    
+    const formData = new FormData()
+    formData.append("file", file)
+    
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData
+      })
+      const data = await res.json()
+      if (res.ok && data.url) {
+        const newCovers = [...reelsCovers]
+        newCovers[index] = data.url
+        setReelsCovers(newCovers)
+      } else {
+        alert(data.error || "Yükleme başarısız")
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Yükleme sırasında hata oluştu")
+    }
+    
+    const newUploadingEnd = [...isUploadingReel]
+    newUploadingEnd[index] = false
+    setIsUploadingReel(newUploadingEnd)
+    e.target.value = ""
   }
 
   async function action(formData: FormData) {
@@ -239,6 +282,60 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
             />
             <p className="text-xs text-slate-500 mt-1">Canlı ortam için: https://api.iyzipay.com</p>
           </div>
+        </div>
+      </div>
+
+      {/* Instagram Reels Ayarları */}
+      <div className="space-y-4 border-b border-slate-100 pb-6">
+        <h3 className="text-lg font-semibold text-slate-800">Instagram Reels (Ana Sayfa)</h3>
+        <p className="text-sm text-slate-500 mb-4">Ana sayfada sergilenecek 4 adet Instagram Reels videosunun kapak fotoğrafını ve Instagram linkini girin.</p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((num, i) => (
+            <div key={num} className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+              <h4 className="font-bold text-slate-700">Reels {num}</h4>
+              
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Kapak Görseli</label>
+                {reelsCovers[i] ? (
+                  <div className="relative aspect-[9/16] rounded-lg overflow-hidden border border-slate-200 mb-2 group">
+                    <img src={reelsCovers[i]} alt={`Reel ${num}`} className="w-full h-full object-cover" />
+                    <button type="button" onClick={() => {
+                      const newCovers = [...reelsCovers];
+                      newCovers[i] = "";
+                      setReelsCovers(newCovers);
+                    }} className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="aspect-[9/16] rounded-lg border-2 border-dashed border-slate-300 bg-white flex flex-col items-center justify-center text-slate-400 mb-2 p-4 text-center">
+                    <ImageIcon className="h-8 w-8 mb-2 opacity-50" />
+                    <span className="text-xs">Görsel Yükle (9:16)</span>
+                  </div>
+                )}
+                
+                <input type="hidden" name={`reel_${num}_cover`} value={reelsCovers[i]} />
+                
+                <label className="flex items-center justify-center gap-2 w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 cursor-pointer transition-colors">
+                  {isUploadingReel[i] ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                  {isUploadingReel[i] ? "Yükleniyor..." : "Görsel Seç"}
+                  <input type="file" accept="image/*" className="hidden" onChange={(e) => handleReelUpload(e, i)} disabled={isUploadingReel[i]} />
+                </label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Instagram Linki</label>
+                <input 
+                  type="url" 
+                  name={`reel_${num}_link`}
+                  defaultValue={initialSettings[`reel_${num}_link`] || ""}
+                  placeholder="https://instagram.com/p/..."
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

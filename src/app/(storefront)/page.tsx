@@ -19,7 +19,11 @@ export default async function HomePage() {
           "home_hero_subtitle",
           "home_hero_button_text",
           "home_hero_button_link",
-          "home_hero_tag"
+          "home_hero_tag",
+          "reel_1_cover", "reel_1_link",
+          "reel_2_cover", "reel_2_link",
+          "reel_3_cover", "reel_3_link",
+          "reel_4_cover", "reel_4_link"
         ]
       }
     }
@@ -301,35 +305,56 @@ export default async function HomePage() {
           <p className="text-sm font-bold text-brand-slate/60 mt-2">Bizi sosyal ağlardan takip edin ve yenilikleri kaçırmayın</p>
         </div>
 
-        <div className="w-full flex flex-col md:flex-row gap-6 justify-center max-w-4xl mx-auto">
-          {/* Instagram */}
-          <a href="https://instagram.com/ikizlerbaharatcilik" target="_blank" rel="noopener noreferrer" className="flex-1 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-1 rounded-2xl group hover:-translate-y-1 transition-transform duration-300 shadow-lg">
-            <div className="bg-white/95 backdrop-blur-sm h-full w-full rounded-[14px] p-6 flex flex-col items-center justify-center text-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-800 text-lg">Instagram'da Bizi Takip Edin</h3>
-                <p className="text-sm font-semibold text-slate-500">@ikizlerbaharatcilik</p>
-              </div>
-              <span className="mt-2 text-sm font-bold text-pink-600 group-hover:text-pink-700 transition-colors">Profili Gör &rarr;</span>
-            </div>
-          </a>
+        {(() => {
+          const reels = [
+            { cover: getSetting("reel_1_cover", ""), link: getSetting("reel_1_link", "") },
+            { cover: getSetting("reel_2_cover", ""), link: getSetting("reel_2_link", "") },
+            { cover: getSetting("reel_3_cover", ""), link: getSetting("reel_3_link", "") },
+            { cover: getSetting("reel_4_cover", ""), link: getSetting("reel_4_link", "") }
+          ].filter(r => r.cover)
 
-          {/* WhatsApp */}
-          <a href="https://wa.me/905347201903" target="_blank" rel="noopener noreferrer" className="flex-1 bg-gradient-to-tr from-green-400 to-emerald-600 p-1 rounded-2xl group hover:-translate-y-1 transition-transform duration-300 shadow-lg">
-            <div className="bg-white/95 backdrop-blur-sm h-full w-full rounded-[14px] p-6 flex flex-col items-center justify-center text-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-tr from-green-400 to-emerald-600 rounded-full flex items-center justify-center text-white">
-                <MessageCircle className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-slate-800 text-lg">WhatsApp Sipariş Hattı</h3>
-                <p className="text-sm font-semibold text-slate-500">Hızlı ve Kolay Sipariş</p>
-              </div>
-              <span className="mt-2 text-sm font-bold text-emerald-600 group-hover:text-emerald-700 transition-colors">Mesaj Gönder &rarr;</span>
+          return (
+            <div className={`w-full grid gap-6 mx-auto ${reels.length > 0 ? 'grid-cols-1 lg:grid-cols-3 max-w-6xl' : 'max-w-md'}`}>
+              
+              {/* Instagram Ana Kart */}
+              <a href="https://instagram.com/ikizlerbaharatcilik" target="_blank" rel="noopener noreferrer" className={`bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-1 rounded-2xl group hover:-translate-y-1 transition-transform duration-300 shadow-lg block ${reels.length > 0 ? 'lg:col-span-1 h-full' : ''}`}>
+                <div className="bg-white/95 backdrop-blur-sm h-full w-full rounded-[14px] p-8 flex flex-col items-center justify-center text-center gap-4">
+                  <div className="w-16 h-16 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-800 text-xl md:text-2xl mb-1">Instagram'da Bizi Takip Edin</h3>
+                    <p className="text-base font-semibold text-slate-500">@ikizlerbaharatcilik</p>
+                  </div>
+                  <span className="mt-4 px-6 py-2 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 text-white font-bold rounded-full shadow-md group-hover:scale-105 transition-transform">Profili Gör &rarr;</span>
+                </div>
+              </a>
+
+              {/* Reels Grid */}
+              {reels.length > 0 && (
+                <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {reels.map((reel, idx) => (
+                    <a key={idx} href={reel.link || "https://instagram.com/ikizlerbaharatcilik"} target="_blank" rel="noopener noreferrer" className="relative aspect-[9/16] rounded-2xl overflow-hidden group shadow-md hover:-translate-y-1 transition-all duration-300 block bg-slate-100">
+                      <img src={reel.cover} alt={`Reel ${idx + 1}`} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                      
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-12 h-12 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50">
+                          <Play className="w-5 h-5 ml-1" fill="currentColor" />
+                        </div>
+                      </div>
+                      
+                      <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                        <span className="text-xs font-bold">Reels İncele</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-          </a>
-        </div>
+          )
+        })()}
       </section>
 
       {/* Blog / Notes Section */}
