@@ -6,13 +6,14 @@ import { signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { 
   LayoutDashboard, ShoppingCart, Package, Users, Tag, Settings, FileText,
-  BarChart3, LogOut, FolderTree, Boxes, Truck, Shield, History, Star, Menu, X, ImagePlus
+  BarChart3, LogOut, FolderTree, Boxes, Truck, Shield, History, Star, Menu, X, ImagePlus, Banknote
 } from "lucide-react"
 import { useState } from "react"
 
 const menuItems = [
   { name: "Genel Bakış", href: "/admin-hoppo-twin", icon: LayoutDashboard },
   { name: "Hızlı Görsel Yükle", href: "/admin-hoppo-twin/hizli-gorsel", icon: ImagePlus },
+  { name: "Hızlı Fiyat & Stok", href: "/admin-hoppo-twin/hizli-fiyat", icon: Banknote },
   { name: "Siparişler", href: "/admin-hoppo-twin/siparisler", icon: ShoppingCart },
   { name: "Ürünler", href: "/admin-hoppo-twin/urunler", icon: Package },
   { name: "Kategoriler", href: "/admin-hoppo-twin/kategoriler", icon: FolderTree },
