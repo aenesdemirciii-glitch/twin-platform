@@ -6,6 +6,7 @@ import { Search, Save, CheckCircle2, AlertCircle, Loader2 } from "lucide-react"
 
 type ProductData = {
   id: string
+  isVariant: boolean
   name: string
   sku: string
   price: number
@@ -60,6 +61,7 @@ export function FastPriceClient({ initialProducts }: { initialProducts: ProductD
       const original = products.find(p => p.id === id)!
       return {
         id,
+        isVariant: original.isVariant,
         price: edits.price !== undefined ? edits.price : original.price,
         discountPrice: edits.discountPrice !== undefined ? edits.discountPrice : original.discountPrice,
         stock: edits.stock !== undefined ? edits.stock : original.stock
