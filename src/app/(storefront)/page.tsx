@@ -301,9 +301,34 @@ export default async function HomePage() {
           <p className="text-sm font-bold text-brand-slate/60 mt-2">Bizi sosyal ağlardan takip edin ve yenilikleri kaçırmayın</p>
         </div>
 
-        <div className="w-full">
-          <Script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" strategy="lazyOnload" />
-          <div className="commonninja_component pid-88a44d98-0d98-4cca-869d-e70bb3041549"></div>
+        <div className="w-full flex flex-col md:flex-row gap-6 justify-center max-w-4xl mx-auto">
+          {/* Instagram */}
+          <a href="https://instagram.com/ikizlerbaharatcilik" target="_blank" rel="noopener noreferrer" className="flex-1 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 p-1 rounded-2xl group hover:-translate-y-1 transition-transform duration-300 shadow-lg">
+            <div className="bg-white/95 backdrop-blur-sm h-full w-full rounded-[14px] p-6 flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-lg">Instagram'da Bizi Takip Edin</h3>
+                <p className="text-sm font-semibold text-slate-500">@ikizlerbaharatcilik</p>
+              </div>
+              <span className="mt-2 text-sm font-bold text-pink-600 group-hover:text-pink-700 transition-colors">Profili Gör &rarr;</span>
+            </div>
+          </a>
+
+          {/* WhatsApp */}
+          <a href="https://wa.me/905347201903" target="_blank" rel="noopener noreferrer" className="flex-1 bg-gradient-to-tr from-green-400 to-emerald-600 p-1 rounded-2xl group hover:-translate-y-1 transition-transform duration-300 shadow-lg">
+            <div className="bg-white/95 backdrop-blur-sm h-full w-full rounded-[14px] p-6 flex flex-col items-center justify-center text-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-tr from-green-400 to-emerald-600 rounded-full flex items-center justify-center text-white">
+                <MessageCircle className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 text-lg">WhatsApp Sipariş Hattı</h3>
+                <p className="text-sm font-semibold text-slate-500">Hızlı ve Kolay Sipariş</p>
+              </div>
+              <span className="mt-2 text-sm font-bold text-emerald-600 group-hover:text-emerald-700 transition-colors">Mesaj Gönder &rarr;</span>
+            </div>
+          </a>
         </div>
       </section>
 
