@@ -436,7 +436,7 @@ export default async function HomePage() {
               </div>
               <h3 className="font-bold text-lg mb-1">Adres</h3>
               <p className="text-brand-slate/70 font-medium leading-tight">
-                {getSetting("store_address", "İkizler Baharatçılık - Adres bilginizi admin panelden güncelleyebilirsiniz.")}
+                {getSetting("store_address", "Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul")}
               </p>
             </div>
           </div>
