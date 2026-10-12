@@ -1,9 +1,20 @@
 import Link from "next/link"
+import { notFound, redirect } from "next/navigation"
 import { ArrowLeft, FileText } from "lucide-react"
+import { STATIC_PAGES } from "@/data/staticPages"
 
 export default async function GenericPage(props: { params: Promise<{ slug: string[] }> }) {
-  const params = await props.params;
+  const params = await props.params
   const rawSlug = params.slug.join('/')
+  const lastSlug = params.slug[params.slug.length - 1]
+
+  if (params.slug.includes("sss")) {
+    notFound()
+  }
+
+  if (STATIC_PAGES[lastSlug]) {
+    redirect(`/sayfa/${lastSlug}`)
+  }
 
   // Create a readable title from the slug
   const title = rawSlug
@@ -11,7 +22,6 @@ export default async function GenericPage(props: { params: Promise<{ slug: strin
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ")
     .replace('Kvkk', 'KVKK')
-    .replace('Sss', 'Sıkça Sorulan Sorular')
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16 min-h-[60vh] max-w-4xl">

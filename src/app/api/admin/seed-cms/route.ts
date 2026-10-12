@@ -1,74 +1,37 @@
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
+import { STATIC_PAGES } from "@/data/staticPages"
 
 export async function GET() {
   try {
-    // 1. Seed Pages
-    const pages = [
-      {
-        title: "Hakkımızda",
-        slug: "hakkimizda",
-        content: "### Biz Kimiz?\n\nİkizler Baharatçılık olarak yarım asırlık tecrübemizle en taze ve kaliteli kuruyemiş, baharat ve yöresel ürünleri sofralarınıza getiriyoruz...\n\n(Lütfen admin panelden bu metni güncelleyiniz.)",
-        isActive: true
-      },
-      {
-        title: "Kalite Belgelerimiz",
-        slug: "kalite-belgelerimiz",
-        content: "Tüm ürünlerimiz uluslararası kalite standartlarına uygun olarak üretilmekte ve paketlenmektedir.\n\n(Lütfen kalite belgelerinizin görsellerini ve detaylarını admin panelden buraya ekleyiniz.)",
-        isActive: true
-      },
-      {
-        title: "Mağazalarımız & İletişim",
-        slug: "iletisim",
-        content: "### İletişim Bilgilerimiz\n\n**Adres:** Örnek Mahallesi, Örnek Sokak No:1\n**Telefon:** 0555 555 55 55\n**E-posta:** info@ikizlerbaharatcilik.com",
-        isActive: true
-      },
-      {
-        title: "Toptan Satış",
-        slug: "toptan",
-        content: "Kafe, restoran veya işletmeniz için toptan kuruyemiş ve baharat alımlarınızda bize ulaşın. Özel fiyatlandırma ve hızlı teslimat avantajlarından yararlanın.",
-        isActive: true
-      },
-      {
-        title: "Mesafeli Satış Sözleşmesi",
-        slug: "mesafeli-satis",
-        content: "### MADDE 1 - TARAFLAR\n\nİşbu Sözleşme, aşağıdaki taraflar arasında belirtilen hüküm ve şartlar çerçevesinde imzalanmıştır...\n\n(Lütfen yasal metninizi buraya yapıştırınız.)",
-        isActive: true
-      },
-      {
-        title: "KVKK Aydınlatma Metni",
-        slug: "kvkk",
-        content: "Kişisel verileriniz, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca veri sorumlusu sıfatıyla şirketimiz tarafından işlenmektedir...\n\n(Lütfen tam yasal metninizi buraya yapıştırınız.)",
-        isActive: true
-      },
-      {
-        title: "Sıkça Sorulan Sorular",
-        slug: "sss",
-        content: "### Kargo kaç günde gelir?\nSiparişleriniz 1-3 iş günü içerisinde kargoya teslim edilmektedir.\n\n### İade yapabilir miyim?\nEvet, açılmamış paketleri 14 gün içinde iade edebilirsiniz.",
-        isActive: true
-      },
-      {
-        title: "İade ve İptal Koşulları",
-        slug: "iade",
-        content: "Almış olduğunuz ürünleri ambalajı açılmamış, kullanılmamış ve bozulmamış olması şartıyla teslimat tarihinden itibaren 14 gün içinde iade edebilirsiniz.",
-        isActive: true
-      },
-      {
-        title: "Gizlilik Sözleşmesi",
-        slug: "gizlilik",
-        content: "Müşterilerimize ait tüm kişisel bilgiler, en yüksek güvenlik standartlarında korunmakta olup, 3. şahıs veya kurumlarla kesinlikle paylaşılmamaktadır.",
-        isActive: true
-      }
-    ]
+    // 1. Delete or deactivate SSS if it exists
+    await prisma.page.deleteMany({
+      where: { slug: "sss" }
+    }).catch(() => {})
 
-    for (const page of pages) {
-      const exists = await prisma.page.findUnique({ where: { slug: page.slug } })
-      if (!exists) {
-        await prisma.page.create({ data: page })
-      }
+    // 2. Upsert static pages
+    for (const [slug, pageData] of Object.entries(STATIC_PAGES)) {
+      await prisma.page.upsert({
+        where: { slug },
+        update: {
+          title: pageData.title,
+          content: pageData.content,
+          seoTitle: pageData.seoTitle,
+          seoDesc: pageData.metaDescription,
+          isActive: true
+        },
+        create: {
+          slug,
+          title: pageData.title,
+          content: pageData.content,
+          seoTitle: pageData.seoTitle,
+          seoDesc: pageData.metaDescription,
+          isActive: true
+        }
+      })
     }
 
-    // 2. Seed Blog Posts from blogData
+    // 3. Seed Blog Posts from blogData
     const blogPosts = [
       {
         slug: "cevizin-faydalari-nelerdir",
@@ -103,7 +66,7 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({ success: true, message: "CMS içerikleri başarıyla eklendi!" })
+    return NextResponse.json({ success: true, message: "CMS içerikleri ve kurumsal sayfalar güncellendi!" })
 
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 })

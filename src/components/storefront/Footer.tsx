@@ -91,22 +91,23 @@ export async function Footer() {
               <h4 className="font-black mb-6 text-lg">Kurumsal</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
                 <li><Link href="/sayfa/hakkimizda" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
-                <li><Link href="/sayfa/kalite-belgelerimiz" className="hover:text-brand-gold transition-colors">Kalite Belgelerimiz</Link></li>
+                <li><Link href="/sayfa/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış & Kurumsal</Link></li>
                 <li><Link href="/sayfa/iletisim" className="hover:text-brand-gold transition-colors">Mağazalarımız & İletişim</Link></li>
-                <li><Link href="/sayfa/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış</Link></li>
+                <li><Link href="/sayfa/kalite-belgelerimiz" className="hover:text-brand-gold transition-colors">Kalite Belgelerimiz</Link></li>
                 <li><Link href="/blog" className="hover:text-brand-gold transition-colors">Kuruyemiş Rehberi (Blog)</Link></li>
               </ul>
             </div>
 
             {/* Column 4: Bilgilendirme */}
             <div>
-              <h4 className="font-black mb-6 text-lg">Bilgilendirme</h4>
+              <h4 className="font-black mb-6 text-lg">Bilgilendirme & Yasal</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
-                <li><Link href="/sayfa/mesafeli-satis" className="hover:text-brand-gold transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
-                <li><Link href="/sayfa/kvkk" className="hover:text-brand-gold transition-colors">KVKK Aydınlatma Metni</Link></li>
-                <li><Link href="/sayfa/sss" className="hover:text-brand-gold transition-colors">Sıkça Sorulan Sorular</Link></li>
-                <li><Link href="/sayfa/iade" className="hover:text-brand-gold transition-colors">İade ve İptal Koşulları</Link></li>
-                <li><Link href="/sayfa/gizlilik" className="hover:text-brand-gold transition-colors">Gizlilik Sözleşmesi</Link></li>
+                <li><Link href="/sayfa/mesafeli-satis-sozlesmesi" className="hover:text-brand-gold transition-colors">Mesafeli Satış Sözleşmesi</Link></li>
+                <li><Link href="/sayfa/teslimat-ve-kargo" className="hover:text-brand-gold transition-colors">Teslimat ve Kargo Koşulları</Link></li>
+                <li><Link href="/sayfa/iade-ve-iptal-kosullari" className="hover:text-brand-gold transition-colors">İptal İade ve Cayma Hakkı</Link></li>
+                <li><Link href="/sayfa/kvkk-aydinlatma-metni" className="hover:text-brand-gold transition-colors">KVKK Aydınlatma Metni</Link></li>
+                <li><Link href="/sayfa/gizlilik-politikasi" className="hover:text-brand-gold transition-colors">Gizlilik Politikası</Link></li>
+                <li><Link href="/sayfa/cerez-politikasi" className="hover:text-brand-gold transition-colors">Çerez Politikası</Link></li>
               </ul>
             </div>
           </div>

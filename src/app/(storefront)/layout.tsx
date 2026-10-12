@@ -1,5 +1,6 @@
 import { Header } from "@/components/storefront/Header"
 import { Footer } from "@/components/storefront/Footer"
+import { CookieBanner } from "@/components/storefront/CookieBanner"
 
 export default function StorefrontLayout({
   children,
@@ -13,10 +14,11 @@ export default function StorefrontLayout({
         {children}
       </main>
       <Footer />
+      <CookieBanner />
       
       {/* Floating WhatsApp Button */}
       <a 
-        href="https://wa.me/905347201903" 
+        href="https://wa.me/905347201900" 
         target="_blank" 
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#1EBE57] hover:scale-110 transition-all duration-300 flex items-center justify-center group"
