@@ -13,9 +13,11 @@ import {
   ShieldCheck, 
   CheckCircle2, 
   Clock, 
+  Sparkles,
+} from "lucide-react"
 import { MarkdownRenderer } from "@/components/storefront/MarkdownRenderer"
 
-export default async function CorporatePage(props: PageProps) {
+export default async function CorporatePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params
 
   // "Sıkça Sorulan Sorular kaldır" - remove SSS completely
