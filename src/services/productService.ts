@@ -1,4 +1,17 @@
 import prisma from "@/lib/prisma"
+import productDescriptions from "@/data/productDescriptions.json"
+
+function normalizeTitle(str: string): string {
+  return str
+    .toLowerCase()
+    .replace(/ğ/g, 'g')
+    .replace(/ü/g, 'u')
+    .replace(/ş/g, 's')
+    .replace(/ı/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ç/g, 'c')
+    .replace(/[^a-z0-9]/g, '')
+}
 
 export async function getProductBySlug(slug: string) {
   try {
@@ -12,6 +25,25 @@ export async function getProductBySlug(slug: string) {
         brand: true,
       }
     })
+    
+    if (product) {
+      // If DB description is empty or default, fallback to Excel descriptions
+      if (!product.shortDescription || product.shortDescription.trim() === '') {
+        const targetNorm = normalizeTitle(product.name)
+        const match = productDescriptions.find((item: any) => {
+          const itemNorm = normalizeTitle(item.name)
+          return itemNorm === targetNorm || itemNorm.includes(targetNorm) || targetNorm.includes(itemNorm)
+        })
+        if (match) {
+          product.shortDescription = match.description
+          product.longDescription = match.description
+          if (!product.seoDescription) {
+            product.seoDescription = match.seoDescription
+          }
+        }
+      }
+    }
+
     return product
   } catch (error) {
     console.error("Error fetching product:", error)
