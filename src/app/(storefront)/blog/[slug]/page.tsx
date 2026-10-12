@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
 import prisma from "@/lib/prisma"
+import { MarkdownRenderer } from "@/components/storefront/MarkdownRenderer"
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -40,19 +41,8 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
         {post.title}
       </h1>
 
-      {/* Very basic markdown rendering - for production use a library like react-markdown */}
-      <div className="prose prose-lg prose-slate max-w-none 
-        prose-headings:font-black prose-headings:text-brand-slate 
-        prose-p:text-brand-slate/80 prose-p:font-medium prose-p:leading-relaxed 
-        prose-strong:text-brand-slate prose-strong:font-bold
-        prose-a:text-brand-gold prose-a:no-underline hover:prose-a:underline">
-        {post.content.split('\n').map((paragraph, idx) => {
-          if (paragraph.startsWith('### ')) {
-            return <h3 key={idx} className="text-2xl mt-8 mb-4">{paragraph.replace('### ', '')}</h3>
-          }
-          if (paragraph.trim() === '') return <br key={idx} />
-          return <p key={idx} className="mb-4">{paragraph}</p>
-        })}
+      <div className="prose prose-lg prose-slate max-w-none">
+        <MarkdownRenderer content={post.content} />
       </div>
     </div>
   )
