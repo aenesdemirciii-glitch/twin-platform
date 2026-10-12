@@ -1,21 +1,32 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import prisma from "@/lib/prisma"
+import { blogPosts as fallbackBlogPosts } from "@/lib/blogData"
 
 export const dynamic = "force-dynamic"
 
 export default async function BlogListPage() {
-  const blogPosts = await prisma.blogPost.findMany({
-    where: { isActive: true },
-    orderBy: { createdAt: 'desc' }
-  })
+  let dbPosts: any[] = []
+  try {
+    dbPosts = await prisma.blogPost.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: 'desc' }
+    })
+  } catch (e) {
+    // db fallback
+  }
+
+  // Ensure all posts including new ones are presented
+  const allSlugs = new Set(dbPosts.map((p) => p.slug))
+  const missingFallbacks = fallbackBlogPosts.filter((fb) => !allSlugs.has(fb.slug))
+  const blogPosts = [...missingFallbacks, ...dbPosts]
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16 min-h-[70vh]">
       <div className="text-center mb-12">
-        <h1 className="text-4xl lg:text-5xl font-black text-brand-slate mb-4">Kuruyemiş Rehberi</h1>
+        <h1 className="text-4xl lg:text-5xl font-black text-brand-slate mb-4">Blog & Duyurular</h1>
         <p className="text-brand-slate/70 font-semibold max-w-2xl mx-auto text-lg">
-          Sağlıklı yaşam tüyoları, doğru beslenme alışkanlıkları ve taptaze ürünlerimiz hakkında her şey.
+          Sağlıklı yaşam tüyoları, doğal bal, baharat ve kuruyemiş rehberleri ve taptaze ürünlerimiz hakkında her şey.
         </p>
       </div>
 
@@ -33,7 +44,7 @@ export default async function BlogListPage() {
             <div className="p-6 flex flex-col flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <span className="text-xs font-bold text-brand-gold bg-brand-gold/10 px-3 py-1 rounded-full uppercase tracking-wider">{post.category || "Genel"}</span>
-                <span className="text-xs font-medium text-brand-slate/60">{new Date(post.createdAt).toLocaleDateString('tr-TR')}</span>
+                <span className="text-xs font-medium text-brand-slate/60">{new Date(post.createdAt || Date.now()).toLocaleDateString('tr-TR')}</span>
               </div>
               <h2 className="text-xl font-bold text-brand-slate leading-snug mb-3 group-hover:text-brand-gold transition-colors line-clamp-2">
                 {post.title}

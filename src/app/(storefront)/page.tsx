@@ -6,6 +6,7 @@ import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, Me
 import prisma from "@/lib/prisma"
 import { getCategories } from "@/services/productService"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
+import { blogPosts as fallbackBlogPosts } from "@/lib/blogData"
 
 export const dynamic = 'force-dynamic'
 
@@ -84,11 +85,20 @@ export default async function HomePage() {
   }
 
   // Blog Yazıları (Maksimum 4)
-  const blogPosts = await prisma.blogPost.findMany({
-    where: { isActive: true },
-    orderBy: { createdAt: 'desc' },
-    take: 4
-  })
+  let dbBlogPosts: any[] = []
+  try {
+    dbBlogPosts = await prisma.blogPost.findMany({
+      where: { isActive: true },
+      orderBy: { createdAt: 'desc' },
+      take: 4
+    })
+  } catch (e) {
+    // db fallback
+  }
+
+  const allSlugs = new Set(dbBlogPosts.map((p) => p.slug))
+  const missingFallbacks = fallbackBlogPosts.filter((fb) => !allSlugs.has(fb.slug))
+  const blogPosts = [...missingFallbacks, ...dbBlogPosts].slice(0, 4)
   
   const categories = await getCategories()
   const displayCategories = categories.slice(0, 12)

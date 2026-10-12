@@ -3,14 +3,27 @@ import { notFound } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
 import prisma from "@/lib/prisma"
 import { MarkdownRenderer } from "@/components/storefront/MarkdownRenderer"
+import { blogPosts as fallbackBlogPosts } from "@/lib/blogData"
+
+export const dynamic = "force-dynamic"
 
 export default async function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
-  const params = await props.params;
-  const post = await prisma.blogPost.findUnique({
-    where: { slug: params.slug }
-  })
+  const params = await props.params
+  
+  let post: any = null
+  try {
+    post = await prisma.blogPost.findUnique({
+      where: { slug: params.slug }
+    })
+  } catch (e) {
+    // db fallback
+  }
 
-  if (!post || !post.isActive) {
+  if (!post) {
+    post = fallbackBlogPosts.find((p) => p.slug === params.slug) || null
+  }
+
+  if (!post || post.isActive === false) {
     notFound()
   }
 
@@ -33,7 +46,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
           {post.category || "Genel"}
         </span>
         <span className="text-brand-slate/50 font-bold text-sm">
-          {new Date(post.createdAt).toLocaleDateString('tr-TR')}
+          {new Date(post.createdAt || Date.now()).toLocaleDateString('tr-TR')}
         </span>
       </div>
 
