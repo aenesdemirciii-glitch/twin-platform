@@ -285,6 +285,93 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
         </div>
       </div>
 
+      {/* Kargo ve Banabikurye Teslimat Ayarları */}
+      <div className="space-y-4 border-b border-slate-100 pb-6">
+        <h3 className="text-lg font-semibold text-slate-800">Kargo ve Banabikurye Ayarları</h3>
+        <p className="text-sm text-slate-500 mb-4">Standart kargo sabit ücreti ve Banabikurye aynı gün teslimat API yapılandırması.</p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Standart Kargo Sabit Ücreti (TL)</label>
+            <input 
+              type="number" 
+              name="standard_shipping_fee"
+              defaultValue={initialSettings['standard_shipping_fee'] || "199"}
+              step="1"
+              min="0"
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+            <p className="text-xs text-slate-500 mt-1">Tüm Türkiye için sabit kargo ücreti (Varsayılan: 199 TL)</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Aynı Gün Teslimat Son Sipariş Saati</label>
+            <input 
+              type="number" 
+              name="banabi_cutoff_hour"
+              defaultValue={initialSettings['banabi_cutoff_hour'] || "17"}
+              min="1"
+              max="24"
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+            <p className="text-xs text-slate-500 mt-1">Bu saatten sonra aynı gün teslimat seçeneği pasif olur (Varsayılan: 17)</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Banabikurye API Token (X-DV-Auth-Token)</label>
+            <input 
+              type="password" 
+              name="banabi_api_token"
+              defaultValue={initialSettings['banabi_api_token'] || ""}
+              placeholder="Kurumsal panelden alınan API token..."
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Banabikurye API Base URL</label>
+            <input 
+              type="text" 
+              name="banabi_api_base_url"
+              defaultValue={initialSettings['banabi_api_base_url'] || "https://robotapitest.banabikurye.com/api/business/1.8"}
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+            <p className="text-xs text-slate-500 mt-1">Canlı ortam için: https://robot.banabikurye.com/api/business/1.8</p>
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Kurye Çıkış (Mağaza) Adresi</label>
+            <input 
+              type="text" 
+              name="banabi_pickup_address"
+              defaultValue={initialSettings['banabi_pickup_address'] || "Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul"}
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+            <p className="text-xs text-slate-500 mt-1">Kuryelerin siparişi teslim alacağı mağaza adresi.</p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Mağaza İletişim Telefonu</label>
+            <input 
+              type="text" 
+              name="banabi_pickup_phone"
+              defaultValue={initialSettings['banabi_pickup_phone'] || "02163844837"}
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Mağaza Yetkili Adı</label>
+            <input 
+              type="text" 
+              name="banabi_pickup_name"
+              defaultValue={initialSettings['banabi_pickup_name'] || "İkizler Baharatçılık"}
+              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Instagram Reels Ayarları */}
       <div className="space-y-4 border-b border-slate-100 pb-6">
         <h3 className="text-lg font-semibold text-slate-800">Instagram Reels (Ana Sayfa)</h3>

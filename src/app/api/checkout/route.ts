@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { createCheckoutForm } from "@/services/payment/iyzico"
+import { calculateBanabiOrder, getBanabiConfig, isSameDayDeliveryAvailable } from "@/services/courier/banabikurye"
 
 // Benzersiz ve kurumsal sipariş numarası oluşturucu
 async function generateUniqueOrderNumber(): Promise<string> {
@@ -38,7 +39,16 @@ function formatGsmNumber(phone: string): string {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { items, shippingAddress, billingAddress, buyer, discountCode, shippingCostOverride, orderNotes } = body
+    const { 
+      items, 
+      shippingAddress, 
+      billingAddress, 
+      buyer, 
+      discountCode, 
+      deliveryMethod, 
+      clientShippingFee, 
+      orderNotes 
+    } = body
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Sepetinizde ürün bulunmuyor." }, { status: 400 })
@@ -50,6 +60,7 @@ export async function POST(req: Request) {
 
     // 1. Veritabanından güncel ürün fiyatlarını ve stoklarını kontrol et
     let subtotal = 0
+    let totalWeight = 0
     const basketItems: any[] = []
     const dbOrderItems: any[] = []
 
@@ -76,6 +87,7 @@ export async function POST(req: Request) {
       const unitPrice = Number(dbProduct.discountPrice || dbProduct.price)
       const itemTotal = unitPrice * qty
       subtotal += itemTotal
+      totalWeight += qty * 0.5 // Ortalama ürün ağırlığı
 
       dbOrderItems.push({
         productId: dbProduct.id,
@@ -98,13 +110,56 @@ export async function POST(req: Request) {
       })
     }
 
-    // 2. Kargo & Kupon İndirim Hesaplaması
-    let discountAmount = 0
-    let shippingCost = subtotal >= 3000 ? 0 : 249.00
-    if (typeof shippingCostOverride === "number") {
-      shippingCost = shippingCostOverride
+    // 2. TESLİMAT YÖNTEMİ & ÜCRET DOĞRULAMASI
+    const banabiConfig = await getBanabiConfig()
+    const deliveryMethodSelected: "standard" | "banabikurye" = deliveryMethod === "banabikurye" ? "banabikurye" : "standard"
+    let shippingCost = banabiConfig.standardShippingFee || 199.00
+    let deliveryTitle = "Standart Kargo"
+
+    if (deliveryMethodSelected === "banabikurye") {
+      // Saat kontrolü (17:00 sınırı)
+      const timeCheck = isSameDayDeliveryAvailable(banabiConfig.cutoffHour)
+      if (!timeCheck.available) {
+        return NextResponse.json({
+          error: timeCheck.reason || "Bugün için Aynı Gün Teslimat sipariş saati (17:00) sona erdi. Lütfen Standart Kargo seçeneğini kullanınız."
+        }, { status: 400 })
+      }
+
+      // Sunucu tarafında Banabikurye API'sinden anlık fiyatı yeniden doğrula
+      const fullDeliveryAddress = `${shippingAddress} ${buyer.district ? buyer.district + ' ' : ''}${buyer.city || ''}`.trim()
+      const banabiCalc = await calculateBanabiOrder({
+        deliveryAddress: fullDeliveryAddress,
+        deliveryCity: buyer.city || "İstanbul",
+        deliveryDistrict: buyer.district || "",
+        weightKg: Math.max(1, Math.round(totalWeight)),
+        matter: "Baharat ve Doğal Gıda Ürünleri"
+      })
+
+      if (!banabiCalc.success || !banabiCalc.available || typeof banabiCalc.price !== "number") {
+        return NextResponse.json({
+          error: banabiCalc.error || "Aynı Gün Teslimat bu adres için sağlanamamaktadır. Lütfen Standart Kargo'yu tercih ediniz."
+        }, { status: 400 })
+      }
+
+      // İstemciye gösterilen fiyat ile API'nin sunduğu güncel fiyat arasında fark varsa müşteriden onay iste
+      if (typeof clientShippingFee === "number" && Math.abs(banabiCalc.price - clientShippingFee) > 1) {
+        return NextResponse.json({
+          error: `Kurye teslimat ücreti güncellendi (${banabiCalc.price.toFixed(2)} TL). Lütfen yeni tutarı kontrol edip onaylayınız.`,
+          priceUpdated: true,
+          newShippingFee: banabiCalc.price
+        }, { status: 409 })
+      }
+
+      shippingCost = banabiCalc.price
+      deliveryTitle = "Aynı Gün Teslimat (Banabikurye)"
+    } else {
+      // Standart Kargo: Sabit 199 TL (Sepet tutarından bağımsız kural)
+      shippingCost = banabiConfig.standardShippingFee || 199.00
+      deliveryTitle = "Standart Kargo"
     }
 
+    // 3. Kupon İndirim Hesaplaması
+    let discountAmount = 0
     if (discountCode && typeof discountCode === "string") {
       const coupon = await prisma.coupon.findUnique({ where: { code: discountCode.trim().toUpperCase() } })
       if (coupon && coupon.isActive) {
@@ -112,18 +167,18 @@ export async function POST(req: Request) {
           discountAmount = subtotal * (Number(coupon.value) / 100)
         } else if (coupon.type === "FIXED") {
           discountAmount = Math.min(subtotal, Number(coupon.value))
-        } else if (coupon.type === "FREE_SHIPPING") {
+        } else if (coupon.type === "FREE_SHIPPING" && deliveryMethodSelected === "standard") {
           shippingCost = 0
         }
       }
     }
 
-    // İyzico kuralı: Kargo ücreti varsa sepet kalemlerine eklenmelidir ki kalemler toplamı ana tutara eşit olsun
+    // İyzico kuralı: Teslimat ücreti sepet kalemlerine eklenmelidir
     if (shippingCost > 0) {
       basketItems.push({
         id: "KARGO",
-        name: "Standart Kargo Teslimatı",
-        category1: "Kargo",
+        name: deliveryTitle.slice(0, 45),
+        category1: "Teslimat",
         itemType: "PHYSICAL",
         price: shippingCost.toFixed(2)
       })
@@ -132,7 +187,7 @@ export async function POST(req: Request) {
     const catalogPrice = subtotal + shippingCost
     const grandTotal = Math.max(0, subtotal - discountAmount) + shippingCost
 
-    // 3. Kullanıcı eşleştirme (Üye veya Misafir)
+    // 4. Kullanıcı eşleştirme (Üye veya Misafir)
     let matchedUserId: string | null = buyer.id || null
     if (!matchedUserId && buyer.email) {
       const existingUser = await prisma.user.findUnique({
@@ -144,10 +199,10 @@ export async function POST(req: Request) {
       }
     }
 
-    // 4. Benzersiz Sipariş Numarası Üret
+    // 5. Benzersiz Sipariş Numarası Üret
     const orderNumber = await generateUniqueOrderNumber()
 
-    // 5. Siparişi Veritabanında PENDING Durumunda Oluştur
+    // 6. Siparişi Veritabanında PENDING Durumunda Oluştur
     const customerNotes = JSON.stringify({
       customerName: `${buyer.name} ${buyer.surname}`.trim(),
       customerEmail: buyer.email.trim(),
@@ -157,6 +212,13 @@ export async function POST(req: Request) {
       city: buyer.city || "İstanbul",
       district: buyer.district || "",
       identityNumber: buyer.identityNumber || "11111111111",
+      deliveryMethod: deliveryMethodSelected,
+      deliveryTitle: deliveryTitle,
+      shippingFee: shippingCost,
+      banabiStatus: deliveryMethodSelected === "banabikurye" ? "PENDING_PAYMENT" : null,
+      banabiOrderId: null,
+      banabiTrackingUrl: null,
+      banabiError: null,
       orderNotes: orderNotes || ""
     })
 
@@ -179,7 +241,7 @@ export async function POST(req: Request) {
       }
     })
 
-    // 6. Callback URL Belirleme
+    // 7. Callback URL Belirleme
     const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "ikizlerbaharatcilik.com"
     const proto = req.headers.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https")
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || `${proto}://${host}`
@@ -188,7 +250,7 @@ export async function POST(req: Request) {
     // İstemci IP adresi
     const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "85.34.78.112"
 
-    // 7. İyzico Checkout Form İsteğini Hazırla
+    // 8. İyzico Checkout Form İsteğini Hazırla
     const requestData = {
       locale: "tr",
       conversationId: newOrder.id,
@@ -244,7 +306,6 @@ export async function POST(req: Request) {
       })
     } else {
       console.error("Iyzico Initialization Failed:", iyzicoResult)
-      // Ödeme formu açılamadıysa bekleyen sipariş çöp kalmasın
       await prisma.order.delete({ where: { id: newOrder.id } }).catch(() => {})
       const errorMsg = iyzicoResult?.errorMessage || "Ödeme sistemi başlatılamadı. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
       return NextResponse.json({ error: errorMsg }, { status: 400 })
@@ -252,7 +313,6 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error("Checkout Internal Error:", error)
-    // Müşteriye teknik hata detaylarını gösterme, anlaşılır Türkçe bilgi dön
     return NextResponse.json({
       error: "Sipariş oluşturulurken bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
     }, { status: 500 })

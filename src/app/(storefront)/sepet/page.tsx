@@ -130,7 +130,7 @@ export default function CartPage() {
               
               <div className="flex justify-between text-slate-600">
                 <span>Kargo</span>
-                <span className="text-emerald-600 font-medium">Ücretsiz</span>
+                <span className="text-slate-800 font-medium">Ödeme Adımında Belirlenir (Min 199 TL)</span>
               </div>
             </div>
             

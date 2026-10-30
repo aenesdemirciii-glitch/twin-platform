@@ -1,45 +1,56 @@
 import prisma from "@/lib/prisma"
 import { SearchInput } from "@/components/admin/SearchInput"
-import { Package, MapPin, Phone, Mail, CheckCircle2, Clock, XCircle } from "lucide-react"
+import { CourierActionButtons } from "./CourierActionButtons"
+import { Package, MapPin, Phone, Mail, CheckCircle2, Clock, XCircle, Truck, Zap } from "lucide-react"
 
 export const dynamic = "force-dynamic"
 
 function parseOrderCustomer(order: any) {
-  if (order.address?.fullName) {
-    return {
-      name: order.address.fullName,
-      phone: order.address.phone,
-      address: `${order.address.address}, ${order.address.district || ''} / ${order.address.city}`
-    }
-  }
-
-  if (order.user) {
-    const fullName = `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim()
-    return {
-      name: fullName || order.user.email || "Kayıtlı Müşteri",
-      phone: order.user.phone || "-",
-      address: "-"
-    }
-  }
-
+  let notesObj: any = {}
   if (order.notes) {
     try {
-      const parsed = JSON.parse(order.notes)
-      return {
-        name: parsed.customerName || "Misafir Müşteri",
-        phone: parsed.customerPhone || "-",
-        email: parsed.customerEmail || "-",
-        address: parsed.shippingAddress || "-"
-      }
+      notesObj = JSON.parse(order.notes)
     } catch (e) {
-      // not JSON
+      notesObj = {}
     }
   }
 
+  const deliveryMethod = notesObj.deliveryMethod || "standard"
+  const deliveryTitle = notesObj.deliveryTitle || (deliveryMethod === "banabikurye" ? "Aynı Gün Teslimat (Banabikurye)" : "Standart Kargo")
+  const shippingFee = typeof notesObj.shippingFee === "number" ? notesObj.shippingFee : Number(order.shippingCost)
+
+  let name = "Misafir Müşteri"
+  let phone = "-"
+  let email = "-"
+  let address = "-"
+
+  if (order.address?.fullName) {
+    name = order.address.fullName
+    phone = order.address.phone
+    address = `${order.address.address}, ${order.address.district || ''} / ${order.address.city}`
+  } else if (order.user) {
+    const fullName = `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim()
+    name = fullName || order.user.email || "Kayıtlı Müşteri"
+    phone = order.user.phone || "-"
+  }
+
+  if (notesObj.customerName) name = notesObj.customerName
+  if (notesObj.customerPhone) phone = notesObj.customerPhone
+  if (notesObj.customerEmail) email = notesObj.customerEmail
+  if (notesObj.shippingAddress) address = notesObj.shippingAddress
+
   return {
-    name: "Misafir Müşteri",
-    phone: "-",
-    address: "-"
+    name,
+    phone,
+    email,
+    address,
+    deliveryMethod,
+    deliveryTitle,
+    shippingFee,
+    banabiOrderId: notesObj.banabiOrderId,
+    banabiTrackingUrl: notesObj.banabiTrackingUrl,
+    banabiStatus: notesObj.banabiStatus,
+    banabiError: notesObj.banabiError,
   }
 }
 
@@ -74,7 +85,7 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ q
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Siparişler</h1>
-          <p className="text-sm text-slate-500 mt-1">Gelen siparişleri, ödeme durumlarını ve kargo bilgilerini inceleyin.</p>
+          <p className="text-sm text-slate-500 mt-1">Gelen siparişleri, Banabikurye kurye çağrılarını ve kargo durumlarını yönetin.</p>
         </div>
       </div>
 
@@ -88,7 +99,7 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ q
               <tr>
                 <th className="px-6 py-4">Sipariş No & Tarih</th>
                 <th className="px-6 py-4">Müşteri & İletişim</th>
-                <th className="px-6 py-4">Teslimat Adresi</th>
+                <th className="px-6 py-4">Teslimat & Kurye</th>
                 <th className="px-6 py-4">Ürünler</th>
                 <th className="px-6 py-4">Tutar</th>
                 <th className="px-6 py-4">Ödeme / Sipariş Durumu</th>
@@ -119,18 +130,41 @@ export default async function AdminOrdersPage(props: { searchParams: Promise<{ q
                             <Phone className="w-3 h-3 text-slate-400" /> {customer.phone}
                           </p>
                         )}
-                        {(customer as any).email && (customer as any).email !== "-" && (
+                        {customer.email && customer.email !== "-" && (
                           <p className="text-[11px] text-slate-500 flex items-center gap-1">
-                            <Mail className="w-3 h-3 text-slate-400" /> {(customer as any).email}
+                            <Mail className="w-3 h-3 text-slate-400" /> {customer.email}
                           </p>
                         )}
                       </td>
 
-                      {/* Teslimat Adresi */}
+                      {/* Teslimat Yöntemi & Adresi & Banabikurye İşlemleri */}
                       <td className="px-6 py-4 align-top max-w-xs">
-                        <p className="text-xs text-slate-600 line-clamp-2" title={customer.address}>
-                          {customer.address}
-                        </p>
+                        <div className="space-y-1">
+                          {customer.deliveryMethod === "banabikurye" ? (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+                              <Zap className="w-3 h-3 text-amber-600 fill-amber-500" /> Aynı Gün Kurye ({customer.shippingFee} TL)
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                              <Truck className="w-3 h-3 text-slate-500" /> Standart Kargo ({customer.shippingFee} TL)
+                            </span>
+                          )}
+
+                          <p className="text-xs text-slate-600 line-clamp-2 mt-1" title={customer.address}>
+                            {customer.address}
+                          </p>
+
+                          {/* Banabikurye Kurye Aksiyon Butonları */}
+                          <CourierActionButtons
+                            orderId={order.id}
+                            orderNumber={order.orderNumber}
+                            deliveryMethod={customer.deliveryMethod}
+                            banabiOrderId={customer.banabiOrderId}
+                            banabiTrackingUrl={customer.banabiTrackingUrl}
+                            banabiStatus={customer.banabiStatus}
+                            banabiError={customer.banabiError}
+                          />
+                        </div>
                       </td>
 
                       {/* Ürünler */}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { retrievePaymentResult } from "@/services/payment/iyzico"
 import { sendOrderEmails } from "@/lib/mail"
+import { createBanabiOrder } from "@/services/courier/banabikurye"
 
 export async function POST(req: Request) {
   try {
@@ -86,7 +87,54 @@ export async function POST(req: Request) {
         }
       })
 
-      // 4. Sipariş Onay E-postalarını Gönder
+      // 4. Banabikurye Kurye Siparişi Oluşturma (Yalnızca ödeme doğrulandıktan sonra)
+      if (updatedOrder && updatedOrder.notes) {
+        try {
+          const parsedNotes = JSON.parse(updatedOrder.notes)
+
+          // Mükerrer kurye siparişi oluşturmayı önle
+          if (parsedNotes.deliveryMethod === "banabikurye" && !parsedNotes.banabiOrderId) {
+            console.log(`Initiating Banabikurye dispatch for Order #${updatedOrder.orderNumber}...`)
+
+            const fullAddress = `${parsedNotes.shippingAddress} ${parsedNotes.district ? parsedNotes.district + ' ' : ''}${parsedNotes.city || ''}`.trim()
+
+            const courierRes = await createBanabiOrder({
+              orderId: updatedOrder.id,
+              orderNumber: updatedOrder.orderNumber,
+              deliveryAddress: fullAddress,
+              recipientName: parsedNotes.customerName || "Değerli Müşterimiz",
+              recipientPhone: parsedNotes.customerPhone || "",
+              matter: "Baharat ve Doğal Gıda Ürünleri",
+              note: parsedNotes.orderNotes || `İkizler Baharatçılık Siparişi #${updatedOrder.orderNumber}`
+            })
+
+            const updatedNotesObj = { ...parsedNotes }
+
+            if (courierRes.success && courierRes.banabiOrderId) {
+              console.log(`Banabikurye courier created: ID ${courierRes.banabiOrderId}`)
+              updatedNotesObj.banabiOrderId = courierRes.banabiOrderId
+              updatedNotesObj.banabiTrackingUrl = courierRes.trackingUrl || ""
+              updatedNotesObj.banabiStatus = courierRes.status || "created"
+              updatedNotesObj.banabiError = null
+              updatedNotesObj.banabiCreatedAt = new Date().toISOString()
+            } else {
+              console.warn(`Banabikurye courier failed: ${courierRes.error}`)
+              // Ödenmiş sipariş asla başarısız yapılmaz, admin paneline operasyonel müdahale uyarısı düşürülür
+              updatedNotesObj.banabiStatus = "FAILED"
+              updatedNotesObj.banabiError = courierRes.error || "Kurye siparişi oluşturulamadı."
+            }
+
+            await prisma.order.update({
+              where: { id: updatedOrder.id },
+              data: { notes: JSON.stringify(updatedNotesObj) }
+            })
+          }
+        } catch (courierErr) {
+          console.error("Banabikurye courier dispatch exception:", courierErr)
+        }
+      }
+
+      // 5. Sipariş Onay E-postalarını Gönder
       if (updatedOrder) {
         try {
           let customerEmail = "info@ikizlerbaharatcilik.com"
@@ -106,7 +154,7 @@ export async function POST(req: Request) {
         }
       }
 
-      // 5. Başarılı sayfasına sipariş numarasıyla yönlendir
+      // 6. Başarılı sayfasına sipariş numarasıyla yönlendir
       const orderNumber = updatedOrder?.orderNumber || orderId
       return NextResponse.redirect(new URL(`/odeme-basarili?orderId=${orderId}&orderNumber=${encodeURIComponent(orderNumber)}`, req.url))
 

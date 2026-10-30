@@ -4,21 +4,29 @@ import prisma from '@/lib/prisma'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://ikizlerbaharatcilik.com'
 
-  // Fetch dynamic routes
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    select: { slug: true, updatedAt: true },
-  })
+  let products: { slug: string; updatedAt: Date }[] = []
+  let categories: { slug: string; updatedAt: Date }[] = []
+  let blogs: { slug: string; updatedAt: Date }[] = []
 
-  const categories = await prisma.category.findMany({
-    where: { active: true },
-    select: { slug: true, updatedAt: true },
-  })
+  try {
+    // Fetch dynamic routes
+    products = await prisma.product.findMany({
+      where: { isActive: true },
+      select: { slug: true, updatedAt: true },
+    })
 
-  const blogs = await prisma.blogPost.findMany({
-    where: { isActive: true },
-    select: { slug: true, updatedAt: true },
-  })
+    categories = await prisma.category.findMany({
+      where: { active: true },
+      select: { slug: true, updatedAt: true },
+    })
+
+    blogs = await prisma.blogPost.findMany({
+      where: { isActive: true },
+      select: { slug: true, updatedAt: true },
+    })
+  } catch (error) {
+    console.warn("Could not fetch dynamic routes for sitemap during build:", error)
+  }
 
   // Static routes
   const routes: MetadataRoute.Sitemap = [

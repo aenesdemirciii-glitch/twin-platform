@@ -1,16 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import { useCartStore } from "@/store/useCartStore"
-import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2 } from "lucide-react"
+import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2, Truck, Zap, Clock, MapPin } from "lucide-react"
 
 export default function CheckoutPage() {
-  const { items, getTotal, clearCart } = useCartStore()
+  const { items, getTotal } = useCartStore()
   const [mounted, setMounted] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [shippingMethod, setShippingMethod] = useState("standard")
+  
+  // Teslimat Yöntemi: "standard" | "banabikurye"
+  const [deliveryMethod, setDeliveryMethod] = useState<"standard" | "banabikurye">("standard")
+  const [standardFee] = useState<number>(199.00)
+  
+  // Banabikurye State
+  const [banabiFee, setBanabiFee] = useState<number | null>(null)
+  const [isCalculatingBanabi, setIsCalculatingBanabi] = useState(false)
+  const [banabiError, setBanabiError] = useState<string | null>(null)
+  const [isAfterCutoff, setIsAfterCutoff] = useState(false)
+
   const [discountCode, setDiscountCode] = useState("")
   const [discountApplied, setDiscountApplied] = useState<{ code: string; amount: number } | null>(null)
   const [iyzicoHtml, setIyzicoHtml] = useState<string | null>(null)
@@ -28,27 +38,108 @@ export default function CheckoutPage() {
     orderNotes: ""
   })
 
-  // Hydration fix
+  // Saat 17:00 Kontrolü (İstemci tarafı ilk kontrol)
   useEffect(() => {
     setMounted(true)
+    try {
+      const trTime = new Date().toLocaleString("en-US", { timeZone: "Europe/Istanbul", hour12: false })
+      const hour = new Date(trTime).getHours()
+      if (hour >= 17) {
+        setIsAfterCutoff(true)
+      }
+    } catch (e) {
+      // fallback
+    }
   }, [])
 
+  // Aktif Kargo Ücreti
+  const activeShippingFee = deliveryMethod === "banabikurye" 
+    ? (banabiFee !== null ? banabiFee : standardFee) 
+    : standardFee
+
   const subtotal = getTotal()
-  let shippingCost = 0
-  if (shippingMethod === "standard") {
-    shippingCost = subtotal >= 3000 ? 0 : 249.00
-  } else if (shippingMethod === "sameday-anadolu") {
-    shippingCost = 199.00
-  } else if (shippingMethod === "sameday-avrupa") {
-    shippingCost = 299.00
-  }
-
   const discountAmount = discountApplied ? discountApplied.amount : 0
-  const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? shippingCost : 0)
+  const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? activeShippingFee : 0)
 
+  // Banabikurye Fiyat Hesaplama İstek Fonksiyonu
+  const calculateBanabiPrice = useCallback(async (addressText: string, districtText: string, cityText: string) => {
+    if (!addressText || addressText.trim().length < 8) {
+      setBanabiFee(null)
+      setBanabiError("Fiyat için teslimat adresinizi giriniz.")
+      return
+    }
+
+    setIsCalculatingBanabi(true)
+    setBanabiError(null)
+
+    try {
+      const res = await fetch("/api/delivery/calculate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          deliveryMethod: "banabikurye",
+          address: addressText.trim(),
+          district: districtText.trim(),
+          city: cityText.trim(),
+          items: items.map(i => ({ id: i.id, quantity: i.quantity }))
+        })
+      })
+
+      const data = await res.json()
+
+      if (data.success && typeof data.price === "number") {
+        setBanabiFee(data.price)
+        setBanabiError(null)
+      } else {
+        setBanabiFee(null)
+        setBanabiError(data.error || "Aynı Gün Teslimat bu adres için sağlanamıyor.")
+        if (data.isAfterCutoff) {
+          setIsAfterCutoff(true)
+        }
+      }
+    } catch (err) {
+      setBanabiFee(null)
+      setBanabiError("Fiyat hesaplama servisine ulaşılamadı.")
+    } finally {
+      setIsCalculatingBanabi(false)
+    }
+  }, [items])
+
+  // Adres veya İlçe değiştikçe Banabikurye fiyatını debounce ile yeniden hesapla
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    const updatedForm = { ...formData, [name]: value }
+    setFormData(updatedForm)
+
+    // Eğer adres alanları değişiyorsa ve kurye seçiliyse veya seçilebilir durumdaysa fiyatı sıfırla ve yeniden hesapla
+    if (name === "address" || name === "district" || name === "city") {
+      setBanabiFee(null)
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+
+      if (deliveryMethod === "banabikurye" && !isAfterCutoff) {
+        debounceTimerRef.current = setTimeout(() => {
+          calculateBanabiPrice(updatedForm.address, updatedForm.district, updatedForm.city)
+        }, 800)
+      }
+    }
+  }
+
+  // Teslimat yöntemi değiştirildiğinde
+  const handleSelectDeliveryMethod = (method: "standard" | "banabikurye") => {
+    setDeliveryMethod(method)
+    setErrorMessage(null)
+
+    if (method === "banabikurye") {
+      if (isAfterCutoff) {
+        setErrorMessage("Bugün için Aynı Gün Teslimat sipariş saati (17:00) sona ermiştir. Standart kargo ile devam edebilirsiniz.")
+        setDeliveryMethod("standard")
+        return
+      }
+      if (banabiFee === null) {
+        calculateBanabiPrice(formData.address, formData.district, formData.city)
+      }
+    }
   }
 
   const applyDiscount = async () => {
@@ -56,6 +147,7 @@ export default function CheckoutPage() {
     alert("Kupon sistemi şu anda güncelleniyor.")
   }
 
+  // Ödemeyi Başlat
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault()
     setErrorMessage(null)
@@ -77,6 +169,19 @@ export default function CheckoutPage() {
       return
     }
 
+    // Aynı gün teslimat seçilmişse geçerli bir kurye fiyatı olmalı
+    if (deliveryMethod === "banabikurye") {
+      if (isAfterCutoff) {
+        setErrorMessage("Aynı Gün Teslimat için saat 17:00 sınırı aşılmıştır. Lütfen Standart Kargo seçeneğini kullanınız.")
+        setDeliveryMethod("standard")
+        return
+      }
+      if (banabiFee === null || isCalculatingBanabi) {
+        setErrorMessage("Aynı Gün Teslimat için kurye fiyatı henüz doğrulanamadı. Lütfen adresinizi kontrol ediniz veya Standart Kargo'yu seçiniz.")
+        return
+      }
+    }
+
     setIsProcessing(true)
 
     try {
@@ -95,7 +200,8 @@ export default function CheckoutPage() {
           })),
           shippingAddress: fullAddress,
           billingAddress: fullAddress,
-          shippingCostOverride: shippingCost,
+          deliveryMethod: deliveryMethod,
+          clientShippingFee: activeShippingFee,
           orderNotes: formData.orderNotes,
           buyer: {
             name: formData.firstName.trim(),
@@ -111,6 +217,13 @@ export default function CheckoutPage() {
       })
 
       const data = await res.json()
+
+      if (data.priceUpdated && typeof data.newShippingFee === "number") {
+        setBanabiFee(data.newShippingFee)
+        setErrorMessage(data.error || "Kurye teslimat ücreti güncellendi. Lütfen yeni tutarı kontrol edip tekrar 'Güvenli Öde'ye basınız.")
+        setIsProcessing(false)
+        return
+      }
 
       if (data.success && data.checkoutFormContent) {
         setIyzicoHtml(data.checkoutFormContent)
@@ -159,8 +272,8 @@ export default function CheckoutPage() {
               <p className="text-xs text-slate-500 mt-0.5">İyzico 3D Secure onay ekranı</p>
             </div>
             <div className="text-right">
-              <span className="text-xs text-slate-500">Ödenecek Tutar</span>
-              <p className="text-lg font-black text-amber-600">{totalAmount.toLocaleString("tr-TR")} TL</p>
+              <span className="text-xs text-slate-500">Ödenecek Toplam Tutar</span>
+              <p className="text-xl font-black text-amber-600">{totalAmount.toLocaleString("tr-TR")} TL</p>
             </div>
           </div>
 
@@ -178,7 +291,7 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen bg-slate-50 py-12">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h1 className="text-3xl font-black text-brand-slate mb-4">Ödeme Yap</h1>
+          <h1 className="text-3xl font-black text-slate-900 mb-4">Ödeme Yap</h1>
           <p className="text-slate-500 mb-8">Sepetinizde ürün bulunmuyor.</p>
           <Link href="/" className="inline-block bg-amber-500 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-amber-400 transition-colors">
             Alışverişe Başla
@@ -299,19 +412,19 @@ export default function CheckoutPage() {
                       name="district"
                       value={formData.district}
                       onChange={handleInputChange}
-                      placeholder="Kadıköy, Çankaya vb."
+                      placeholder="Kadıköy, Üsküdar vb."
                       className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
                     />
                   </div>
                   <div className="space-y-1.5 md:col-span-2">
-                    <label className="text-xs font-bold text-slate-700">Açık Adres *</label>
+                    <label className="text-xs font-bold text-slate-700">Açık Adres (Mahalle, Cadde, Sokak, Kapı No) *</label>
                     <textarea 
                       required 
                       rows={3} 
                       name="address"
                       value={formData.address}
                       onChange={handleInputChange}
-                      placeholder="Mahalle, Cadde/Sokak, Bina No, Daire No..."
+                      placeholder="Açık adresinizi eksiksiz yazınız. Kurye ve kargo teslimatı bu adrese yapılacaktır."
                       className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
                     />
                   </div>
@@ -322,87 +435,125 @@ export default function CheckoutPage() {
                       name="orderNotes"
                       value={formData.orderNotes}
                       onChange={handleInputChange}
-                      placeholder="Kurye için zil bilgisi, özel paketleme isteği vb."
+                      placeholder="Kurye için zil bilgisi, özel teslimat talebi vb."
                       className="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
                     />
                   </div>
                 </div>
               </div>
 
-              {/* 3. Kargo Seçenekleri */}
+              {/* 3. TESLİMAT SEÇENEKLERİ (Standart Kargo & Aynı Gün Teslimat Banabikurye) */}
               <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                  <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">3</span> 
-                  Kargo Seçeneği
-                </h2>
-                <div className="space-y-3">
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "standard" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="radio" 
-                        name="shipping" 
-                        value="standard" 
-                        checked={shippingMethod === "standard"} 
-                        onChange={() => setShippingMethod("standard")}
-                        className="w-4 h-4 accent-amber-500" 
-                      />
-                      <div>
-                        <div className="font-bold text-slate-900 text-sm">Standart Kargo Teslimatı</div>
-                        <div className="text-xs text-slate-500">Tüm Türkiye'ye 2-3 iş günü içinde adrese teslim</div>
-                      </div>
-                    </div>
-                    <div className="font-bold text-sm text-slate-900">
-                      {subtotal >= 3000 ? (
-                        <span className="text-emerald-700 font-extrabold bg-emerald-50 px-2.5 py-1 rounded-md">ÜCRETSİZ</span>
-                      ) : (
-                        "249,00 TL"
-                      )}
-                    </div>
-                  </label>
-                  
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-anadolu" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="radio" 
-                        name="shipping" 
-                        value="sameday-anadolu" 
-                        checked={shippingMethod === "sameday-anadolu"} 
-                        onChange={() => setShippingMethod("sameday-anadolu")}
-                        className="w-4 h-4 accent-amber-500" 
-                      />
-                      <div>
-                        <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                          Özel Moto Kurye (İstanbul Anadolu Yakası)
-                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-black tracking-wider">AYNI GÜN</span>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">3</span> 
+                    Teslimat Yöntemi
+                  </h2>
+                  <span className="text-xs font-medium text-slate-500">2 teslimat seçeneği</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* SEÇENEK 1: STANDART KARGO (Sabit 199 TL) */}
+                  <label 
+                    onClick={() => handleSelectDeliveryMethod("standard")}
+                    className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                      deliveryMethod === "standard" 
+                        ? "border-amber-500 bg-amber-50/30 shadow-sm" 
+                        : "border-slate-200 bg-white hover:border-slate-300"
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <input 
+                            type="radio" 
+                            name="deliveryMethodRadio" 
+                            checked={deliveryMethod === "standard"} 
+                            onChange={() => handleSelectDeliveryMethod("standard")}
+                            className="w-4 h-4 accent-amber-500" 
+                          />
+                          <span className="font-extrabold text-slate-900 text-base">Standart Kargo</span>
                         </div>
-                        <div className="text-xs text-slate-500">Saat 14:00'e kadar verilen siparişlerde aynı gün teslim</div>
+                        <span className="text-[11px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full">
+                          Tüm Türkiye
+                        </span>
                       </div>
+                      <p className="text-xs text-slate-600 leading-relaxed mb-4 flex items-center gap-1.5">
+                        <Truck className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                        <span>3-5 iş günü içerisinde adrese teslimat</span>
+                      </p>
                     </div>
-                    <div className="font-bold text-sm text-slate-900">
-                      199,00 TL
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-xs text-slate-500 font-medium">Sabit Kargo Ücreti:</span>
+                      <span className="text-base font-black text-slate-900">199,00 TL</span>
                     </div>
                   </label>
 
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-avrupa" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="radio" 
-                        name="shipping" 
-                        value="sameday-avrupa" 
-                        checked={shippingMethod === "sameday-avrupa"} 
-                        onChange={() => setShippingMethod("sameday-avrupa")}
-                        className="w-4 h-4 accent-amber-500" 
-                      />
-                      <div>
-                        <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                          Özel Moto Kurye (İstanbul Avrupa Yakası)
-                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-black tracking-wider">AYNI GÜN</span>
+                  {/* SEÇENEK 2: AYNI GÜN TESLİMAT (Banabikurye) */}
+                  <label 
+                    onClick={() => !isAfterCutoff && handleSelectDeliveryMethod("banabikurye")}
+                    className={`relative p-5 rounded-2xl border-2 transition-all flex flex-col justify-between ${
+                      isAfterCutoff 
+                        ? "border-slate-200 bg-slate-50/70 opacity-60 cursor-not-allowed" 
+                        : deliveryMethod === "banabikurye" 
+                        ? "border-amber-500 bg-amber-50/30 shadow-sm cursor-pointer" 
+                        : "border-slate-200 bg-white hover:border-slate-300 cursor-pointer"
+                    }`}
+                  >
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <input 
+                            type="radio" 
+                            name="deliveryMethodRadio" 
+                            disabled={isAfterCutoff}
+                            checked={deliveryMethod === "banabikurye"} 
+                            onChange={() => !isAfterCutoff && handleSelectDeliveryMethod("banabikurye")}
+                            className="w-4 h-4 accent-amber-500 disabled:opacity-40" 
+                          />
+                          <span className="font-extrabold text-slate-900 text-base flex items-center gap-1">
+                            Aynı Gün Teslimat
+                          </span>
                         </div>
-                        <div className="text-xs text-slate-500">Saat 14:00'e kadar verilen siparişlerde aynı gün teslim</div>
+                        <span className="text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full flex items-center gap-1">
+                          <Zap className="w-3 h-3 text-amber-600 fill-amber-500" /> Banabikurye
+                        </span>
                       </div>
+
+                      <p className="text-xs text-slate-600 leading-relaxed mb-2 flex items-center gap-1.5">
+                        <Clock className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                        <span>Banabikurye ile hızlı teslimat (Saat 17:00'ye kadar)</span>
+                      </p>
+
+                      {/* Uyarılar & Durum Mesajları */}
+                      {isAfterCutoff ? (
+                        <div className="text-[11px] font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-2 my-2">
+                          Bugün için sipariş saati sona erdi (17:00).
+                        </div>
+                      ) : banabiError && deliveryMethod === "banabikurye" ? (
+                        <div className="text-[11px] font-semibold text-amber-800 bg-amber-100/60 border border-amber-200 rounded-lg p-2 my-2 flex items-start gap-1.5">
+                          <AlertCircle className="w-3.5 h-3.5 text-amber-700 mt-0.5 flex-shrink-0" />
+                          <span>{banabiError}</span>
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="font-bold text-sm text-slate-900">
-                      299,00 TL
+
+                    <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                      <span className="text-xs text-slate-500 font-medium">Kurye Ücreti:</span>
+                      <div>
+                        {isAfterCutoff ? (
+                          <span className="text-xs font-bold text-slate-400">Kapalı</span>
+                        ) : isCalculatingBanabi ? (
+                          <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700">
+                            <Loader2 className="w-3.5 h-3.5 animate-spin" /> Hesaplanıyor...
+                          </span>
+                        ) : banabiFee !== null ? (
+                          <span className="text-base font-black text-amber-600">{banabiFee.toFixed(2)} TL</span>
+                        ) : (
+                          <span className="text-xs font-bold text-slate-500">Adresle Hesaplanır</span>
+                        )}
+                      </div>
                     </div>
                   </label>
                 </div>
@@ -518,12 +669,16 @@ export default function CheckoutPage() {
                 )}
 
                 <div className="flex justify-between text-slate-600 font-medium text-xs">
-                  <span>Kargo Ücreti</span>
-                  {shippingCost === 0 ? (
-                    <span className="text-emerald-700 font-bold">Ücretsiz</span>
-                  ) : (
-                    <span>{shippingCost.toLocaleString('tr-TR')} TL</span>
-                  )}
+                  <span>
+                    {deliveryMethod === "banabikurye" ? "Aynı Gün Teslimat (Banabikurye)" : "Standart Kargo"}
+                  </span>
+                  <span className="font-bold text-slate-900">
+                    {deliveryMethod === "banabikurye" && isCalculatingBanabi ? (
+                      "Hesaplanıyor..."
+                    ) : (
+                      `${activeShippingFee.toLocaleString('tr-TR')} TL`
+                    )}
+                  </span>
                 </div>
               </div>
 
@@ -535,7 +690,7 @@ export default function CheckoutPage() {
               <button 
                 type="submit" 
                 form="checkout-form"
-                disabled={isProcessing}
+                disabled={isProcessing || (deliveryMethod === "banabikurye" && (banabiFee === null || isCalculatingBanabi))}
                 className="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors shadow-lg shadow-blue-200 flex justify-center items-center gap-2 text-base"
               >
                 {isProcessing ? (
