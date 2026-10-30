@@ -2,26 +2,30 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { useCartStore } from "@/store/useCartStore"
-import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2 } from "lucide-react"
+import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2 } from "lucide-react"
 
 export default function CheckoutPage() {
   const { items, getTotal, clearCart } = useCartStore()
   const [mounted, setMounted] = useState(false)
-  const [paymentSuccess, setPaymentSuccess] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [shippingMethod, setShippingMethod] = useState("standard")
   const [discountCode, setDiscountCode] = useState("")
   const [discountApplied, setDiscountApplied] = useState<{ code: string; amount: number } | null>(null)
   const [iyzicoHtml, setIyzicoHtml] = useState<string | null>(null)
+
+  // Müşteri İletişim ve Teslimat Form Verileri
   const [formData, setFormData] = useState({
-    firstName: "Test",
-    lastName: "User",
-    email: "test@example.com",
-    phone: "05555555555",
-    city: "Istanbul",
-    address: "Örnek Mah. Test Sk."
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    city: "İstanbul",
+    district: "",
+    address: "",
+    identityNumber: "11111111111",
+    orderNotes: ""
   })
 
   // Hydration fix
@@ -42,30 +46,65 @@ export default function CheckoutPage() {
   const discountAmount = discountApplied ? discountApplied.amount : 0
   const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? shippingCost : 0)
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
   const applyDiscount = async () => {
     if (!discountCode.trim()) return
-    alert("Kupon sistemi geçici olarak devredışı.")
+    alert("Kupon sistemi şu anda güncelleniyor.")
   }
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault()
+    setErrorMessage(null)
+
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      setErrorMessage("Lütfen ad ve soyadınızı giriniz.")
+      return
+    }
+    if (!formData.email.trim() || !formData.email.includes("@")) {
+      setErrorMessage("Lütfen geçerli bir e-posta adresi giriniz.")
+      return
+    }
+    if (!formData.phone.trim() || formData.phone.length < 10) {
+      setErrorMessage("Lütfen geçerli bir cep telefonu numarası giriniz.")
+      return
+    }
+    if (!formData.address.trim()) {
+      setErrorMessage("Lütfen teslimat adresinizi eksiksiz giriniz.")
+      return
+    }
+
     setIsProcessing(true)
-    
+
     try {
+      const fullAddress = `${formData.address.trim()} ${formData.district ? formData.district + ' / ' : ''}${formData.city}`.trim()
+
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items,
-          shippingAddress: formData.address,
-          billingAddress: formData.address,
+          items: items.map((i) => ({
+            productId: i.id,
+            name: i.name,
+            quantity: i.quantity,
+            price: i.price,
+            variantId: (i as any).variantId || null
+          })),
+          shippingAddress: fullAddress,
+          billingAddress: fullAddress,
+          shippingCostOverride: shippingCost,
+          orderNotes: formData.orderNotes,
           buyer: {
-            name: formData.firstName,
-            surname: formData.lastName,
-            email: formData.email,
-            gsmNumber: formData.phone,
-            city: formData.city,
-            identityNumber: "11111111111" // Iyzico requires this, usually collected in form
+            name: formData.firstName.trim(),
+            surname: formData.lastName.trim(),
+            email: formData.email.trim(),
+            gsmNumber: formData.phone.trim(),
+            city: formData.city.trim(),
+            district: formData.district.trim(),
+            identityNumber: formData.identityNumber.trim() || "11111111111"
           },
           discountCode: discountApplied ? discountApplied.code : null
         })
@@ -76,42 +115,60 @@ export default function CheckoutPage() {
       if (data.success && data.checkoutFormContent) {
         setIyzicoHtml(data.checkoutFormContent)
       } else {
-        alert(data.error || "Ödeme başlatılamadı.")
+        setErrorMessage(data.error || "Ödeme sistemi başlatılamadı. Lütfen bilgilerinizi kontrol ediniz.")
         setIsProcessing(false)
       }
-    } catch (error) {
-      alert("Bir hata oluştu.")
+    } catch (error: any) {
+      console.error("Payment init error:", error)
+      setErrorMessage("Bağlantı hatası oluştu. Lütfen tekrar deneyiniz.")
       setIsProcessing(false)
     }
   }
 
-  if (!mounted) return <div className="min-h-screen bg-slate-50 flex items-center justify-center">Yükleniyor...</div>
-
-  // If Iyzico form is ready, render it
-  if (iyzicoHtml) {
+  if (!mounted) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center py-12 px-4">
-        <h2 className="text-2xl font-black text-brand-slate mb-6">Güvenli Ödeme Ekranı</h2>
-        <div className="w-full max-w-3xl bg-white p-4 rounded-xl shadow-sm" dangerouslySetInnerHTML={{ __html: iyzicoHtml }} />
-        {/* Iyzico includes a script tag in checkoutFormContent that will render the responsive iframe automatically */}
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
       </div>
     )
   }
 
-  if (paymentSuccess) {
+  // İyzico Formu Hazır Olduğunda Güvenli Ödeme İframe'ini Göster
+  if (iyzicoHtml) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-lg w-full text-center border border-slate-100">
-          <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-12 h-12" />
+      <div className="min-h-screen bg-slate-50 flex flex-col items-center py-12 px-4">
+        <div className="w-full max-w-3xl mb-6 flex items-center justify-between">
+          <button
+            onClick={() => {
+              setIyzicoHtml(null)
+              setIsProcessing(false)
+            }}
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm font-bold transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Bilgileri Düzenle
+          </button>
+          <div className="flex items-center gap-2 text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-full text-xs font-bold border border-emerald-200">
+            <Lock className="w-3.5 h-3.5" /> 256-Bit SSL Korumalı Güvenli Ödeme
           </div>
-          <h1 className="text-3xl font-black text-brand-slate mb-4">Siparişiniz Alındı!</h1>
-          <p className="text-slate-600 mb-8 font-medium leading-relaxed">
-            Teşekkür ederiz. Ödemeniz iyzico güvencesiyle başarıyla tamamlandı. Sipariş numaranız <strong>#TWIN-{Math.floor(Math.random() * 900000) + 100000}</strong>. Detaylar e-posta adresinize gönderildi.
-          </p>
-          <Link href="/" className="inline-flex items-center justify-center w-full bg-brand-slate text-white font-bold py-4 rounded-xl hover:bg-brand-gold hover:text-brand-slate transition-colors text-lg">
-            Alışverişe Dön
-          </Link>
+        </div>
+
+        <div className="w-full max-w-3xl bg-white p-6 rounded-2xl shadow-lg border border-slate-200">
+          <div className="mb-4 pb-4 border-b border-slate-100 flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">Güvenli Kart Ödemesi</h2>
+              <p className="text-xs text-slate-500 mt-0.5">İyzico 3D Secure onay ekranı</p>
+            </div>
+            <div className="text-right">
+              <span className="text-xs text-slate-500">Ödenecek Tutar</span>
+              <p className="text-lg font-black text-amber-600">{totalAmount.toLocaleString("tr-TR")} TL</p>
+            </div>
+          </div>
+
+          <div
+            id="iyzipay-checkout-form"
+            className="w-full responsive min-h-[450px]"
+            dangerouslySetInnerHTML={{ __html: iyzicoHtml }}
+          />
         </div>
       </div>
     )
@@ -123,7 +180,7 @@ export default function CheckoutPage() {
         <div className="container mx-auto px-4 max-w-4xl text-center">
           <h1 className="text-3xl font-black text-brand-slate mb-4">Ödeme Yap</h1>
           <p className="text-slate-500 mb-8">Sepetinizde ürün bulunmuyor.</p>
-          <Link href="/" className="inline-block bg-brand-slate text-white font-bold py-3 px-8 rounded-xl hover:bg-brand-gold hover:text-brand-slate transition-colors">
+          <Link href="/" className="inline-block bg-amber-500 text-slate-950 font-bold py-3 px-8 rounded-xl hover:bg-amber-400 transition-colors">
             Alışverişe Başla
           </Link>
         </div>
@@ -136,81 +193,150 @@ export default function CheckoutPage() {
       <div className="container mx-auto px-4 lg:px-8 max-w-6xl">
         
         <div className="mb-8 flex items-center justify-between">
-          <Link href="/sepet" className="flex items-center gap-2 text-brand-slate font-bold hover:text-brand-gold transition-colors">
+          <Link href="/sepet" className="flex items-center gap-2 text-slate-700 font-bold hover:text-amber-600 transition-colors">
             <ArrowLeft className="w-5 h-5" /> Sepete Dön
           </Link>
-          <div className="flex items-center gap-2 text-brand-slate opacity-60">
-            <ShieldCheck className="w-5 h-5 text-green-600" />
-            <span className="text-sm font-bold">256-bit SSL Güvenli Ödeme</span>
+          <div className="flex items-center gap-2 text-slate-600 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm text-xs font-semibold">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>256-bit SSL ve 3D Secure Güvenli Altyapı</span>
           </div>
         </div>
 
+        {errorMessage && (
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Form */}
+          {/* Sol Kolon: Form */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-6">
             <form id="checkout-form" onSubmit={handlePayment} className="space-y-6">
               
-              {/* İletişim Bilgileri */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
-                <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-brand-slate text-white flex items-center justify-center text-sm">1</span> 
+              {/* 1. İletişim Bilgileri */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">1</span> 
                   İletişim Bilgileri
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">Ad</label>
-                    <input required type="text" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Adınız *</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      placeholder="Örn: Ahmet"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">Soyad</label>
-                    <input required type="text" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">Soyadınız *</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      placeholder="Örn: Yılmaz"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-bold text-slate-600">E-Posta</label>
-                    <input required type="email" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-700">E-Posta Adresi *</label>
+                    <input 
+                      required 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="siparis@ornek.com (Sipariş ve kargo bilgisi buraya iletilir)"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-bold text-slate-600">Cep Telefonu</label>
-                    <input required type="tel" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-700">Cep Telefonu *</label>
+                    <input 
+                      required 
+                      type="tel" 
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="05XX XXX XX XX (Kargo SMS bildirimi için)"
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* Teslimat Adresi */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
-                <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-brand-slate text-white flex items-center justify-center text-sm">2</span> 
+              {/* 2. Teslimat Adresi */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">2</span> 
                   Teslimat & Fatura Adresi
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">İl</label>
-                    <input required type="text" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">İl *</label>
+                    <input 
+                      required 
+                      type="text" 
+                      name="city"
+                      value={formData.city}
+                      onChange={handleInputChange}
+                      placeholder="İstanbul, Ankara, İzmir..."
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">İlçe</label>
-                    <input required type="text" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" />
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700">İlçe</label>
+                    <input 
+                      type="text" 
+                      name="district"
+                      value={formData.district}
+                      onChange={handleInputChange}
+                      placeholder="Kadıköy, Çankaya vb."
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-bold text-slate-600">Açık Adres</label>
-                    <textarea required rows={3} className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-gold text-brand-slate" placeholder="Mahalle, sokak, no..."></textarea>
+                  <div className="space-y-1.5 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-700">Açık Adres *</label>
+                    <textarea 
+                      required 
+                      rows={3} 
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder="Mahalle, Cadde/Sokak, Bina No, Daire No..."
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
-                  <div className="space-y-2 md:col-span-2 flex items-center gap-3 mt-2">
-                    <input type="checkbox" id="same-address" defaultChecked className="w-5 h-5 accent-brand-gold" />
-                    <label htmlFor="same-address" className="text-sm font-bold text-slate-600 cursor-pointer">Fatura adresim teslimat adresim ile aynı olsun</label>
+                  <div className="space-y-1.5 md:col-span-2">
+                    <label className="text-xs font-bold text-slate-700">Sipariş Notu (Opsiyonel)</label>
+                    <input 
+                      type="text" 
+                      name="orderNotes"
+                      value={formData.orderNotes}
+                      onChange={handleInputChange}
+                      placeholder="Kurye için zil bilgisi, özel paketleme isteği vb."
+                      className="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* Kargo Seçenekleri */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
-                <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2">
-                  <span className="w-8 h-8 rounded-full bg-brand-slate text-white flex items-center justify-center text-sm">3</span> 
+              {/* 3. Kargo Seçenekleri */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">3</span> 
                   Kargo Seçeneği
                 </h2>
                 <div className="space-y-3">
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "standard" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "standard" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
                     <div className="flex items-center gap-3">
                       <input 
                         type="radio" 
@@ -218,19 +344,23 @@ export default function CheckoutPage() {
                         value="standard" 
                         checked={shippingMethod === "standard"} 
                         onChange={() => setShippingMethod("standard")}
-                        className="w-5 h-5 accent-brand-gold" 
+                        className="w-4 h-4 accent-amber-500" 
                       />
                       <div>
-                        <div className="font-bold text-brand-slate">Standart Teslimat</div>
-                        <div className="text-sm text-slate-500">2-3 iş günü içinde kargoda</div>
+                        <div className="font-bold text-slate-900 text-sm">Standart Kargo Teslimatı</div>
+                        <div className="text-xs text-slate-500">Tüm Türkiye'ye 2-3 iş günü içinde adrese teslim</div>
                       </div>
                     </div>
-                    <div className="font-black text-brand-slate">
-                      {subtotal >= 3000 ? "Ücretsiz" : "249,00 TL"}
+                    <div className="font-bold text-sm text-slate-900">
+                      {subtotal >= 3000 ? (
+                        <span className="text-emerald-700 font-extrabold bg-emerald-50 px-2.5 py-1 rounded-md">ÜCRETSİZ</span>
+                      ) : (
+                        "249,00 TL"
+                      )}
                     </div>
                   </label>
                   
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-anadolu" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-anadolu" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
                     <div className="flex items-center gap-3">
                       <input 
                         type="radio" 
@@ -238,22 +368,22 @@ export default function CheckoutPage() {
                         value="sameday-anadolu" 
                         checked={shippingMethod === "sameday-anadolu"} 
                         onChange={() => setShippingMethod("sameday-anadolu")}
-                        className="w-5 h-5 accent-brand-gold" 
+                        className="w-4 h-4 accent-amber-500" 
                       />
                       <div>
-                        <div className="font-bold text-brand-slate flex items-center gap-2">
-                          Aynı Gün Kurye (Anadolu Yakası)
-                          <span className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wider">HIZLI</span>
+                        <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                          Özel Moto Kurye (İstanbul Anadolu Yakası)
+                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-black tracking-wider">AYNI GÜN</span>
                         </div>
-                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir</div>
+                        <div className="text-xs text-slate-500">Saat 14:00'e kadar verilen siparişlerde aynı gün teslim</div>
                       </div>
                     </div>
-                    <div className="font-black text-brand-slate">
+                    <div className="font-bold text-sm text-slate-900">
                       199,00 TL
                     </div>
                   </label>
 
-                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-avrupa" ? "border-brand-gold bg-brand-gold/5" : "border-slate-200 hover:border-brand-gold/50"}`}>
+                  <label className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-colors ${shippingMethod === "sameday-avrupa" ? "border-amber-500 bg-amber-50/20" : "border-slate-200 hover:border-slate-300"}`}>
                     <div className="flex items-center gap-3">
                       <input 
                         type="radio" 
@@ -261,52 +391,51 @@ export default function CheckoutPage() {
                         value="sameday-avrupa" 
                         checked={shippingMethod === "sameday-avrupa"} 
                         onChange={() => setShippingMethod("sameday-avrupa")}
-                        className="w-5 h-5 accent-brand-gold" 
+                        className="w-4 h-4 accent-amber-500" 
                       />
                       <div>
-                        <div className="font-bold text-brand-slate flex items-center gap-2">
-                          Aynı Gün Kurye (Avrupa Yakası)
-                          <span className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded text-[10px] uppercase font-black tracking-wider">HIZLI</span>
+                        <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
+                          Özel Moto Kurye (İstanbul Avrupa Yakası)
+                          <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-black tracking-wider">AYNI GÜN</span>
                         </div>
-                        <div className="text-sm text-slate-500">Saat 18:00'a kadar teslim edilir</div>
+                        <div className="text-xs text-slate-500">Saat 14:00'e kadar verilen siparişlerde aynı gün teslim</div>
                       </div>
                     </div>
-                    <div className="font-black text-brand-slate">
+                    <div className="font-bold text-sm text-slate-900">
                       299,00 TL
                     </div>
                   </label>
                 </div>
               </div>
 
-              {/* Ödeme Bilgileri (iyzico mockup) */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-0"></div>
-                <h2 className="text-xl font-black text-brand-slate mb-6 flex items-center gap-2 relative z-10">
-                  <span className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm">4</span> 
-                  Ödeme Bilgileri
+              {/* 4. Ödeme Yöntemi Bilgilendirmesi */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                  <span className="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold">4</span> 
+                  Ödeme Yöntemi
                 </h2>
-                <div className="mb-6 flex items-center gap-2 relative z-10">
-                  <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">Altyapı:</div>
-                  <div className="font-black text-blue-600 text-lg tracking-tight">iyzi<span className="text-slate-800">co</span></div>
-                </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
-                  <div className="space-y-2 md:col-span-2">
-                    <label className="text-sm font-bold text-slate-600">Kart Üzerindeki İsim</label>
-                    <input required type="text" className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 text-brand-slate" />
+                <div className="p-4 rounded-xl border-2 border-blue-500 bg-blue-50/30">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2.5">
+                      <CreditCard className="w-5 h-5 text-blue-600" />
+                      <span className="font-bold text-slate-900 text-sm">Kredi Kartı / Banka Kartı ile Güvenli Ödeme</span>
+                    </div>
+                    <span className="text-xs font-extrabold text-blue-600 tracking-tight">iyzi<span className="text-slate-800">co</span></span>
                   </div>
-                  <div className="space-y-2 md:col-span-2 relative">
-                    <label className="text-sm font-bold text-slate-600">Kart Numarası</label>
-                    <input required type="text" placeholder="0000 0000 0000 0000" maxLength={19} className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 pl-12 focus:outline-none focus:border-blue-500 text-brand-slate tracking-widest font-mono" />
-                    <CreditCard className="absolute left-4 top-10 text-slate-400" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">Son Kullanma Tarihi</label>
-                    <input required type="text" placeholder="AA / YY" maxLength={5} className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 text-brand-slate font-mono text-center" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-600">CVV</label>
-                    <input required type="password" placeholder="***" maxLength={3} className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 text-brand-slate font-mono text-center" />
+                  
+                  <p className="text-xs text-slate-600 leading-relaxed mb-3">
+                    Aşağıdaki <strong>"iyzico ile Güvenli Öde"</strong> butonuna tıkladığınızda, bankanızın 256-bit SSL korumalı ve 3D Secure onaylı resmi iyzico ödeme formu açılacaktır. Kart bilgileriniz sunucularımızda asla saklanmaz.
+                  </p>
+
+                  <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-slate-500 pt-2 border-t border-blue-100">
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">Bonus</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">Maximum</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">World</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">Axess</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">CardFinans</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">Paraf</span>
+                    <span className="px-2 py-0.5 bg-white border border-slate-200 rounded">Troy / Visa / MC</span>
                   </div>
                 </div>
               </div>
@@ -314,15 +443,15 @@ export default function CheckoutPage() {
             </form>
           </div>
 
-          {/* Right Column: Order Summary */}
+          {/* Sağ Kolon: Sipariş Özeti */}
           <div className="lg:col-span-5 xl:col-span-4 sticky top-24">
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-100">
-              <h2 className="text-xl font-black text-brand-slate mb-6">Sipariş Özeti</h2>
+            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-slate-200">
+              <h2 className="text-xl font-bold text-slate-900 mb-6">Sipariş Özeti</h2>
               
-              <div className="space-y-4 mb-6 max-h-64 overflow-y-auto pr-2 hide-scrollbar">
+              <div className="space-y-4 mb-6 max-h-64 overflow-y-auto pr-2">
                 {items.map((item) => (
                   <div key={item.id} className="flex gap-4 items-center">
-                    <div className="w-16 h-16 bg-slate-100 rounded-lg overflow-hidden shrink-0 relative">
+                    <div className="w-14 h-14 bg-slate-100 rounded-lg overflow-hidden shrink-0 border border-slate-200">
                       {item.image ? (
                         <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                       ) : (
@@ -330,10 +459,10 @@ export default function CheckoutPage() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-sm text-brand-slate truncate">{item.name}</h4>
+                      <h4 className="font-bold text-xs text-slate-900 truncate">{item.name}</h4>
                       <p className="text-xs text-slate-500 font-medium">Adet: {item.quantity}</p>
                     </div>
-                    <div className="font-black text-sm text-brand-slate">
+                    <div className="font-bold text-xs text-slate-900">
                       {Number(item.price * item.quantity).toLocaleString('tr-TR')} TL
                     </div>
                   </div>
@@ -350,70 +479,80 @@ export default function CheckoutPage() {
                       value={discountCode}
                       onChange={(e) => setDiscountCode(e.target.value)}
                       placeholder="İndirim Kodu" 
-                      className="flex-1 border-2 border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand-gold text-brand-slate uppercase" 
+                      className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-amber-500 text-slate-900 uppercase" 
                     />
                     <button 
                       type="button" 
                       onClick={applyDiscount}
-                      className="bg-brand-slate text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-brand-gold hover:text-brand-slate transition-colors"
+                      className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors"
                     >
                       Uygula
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between bg-green-50 border border-green-200 p-3 rounded-lg mb-2">
-                    <div className="flex items-center gap-2 text-green-700">
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span className="font-bold text-sm">{discountApplied.code}</span>
+                  <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg mb-2">
+                    <div className="flex items-center gap-2 text-emerald-800">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <span className="font-bold text-xs">{discountApplied.code}</span>
                     </div>
                     <button 
                       type="button" 
                       onClick={() => { setDiscountApplied(null); setDiscountCode(""); }}
-                      className="text-xs font-bold text-red-500 hover:underline"
+                      className="text-xs font-bold text-rose-600 hover:underline"
                     >
                       İptal
                     </button>
                   </div>
                 )}
 
-                <div className="flex justify-between text-slate-600 font-medium text-sm mt-4">
+                <div className="flex justify-between text-slate-600 font-medium text-xs mt-3">
                   <span>Ara Toplam</span>
                   <span>{subtotal.toLocaleString('tr-TR')} TL</span>
                 </div>
                 
                 {discountApplied && (
-                  <div className="flex justify-between text-green-600 font-bold text-sm">
+                  <div className="flex justify-between text-emerald-600 font-bold text-xs">
                     <span>İndirim ({discountApplied.code})</span>
                     <span>-{discountApplied.amount.toLocaleString('tr-TR')} TL</span>
                   </div>
                 )}
 
-                <div className="flex justify-between text-slate-600 font-medium text-sm">
+                <div className="flex justify-between text-slate-600 font-medium text-xs">
                   <span>Kargo Ücreti</span>
                   {shippingCost === 0 ? (
-                    <span className="text-green-600 font-bold">Ücretsiz</span>
+                    <span className="text-emerald-700 font-bold">Ücretsiz</span>
                   ) : (
                     <span>{shippingCost.toLocaleString('tr-TR')} TL</span>
                   )}
                 </div>
               </div>
 
-              <div className="flex justify-between items-center mb-8">
-                <span className="text-lg font-black text-brand-slate">Genel Toplam</span>
-                <span className="text-2xl font-black text-brand-gold">{totalAmount.toLocaleString('tr-TR')} TL</span>
+              <div className="flex justify-between items-center mb-6">
+                <span className="text-base font-bold text-slate-900">Genel Toplam</span>
+                <span className="text-2xl font-black text-amber-600">{totalAmount.toLocaleString('tr-TR')} TL</span>
               </div>
 
               <button 
                 type="submit" 
                 form="checkout-form"
                 disabled={isProcessing}
-                className="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 flex justify-center items-center gap-2"
+                className="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors shadow-lg shadow-blue-200 flex justify-center items-center gap-2 text-base"
               >
-                {isProcessing ? "İşleniyor..." : "iyzico ile Güvenli Öde"}
+                {isProcessing ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Ödeme Sistemi Başlatılıyor...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-4 h-4" />
+                    <span>iyzico ile Güvenli Öde</span>
+                  </>
+                )}
               </button>
               
-              <p className="text-xs text-center text-slate-400 mt-4 font-medium px-4">
-                Ödeme tuşuna basarak, Mesafeli Satış Sözleşmesi'ni ve Ön Bilgilendirme Formu'nu kabul etmiş olursunuz.
+              <p className="text-[11px] text-center text-slate-400 mt-4 leading-relaxed">
+                Ödeme tuşuna basarak, <strong>Mesafeli Satış Sözleşmesi</strong>'ni ve <strong>Ön Bilgilendirme Formu</strong>'nu onaylamış olursunuz.
               </p>
             </div>
           </div>

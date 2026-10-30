@@ -5,74 +5,131 @@ import { sendOrderEmails } from "@/lib/mail"
 
 export async function POST(req: Request) {
   try {
-    // Iyzico sends token via form urlencoded POST request to callback URL
-    const formData = await req.formData()
-    const token = formData.get('token') as string
+    // 1. İyzico'dan dönen token'ı al (Form data, JSON veya query param)
+    let token: string | null = null
+    const contentType = req.headers.get("content-type") || ""
 
-    if (!token) {
-      return NextResponse.redirect(new URL('/odeme-basarisiz?reason=no_token', req.url))
+    if (contentType.includes("form")) {
+      const formData = await req.formData()
+      token = formData.get("token") as string
+    } else if (contentType.includes("json")) {
+      const json = await req.json()
+      token = json.token
     }
 
-    // Retrieve the payment result from Iyzico
+    if (!token) {
+      const url = new URL(req.url)
+      token = url.searchParams.get("token")
+    }
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/odeme-basarisiz?reason=Gecersiz_odeme_belirteci", req.url))
+    }
+
+    // 2. İyzico sunucularından ödeme sonucunu doğrudan sorgula (Server-to-Server Doğrulama)
     const iyzicoResult = await retrievePaymentResult(token)
 
-    if (iyzicoResult.status === 'success' && iyzicoResult.paymentStatus === 'SUCCESS') {
+    if (iyzicoResult && iyzicoResult.status === "success" && iyzicoResult.paymentStatus === "SUCCESS") {
       const orderId = iyzicoResult.basketId || iyzicoResult.conversationId
 
       if (!orderId) {
-        return NextResponse.redirect(new URL('/odeme-basarisiz?reason=no_order_id', req.url))
+        return NextResponse.redirect(new URL("/odeme-basarisiz?reason=Siparis_numarasi_bulunamadi", req.url))
       }
 
-      // Update Order Status safely
-      let updatedOrder = null;
+      let updatedOrder: any = null
+
+      // 3. Atomik işlem: Siparişi güncelle ve Ödeme kaydı oluştur (Mükerrer sipariş korumalı)
       await prisma.$transaction(async (tx) => {
-        const order = await tx.order.findUnique({ 
+        const order = await tx.order.findUnique({
           where: { id: orderId },
-          include: { items: true } // We need items for email
+          include: { items: true }
         })
-        
-        if (order && order.paymentStatus !== "PAID") {
+
+        if (!order) {
+          throw new Error("Sipariş veritabanında bulunamadı: " + orderId)
+        }
+
+        if (order.paymentStatus !== "PAID") {
           updatedOrder = await tx.order.update({
             where: { id: orderId },
-            data: { 
+            data: {
               paymentStatus: "PAID",
-              status: "PROCESSING" // Payment received, now processing for shipment
+              status: "PROCESSING" // Ödeme alındı, sipariş hazırlanıyor
             },
-            include: { items: true } // get full order for email
+            include: { items: true }
           })
-        } else if (order && order.paymentStatus === "PAID") {
+
+          // Ödeme geçmişi tablosuna kaydet
+          await tx.payment.create({
+            data: {
+              orderId: order.id,
+              provider: "IYZICO",
+              transactionId: iyzicoResult.paymentId ? String(iyzicoResult.paymentId) : null,
+              conversationId: iyzicoResult.conversationId || null,
+              amount: iyzicoResult.paidPrice ? Number(iyzicoResult.paidPrice) : order.grandTotal,
+              status: "SUCCESS",
+              rawResponse: JSON.stringify({
+                paymentId: iyzicoResult.paymentId,
+                basketId: iyzicoResult.basketId,
+                cardType: iyzicoResult.cardType,
+                cardAssociation: iyzicoResult.cardAssociation,
+                cardFamily: iyzicoResult.cardFamily,
+                binNumber: iyzicoResult.binNumber,
+                lastFourDigits: iyzicoResult.lastFourDigits,
+                installment: iyzicoResult.installment
+              })
+            }
+          })
+        } else {
+          // Zaten ödenmiş (mükerrer callback çağrısı)
           updatedOrder = order
         }
       })
 
+      // 4. Sipariş Onay E-postalarını Gönder
       if (updatedOrder) {
         try {
-          // Prepare and send emails
-          const customerEmail = (updatedOrder as any).customerEmail || "info@ikizlerbaharatcilik.com"
-          const customerName = (updatedOrder as any).customerName || "Değerli Müşterimiz"
-          
+          let customerEmail = "info@ikizlerbaharatcilik.com"
+          let customerName = "Değerli Müşterimiz"
+
+          if (updatedOrder.notes) {
+            try {
+              const parsed = JSON.parse(updatedOrder.notes)
+              if (parsed.customerEmail) customerEmail = parsed.customerEmail
+              if (parsed.customerName) customerName = parsed.customerName
+            } catch (e) {}
+          }
+
           await sendOrderEmails(updatedOrder, customerEmail, customerName)
         } catch (emailErr) {
           console.error("Email sending failed during callback:", emailErr)
         }
       }
 
-      // Redirect user to success page
-      return NextResponse.redirect(new URL(`/odeme-basarili?orderId=${orderId}`, req.url))
+      // 5. Başarılı sayfasına sipariş numarasıyla yönlendir
+      const orderNumber = updatedOrder?.orderNumber || orderId
+      return NextResponse.redirect(new URL(`/odeme-basarili?orderId=${orderId}&orderNumber=${encodeURIComponent(orderNumber)}`, req.url))
+
     } else {
-      // Payment Failed
-      const orderId = iyzicoResult.basketId || iyzicoResult.conversationId
+      // Ödeme Başarısız veya Reddedildi
+      const orderId = iyzicoResult?.basketId || iyzicoResult?.conversationId
       if (orderId) {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: { paymentStatus: "FAILED" }
-        })
+        try {
+          await prisma.order.update({
+            where: { id: orderId },
+            data: { paymentStatus: "FAILED" }
+          })
+        } catch (dbErr) {
+          console.error("Order status update failed:", dbErr)
+        }
       }
-      return NextResponse.redirect(new URL(`/odeme-basarisiz?reason=${encodeURIComponent(iyzicoResult.errorMessage || 'Ödeme reddedildi')}`, req.url))
+
+      const rawError = iyzicoResult?.errorMessage || "Ödeme işlemi bankanız tarafından onaylanmadı."
+      return NextResponse.redirect(new URL(`/odeme-basarisiz?reason=${encodeURIComponent(rawError)}`, req.url))
     }
 
   } catch (error: any) {
     console.error("Iyzico Callback Error:", error)
-    return NextResponse.redirect(new URL('/odeme-basarisiz?reason=system_error', req.url))
+    return NextResponse.redirect(new URL('/odeme-basarisiz?reason=Odeme_onaylanirken_bir_sorun_olustu', req.url))
   }
 }

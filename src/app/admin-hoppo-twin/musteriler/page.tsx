@@ -57,7 +57,9 @@ export default async function AdminCustomersPage(props: { searchParams: Promise<
 
                   return (
                     <tr key={user.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-slate-800">{user.name || "İsimsiz Kullanıcı"}</td>
+                      <td className="px-6 py-4 font-medium text-slate-800">
+                        {`${user.firstName || ''} ${user.lastName || ''}`.trim() || user.email || "İsimsiz Kullanıcı"}
+                      </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2 text-slate-500">
                           <Mail className="h-3 w-3" /> {user.email}

@@ -2,155 +2,259 @@ import { NextResponse } from "next/server"
 import prisma from "@/lib/prisma"
 import { createCheckoutForm } from "@/services/payment/iyzico"
 
+// Benzersiz ve kurumsal sipariş numarası oluşturucu
+async function generateUniqueOrderNumber(): Promise<string> {
+  const dateStr = new Date().toISOString().slice(2, 10).replace(/-/g, '')
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const randomPart = Math.floor(1000 + Math.random() * 9000)
+    const candidate = `IKZ-${dateStr}-${randomPart}`
+    const existing = await prisma.order.findUnique({
+      where: { orderNumber: candidate },
+      select: { id: true }
+    })
+    if (!existing) {
+      return candidate
+    }
+  }
+  return `IKZ-${Date.now()}`
+}
+
+// İyzico uyumlu telefon numarası formatı (+905xxxxxxxxx)
+function formatGsmNumber(phone: string): string {
+  if (!phone) return "+905555555555"
+  const digits = phone.replace(/\D/g, '')
+  if (digits.startsWith('90') && digits.length === 12) {
+    return `+${digits}`
+  }
+  if (digits.startsWith('0') && digits.length === 11) {
+    return `+9${digits}`
+  }
+  if (digits.length === 10) {
+    return `+90${digits}`
+  }
+  return digits.startsWith('+') ? digits : `+${digits}`
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { items, shippingAddress, billingAddress, buyer, discountCode } = body
+    const { items, shippingAddress, billingAddress, buyer, discountCode, shippingCostOverride, orderNotes } = body
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ error: "Sepetiniz boş." }, { status: 400 })
-    }
-    if (!shippingAddress || !billingAddress || !buyer) {
-      return NextResponse.json({ error: "Eksik bilgi girdiniz." }, { status: 400 })
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Sepetinizde ürün bulunmuyor." }, { status: 400 })
     }
 
-    // 1. Validate prices from DB
+    if (!shippingAddress || !buyer || !buyer.name || !buyer.surname || !buyer.email || !buyer.gsmNumber) {
+      return NextResponse.json({ error: "Lütfen ad, soyad, e-posta, telefon ve teslimat adresinizi eksiksiz doldurun." }, { status: 400 })
+    }
+
+    // 1. Veritabanından güncel ürün fiyatlarını ve stoklarını kontrol et
     let subtotal = 0
-    const basketItems = []
-    const dbOrderItems = []
+    const basketItems: any[] = []
+    const dbOrderItems: any[] = []
 
     for (const item of items) {
-      const dbProduct = await prisma.product.findUnique({ where: { id: item.productId } })
+      const dbProduct = await prisma.product.findUnique({
+        where: { id: item.productId || item.id },
+        select: {
+          id: true,
+          name: true,
+          sku: true,
+          price: true,
+          discountPrice: true,
+          taxRate: true,
+          categoryId: true,
+          stock: true,
+        }
+      })
+
       if (!dbProduct) {
-        return NextResponse.json({ error: `Ürün bulunamadı: ${item.name}` }, { status: 400 })
+        return NextResponse.json({ error: `Seçtiğiniz ürün artık mevcut değil: ${item.name || 'Ürün'}` }, { status: 400 })
       }
-      
-      const price = Number(dbProduct.discountPrice || dbProduct.price)
-      const itemTotal = price * item.quantity
+
+      const qty = Math.max(1, Number(item.quantity) || 1)
+      const unitPrice = Number(dbProduct.discountPrice || dbProduct.price)
+      const itemTotal = unitPrice * qty
       subtotal += itemTotal
 
       dbOrderItems.push({
         productId: dbProduct.id,
-        quantity: item.quantity,
-        price: price,
-        total: itemTotal
+        variantId: item.variantId || null,
+        productName: dbProduct.name,
+        sku: dbProduct.sku || `SKU-${dbProduct.id.slice(0, 8)}`,
+        quantity: qty,
+        unitPrice: unitPrice,
+        taxRate: Number(dbProduct.taxRate) || 18,
+        discountAmount: 0,
+        totalPrice: itemTotal
       })
 
       basketItems.push({
         id: dbProduct.id,
-        name: dbProduct.name,
-        category1: dbProduct.categoryId || "Genel",
-        itemType: "PHYSICAL", // "PHYSICAL" or "VIRTUAL" in Iyzico
-        price: (price * item.quantity).toFixed(2)
+        name: dbProduct.name.slice(0, 45),
+        category1: dbProduct.categoryId || "Baharat & Şifalı Bitkiler",
+        itemType: "PHYSICAL",
+        price: itemTotal.toFixed(2)
       })
     }
 
-    // 2. Calculate Discounts & Shipping
+    // 2. Kargo & Kupon İndirim Hesaplaması
     let discountAmount = 0
-    let shippingCost = subtotal > 1500 ? 0 : 299.00
-    
-    // Check real coupon
-    let appliedCouponId = null
-    if (discountCode) {
-      const coupon = await prisma.coupon.findUnique({ where: { code: discountCode.toUpperCase() } })
+    let shippingCost = subtotal >= 3000 ? 0 : 249.00
+    if (typeof shippingCostOverride === "number") {
+      shippingCost = shippingCostOverride
+    }
+
+    if (discountCode && typeof discountCode === "string") {
+      const coupon = await prisma.coupon.findUnique({ where: { code: discountCode.trim().toUpperCase() } })
       if (coupon && coupon.isActive) {
         if (coupon.type === "PERCENTAGE") {
           discountAmount = subtotal * (Number(coupon.value) / 100)
         } else if (coupon.type === "FIXED") {
-          discountAmount = Number(coupon.value)
+          discountAmount = Math.min(subtotal, Number(coupon.value))
         } else if (coupon.type === "FREE_SHIPPING") {
           shippingCost = 0
         }
-        appliedCouponId = coupon.id
       }
     }
 
+    // İyzico kuralı: Kargo ücreti varsa sepet kalemlerine eklenmelidir ki kalemler toplamı ana tutara eşit olsun
+    if (shippingCost > 0) {
+      basketItems.push({
+        id: "KARGO",
+        name: "Standart Kargo Teslimatı",
+        category1: "Kargo",
+        itemType: "PHYSICAL",
+        price: shippingCost.toFixed(2)
+      })
+    }
+
+    const catalogPrice = subtotal + shippingCost
     const grandTotal = Math.max(0, subtotal - discountAmount) + shippingCost
 
-    // 3. Create PENDING Order in Database
+    // 3. Kullanıcı eşleştirme (Üye veya Misafir)
+    let matchedUserId: string | null = buyer.id || null
+    if (!matchedUserId && buyer.email) {
+      const existingUser = await prisma.user.findUnique({
+        where: { email: buyer.email.trim() },
+        select: { id: true }
+      })
+      if (existingUser) {
+        matchedUserId = existingUser.id
+      }
+    }
+
+    // 4. Benzersiz Sipariş Numarası Üret
+    const orderNumber = await generateUniqueOrderNumber()
+
+    // 5. Siparişi Veritabanında PENDING Durumunda Oluştur
+    const customerNotes = JSON.stringify({
+      customerName: `${buyer.name} ${buyer.surname}`.trim(),
+      customerEmail: buyer.email.trim(),
+      customerPhone: buyer.gsmNumber.trim(),
+      shippingAddress: shippingAddress.trim(),
+      billingAddress: (billingAddress || shippingAddress).trim(),
+      city: buyer.city || "İstanbul",
+      district: buyer.district || "",
+      identityNumber: buyer.identityNumber || "11111111111",
+      orderNotes: orderNotes || ""
+    })
+
     const newOrder = await prisma.order.create({
       data: {
-        userId: buyer.id || null,
-        status: "PENDING",
-        paymentStatus: "PENDING",
+        orderNumber: orderNumber,
+        userId: matchedUserId,
         subTotal: subtotal,
         shippingCost: shippingCost,
-        taxAmount: 0,
-        discountAmount: discountAmount,
+        taxTotal: 0,
+        discountTotal: discountAmount,
         grandTotal: grandTotal,
-        shippingAddress: shippingAddress,
-        billingAddress: billingAddress,
-        customerName: `${buyer.name} ${buyer.surname}`,
-        customerEmail: buyer.email,
-        customerPhone: buyer.gsmNumber,
+        status: "PENDING",
+        paymentStatus: "PENDING",
+        paymentMethod: "IYZICO_CARD",
+        notes: customerNotes,
         items: {
           create: dbOrderItems
         }
       }
     })
 
-    // 4. Create Iyzico Checkout Form Request
+    // 6. Callback URL Belirleme
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "ikizlerbaharatcilik.com"
+    const proto = req.headers.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https")
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || `${proto}://${host}`
+    const callbackUrl = `${baseUrl}/api/payment/callback`
+
+    // İstemci IP adresi
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "85.34.78.112"
+
+    // 7. İyzico Checkout Form İsteğini Hazırla
     const requestData = {
       locale: "tr",
       conversationId: newOrder.id,
-      price: grandTotal.toFixed(2),
+      price: catalogPrice.toFixed(2),
       paidPrice: grandTotal.toFixed(2),
       currency: "TRY",
       basketId: newOrder.id,
       paymentGroup: "PRODUCT",
-      callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/payment/callback`,
-      enabledInstallments: [2, 3, 6, 9],
+      callbackUrl: callbackUrl,
+      enabledInstallments: [1, 2, 3, 6, 9],
       buyer: {
-        id: buyer.id || "BY789",
-        name: buyer.name,
-        surname: buyer.surname,
-        gsmNumber: buyer.gsmNumber,
-        email: buyer.email,
-        identityNumber: buyer.identityNumber || "11111111111",
-        lastLoginDate: "2023-10-09 00:00:00",
-        registrationDate: "2023-10-09 00:00:00",
-        registrationAddress: shippingAddress,
-        ip: "85.34.78.112", // In production, get real IP
-        city: buyer.city || "Istanbul",
+        id: matchedUserId || newOrder.id,
+        name: buyer.name.trim(),
+        surname: buyer.surname.trim(),
+        gsmNumber: formatGsmNumber(buyer.gsmNumber),
+        email: buyer.email.trim(),
+        identityNumber: buyer.identityNumber ? String(buyer.identityNumber).trim() : "11111111111",
+        lastLoginDate: "2024-01-01 00:00:00",
+        registrationDate: "2024-01-01 00:00:00",
+        registrationAddress: shippingAddress.trim().slice(0, 150),
+        ip: clientIp,
+        city: buyer.city ? buyer.city.trim() : "İstanbul",
         country: "Turkey",
-        zipCode: buyer.zipCode || "34732"
+        zipCode: buyer.zipCode ? buyer.zipCode.trim() : "34732"
       },
       shippingAddress: {
-        contactName: `${buyer.name} ${buyer.surname}`,
-        city: buyer.city || "Istanbul",
+        contactName: `${buyer.name} ${buyer.surname}`.trim(),
+        city: buyer.city ? buyer.city.trim() : "İstanbul",
         country: "Turkey",
-        address: shippingAddress,
-        zipCode: buyer.zipCode || "34732"
+        address: shippingAddress.trim().slice(0, 150),
+        zipCode: buyer.zipCode ? buyer.zipCode.trim() : "34732"
       },
       billingAddress: {
-        contactName: `${buyer.name} ${buyer.surname}`,
-        city: buyer.city || "Istanbul",
+        contactName: `${buyer.name} ${buyer.surname}`.trim(),
+        city: buyer.city ? buyer.city.trim() : "İstanbul",
         country: "Turkey",
-        address: billingAddress,
-        zipCode: buyer.zipCode || "34732"
+        address: (billingAddress || shippingAddress).trim().slice(0, 150),
+        zipCode: buyer.zipCode ? buyer.zipCode.trim() : "34732"
       },
       basketItems: basketItems
     }
 
     const iyzicoResult = await createCheckoutForm(requestData)
 
-    if (iyzicoResult.status === "success") {
+    if (iyzicoResult && iyzicoResult.status === "success") {
       return NextResponse.json({
         success: true,
         token: iyzicoResult.token,
         checkoutFormContent: iyzicoResult.checkoutFormContent,
         paymentPageUrl: iyzicoResult.paymentPageUrl,
-        orderId: newOrder.id
+        orderId: newOrder.id,
+        orderNumber: newOrder.orderNumber
       })
     } else {
-      console.error("Iyzico API Error:", iyzicoResult)
-      // Delete the pending order since payment init failed
-      await prisma.order.delete({ where: { id: newOrder.id } })
-      return NextResponse.json({ error: iyzicoResult.errorMessage || "Ödeme sistemi başlatılamadı." }, { status: 400 })
+      console.error("Iyzico Initialization Failed:", iyzicoResult)
+      // Ödeme formu açılamadıysa bekleyen sipariş çöp kalmasın
+      await prisma.order.delete({ where: { id: newOrder.id } }).catch(() => {})
+      const errorMsg = iyzicoResult?.errorMessage || "Ödeme sistemi başlatılamadı. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
+      return NextResponse.json({ error: errorMsg }, { status: 400 })
     }
 
   } catch (error: any) {
-    console.error("Checkout API Error:", error)
-    return NextResponse.json({ error: "Sistem hatası: " + error.message }, { status: 500 })
+    console.error("Checkout Internal Error:", error)
+    // Müşteriye teknik hata detaylarını gösterme, anlaşılır Türkçe bilgi dön
+    return NextResponse.json({
+      error: "Sipariş oluşturulurken bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
+    }, { status: 500 })
   }
 }

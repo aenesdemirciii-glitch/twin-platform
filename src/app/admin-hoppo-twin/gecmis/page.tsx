@@ -39,7 +39,7 @@ export default async function AdminAuditLogPage() {
                       {log.createdAt.toLocaleString('tr-TR')}
                     </td>
                     <td className="px-6 py-4 font-medium text-slate-800">
-                      {log.user?.name || "Sistem"}
+                      {(log.user ? `${log.user.firstName || ''} ${log.user.lastName || ''}`.trim() : null) || log.user?.email || "Sistem"}
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700">

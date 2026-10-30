@@ -9,7 +9,8 @@ export default async function AdminUsersPage(props: { searchParams: Promise<{ q?
   const users = await prisma.user.findMany({
     where: q ? {
       OR: [
-        { name: { contains: q } },
+        { firstName: { contains: q } },
+        { lastName: { contains: q } },
         { email: { contains: q } }
       ]
     } : undefined,
@@ -72,9 +73,9 @@ export default async function AdminUsersPage(props: { searchParams: Promise<{ q?
                   <td className="px-6 py-4 font-medium text-slate-700">
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center font-bold text-sm">
-                        {u.name?.charAt(0).toUpperCase() || 'U'}
+                        {u.firstName?.charAt(0).toUpperCase() || u.email?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      {u.name || "İsimsiz"}
+                      {`${u.firstName || ''} ${u.lastName || ''}`.trim() || u.email || "İsimsiz"}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-slate-500">{u.email}</td>
