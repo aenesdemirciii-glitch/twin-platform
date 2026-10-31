@@ -4,7 +4,34 @@ import { retrievePaymentResult } from "@/services/payment/iyzico"
 import { sendOrderEmails } from "@/lib/mail"
 import { createBanabiOrder } from "@/services/courier/banabikurye"
 
+// Hostinger container arkasında req.url '0.0.0.0:3000' dönebilir.
+// Kullanıcı tarayıcısına asla 0.0.0.0 gitmemeli; gerçek alan adı (ikizlerbaharatcilik.com) kullanılmalıdır.
+function getRedirectBaseUrl(req: Request): string {
+  const forwardedHost = req.headers.get("x-forwarded-host")
+  const hostHeader = req.headers.get("host")
+  const rawHost = forwardedHost || hostHeader || "ikizlerbaharatcilik.com"
+
+  const isLocalOrContainer = 
+    rawHost.includes("0.0.0.0") || 
+    rawHost.includes("localhost") || 
+    rawHost.includes("127.0.0.1") ||
+    rawHost.startsWith("10.") ||
+    rawHost.startsWith("172.")
+
+  const cleanHost = isLocalOrContainer ? "ikizlerbaharatcilik.com" : rawHost
+  const proto = req.headers.get("x-forwarded-proto") || (cleanHost.includes("ikizlerbaharatcilik.com") ? "https" : "http")
+
+  const envUrl = process.env.NEXT_PUBLIC_APP_URL
+  if (envUrl && !envUrl.includes("0.0.0.0") && !envUrl.includes("localhost")) {
+    return envUrl.replace(/\/$/, "")
+  }
+
+  return `${proto}://${cleanHost}`.replace(/\/$/, "")
+}
+
 export async function POST(req: Request) {
+  const baseUrl = getRedirectBaseUrl(req)
+
   try {
     // 1. İyzico'dan dönen token'ı al (Form data, JSON veya query param)
     let token: string | null = null
@@ -24,7 +51,7 @@ export async function POST(req: Request) {
     }
 
     if (!token) {
-      return NextResponse.redirect(new URL("/odeme-basarisiz?reason=Gecersiz_odeme_belirteci", req.url))
+      return NextResponse.redirect(`${baseUrl}/odeme-basarisiz?reason=Gecersiz_odeme_belirteci`, 303)
     }
 
     // 2. İyzico sunucularından ödeme sonucunu doğrudan sorgula (Server-to-Server Doğrulama)
@@ -34,7 +61,7 @@ export async function POST(req: Request) {
       const orderId = iyzicoResult.basketId || iyzicoResult.conversationId
 
       if (!orderId) {
-        return NextResponse.redirect(new URL("/odeme-basarisiz?reason=Siparis_numarasi_bulunamadi", req.url))
+        return NextResponse.redirect(`${baseUrl}/odeme-basarisiz?reason=Siparis_numarasi_bulunamadi`, 303)
       }
 
       let updatedOrder: any = null
@@ -154,9 +181,9 @@ export async function POST(req: Request) {
         }
       }
 
-      // 6. Başarılı sayfasına sipariş numarasıyla yönlendir
+      // 6. Başarılı sayfasına sipariş numarasıyla yönlendir (HTTP 303 ile GET isteğine dönüştür)
       const orderNumber = updatedOrder?.orderNumber || orderId
-      return NextResponse.redirect(new URL(`/odeme-basarili?orderId=${orderId}&orderNumber=${encodeURIComponent(orderNumber)}`, req.url))
+      return NextResponse.redirect(`${baseUrl}/odeme-basarili?orderId=${orderId}&orderNumber=${encodeURIComponent(orderNumber)}`, 303)
 
     } else {
       // Ödeme Başarısız veya Reddedildi
@@ -173,11 +200,15 @@ export async function POST(req: Request) {
       }
 
       const rawError = iyzicoResult?.errorMessage || "Ödeme işlemi bankanız tarafından onaylanmadı."
-      return NextResponse.redirect(new URL(`/odeme-basarisiz?reason=${encodeURIComponent(rawError)}`, req.url))
+      return NextResponse.redirect(`${baseUrl}/odeme-basarisiz?reason=${encodeURIComponent(rawError)}`, 303)
     }
 
   } catch (error: any) {
     console.error("Iyzico Callback Error:", error)
-    return NextResponse.redirect(new URL('/odeme-basarisiz?reason=Odeme_onaylanirken_bir_sorun_olustu', req.url))
+    return NextResponse.redirect(`${baseUrl}/odeme-basarisiz?reason=Odeme_onaylanirken_bir_sorun_olustu`, 303)
   }
+}
+
+export async function GET(req: Request) {
+  return POST(req)
 }

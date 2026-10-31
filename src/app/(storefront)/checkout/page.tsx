@@ -29,6 +29,33 @@ function IyzicoCheckoutForm({ htmlContent }: { htmlContent: string }) {
         newScript.textContent = oldScript.textContent
         oldScript.parentNode?.replaceChild(newScript, oldScript)
       })
+
+      // İyzico'nun body'ye iliştirdiği iframe veya formları bu kutuya taşı ve görünüme getir
+      const checkAndRelocate = () => {
+        const bodyChildren = Array.from(document.body.children)
+        bodyChildren.forEach((child) => {
+          if (
+            child !== containerRef.current &&
+            !containerRef.current?.contains(child) &&
+            (child.id?.toLowerCase().includes("iyzi") || 
+             child.className?.toString().toLowerCase().includes("iyzi") || 
+             child.tagName === "IFRAME")
+          ) {
+            containerRef.current?.appendChild(child)
+            containerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+          }
+        })
+      }
+
+      const timer1 = setTimeout(checkAndRelocate, 300)
+      const timer2 = setTimeout(checkAndRelocate, 800)
+      const timer3 = setTimeout(checkAndRelocate, 1500)
+
+      return () => {
+        clearTimeout(timer1)
+        clearTimeout(timer2)
+        clearTimeout(timer3)
+      }
     } catch (e) {
       console.error("Iyzico script execution error:", e)
     }
@@ -37,7 +64,7 @@ function IyzicoCheckoutForm({ htmlContent }: { htmlContent: string }) {
   return (
     <div 
       ref={containerRef} 
-      className="w-full min-h-[480px]"
+      className="w-full min-h-[480px] flex flex-col items-center justify-start"
     />
   )
 }
@@ -418,6 +445,14 @@ export default function CheckoutPage() {
         return
       }
 
+      // 1. ÖNCELİK: Resmi iyzico güvenli ödeme sayfasına doğrudan yönlendir!
+      // Bu sayede form boş kalmaz, footer altına kaymaz, mobil banka SMS onay ekranı kusursuz açılır.
+      if (data.success && data.paymentPageUrl) {
+        window.location.href = data.paymentPageUrl
+        return
+      }
+
+      // 2. YEDEK: paymentPageUrl yoksa script enjeksiyonu ile form göster
       if (data.success && data.checkoutFormContent) {
         setIyzicoHtml(data.checkoutFormContent)
       } else {

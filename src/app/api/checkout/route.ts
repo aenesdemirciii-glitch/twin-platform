@@ -247,10 +247,19 @@ export async function POST(req: Request) {
       }
     })
 
-    // 7. Callback URL Belirleme
-    const host = req.headers.get("x-forwarded-host") || req.headers.get("host") || "ikizlerbaharatcilik.com"
-    const proto = req.headers.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https")
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || `${proto}://${host}`
+    // 7. Callback URL Belirleme (0.0.0.0 ve container IP'leri temizle)
+    const rawHost = req.headers.get("x-forwarded-host") || req.headers.get("host") || "ikizlerbaharatcilik.com"
+    const isLocalOrContainer = 
+      rawHost.includes("0.0.0.0") || 
+      rawHost.includes("localhost") || 
+      rawHost.includes("127.0.0.1") ||
+      rawHost.startsWith("10.") ||
+      rawHost.startsWith("172.")
+    const cleanHost = isLocalOrContainer ? "ikizlerbaharatcilik.com" : rawHost
+    const proto = req.headers.get("x-forwarded-proto") || (cleanHost.includes("ikizlerbaharatcilik.com") ? "https" : "http")
+    const baseUrl = (process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("0.0.0.0"))
+      ? process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")
+      : `${proto}://${cleanHost}`.replace(/\/$/, "")
     const callbackUrl = `${baseUrl}/api/payment/callback`
 
     // İstemci IP adresi
