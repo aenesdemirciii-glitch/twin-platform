@@ -7,7 +7,7 @@
     "build": "npx prisma generate && npx prisma db push --accept-data-loss && next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma skills sync || exit 0"
+    "postinstall": "prisma generate || exit 0"
   },
   "dependencies": {
     "@prisma/client": "6.0.0",

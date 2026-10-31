@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   serverExternalPackages: ['iyzipay'],
+  experimental: {
+    cpus: 2,
+    workerThreads: false,
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
