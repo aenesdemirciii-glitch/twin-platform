@@ -10,6 +10,23 @@ export async function POST(req: Request) {
 
     const config = await getBanabiConfig()
 
+    // Test ürünü kontrolü: Eğer sepette "test" adında bir ürün varsa kargo bedeli 0 TL
+    const isTestOrder = Array.isArray(items) && items.some((i: any) => 
+      (i.name && String(i.name).toLowerCase().includes("test"))
+    )
+
+    if (isTestOrder) {
+      return NextResponse.json({
+        success: true,
+        available: true,
+        deliveryMethod: deliveryMethod || "standard",
+        title: deliveryMethod === "banabikurye" ? "Aynı Gün Teslimat (Test Ücretsiz)" : "Standart Kargo (Test Ücretsiz)",
+        description: "Test siparişinde kargo ücretsizdir.",
+        price: 0,
+        currency: "TL",
+      })
+    }
+
     // 1. SEÇENEK: STANDART KARGO (Sabit 199 TL)
     if (deliveryMethod === "standard" || !deliveryMethod) {
       return NextResponse.json({

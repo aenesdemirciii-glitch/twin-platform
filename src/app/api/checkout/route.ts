@@ -116,7 +116,13 @@ export async function POST(req: Request) {
     let shippingCost = banabiConfig.standardShippingFee || 199.00
     let deliveryTitle = "Standart Kargo"
 
-    if (deliveryMethodSelected === "banabikurye") {
+    // Test ürünü kontrolü: Eğer sepette "test" adında bir ürün varsa (örn: 1 TL test ürünü), kargo bedeli 0 TL olsun
+    const hasTestProduct = dbOrderItems.some((i: any) => i.productName?.toLowerCase().trim() === "test" || i.productName?.toLowerCase().includes("test"))
+
+    if (hasTestProduct) {
+      shippingCost = 0
+      deliveryTitle = deliveryMethodSelected === "banabikurye" ? "Aynı Gün Teslimat (Test Ücretsiz)" : "Standart Kargo (Test Ücretsiz)"
+    } else if (deliveryMethodSelected === "banabikurye") {
       // Saat kontrolü (17:00 sınırı)
       const timeCheck = isSameDayDeliveryAvailable(banabiConfig.cutoffHour)
       if (!timeCheck.available) {

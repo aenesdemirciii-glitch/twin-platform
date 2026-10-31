@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import Link from "next/link"
 import { useCartStore } from "@/store/useCartStore"
-import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2, Truck, Zap, Clock, MapPin } from "lucide-react"
+import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2, Truck, Zap, Clock, MapPin, Sparkles } from "lucide-react"
+import { TURKEY_PROVINCES, getDistrictsForProvince, getNeighborhoodsForDistrict } from "@/lib/turkeyLocations"
 
 // İyzico Scriptlerini Çalıştıran Dinamik Form Bileşeni
 function IyzicoCheckoutForm({ htmlContent }: { htmlContent: string }) {
@@ -70,11 +71,18 @@ export default function CheckoutPage() {
     email: "",
     phone: "",
     city: "İstanbul",
-    district: "",
-    address: "",
+    district: "Kadıköy",
+    customDistrict: "",
+    neighborhood: "Caferağa Mah.",
+    customNeighborhood: "",
+    streetAddress: "",
     identityNumber: "11111111111",
     orderNotes: ""
   })
+
+  // İlçe ve Mahalle Listeleri
+  const [availableDistricts, setAvailableDistricts] = useState<string[]>(() => getDistrictsForProvince("İstanbul"))
+  const [availableNeighborhoods, setAvailableNeighborhoods] = useState<string[]>(() => getNeighborhoodsForDistrict("Kadıköy", "İstanbul"))
 
   // Saat 17:00 Kontrolü (İstemci tarafı ilk kontrol)
   useEffect(() => {
@@ -90,20 +98,47 @@ export default function CheckoutPage() {
     }
   }, [])
 
+  // Sepette Test ürünü var mı kontrolü (kargo 0 TL olsun)
+  const isTestCart = items.length > 0 && items.some(i => 
+    i.name?.toLowerCase().trim() === "test" || 
+    i.name?.toLowerCase().includes("test")
+  )
+
   // Aktif Kargo Ücreti
+  const effectiveStandardFee = isTestCart ? 0 : standardFee
   const activeShippingFee = deliveryMethod === "banabikurye" 
-    ? (banabiFee !== null ? banabiFee : standardFee) 
-    : standardFee
+    ? (isTestCart ? 0 : (banabiFee !== null ? banabiFee : standardFee)) 
+    : effectiveStandardFee
 
   const subtotal = getTotal()
   const discountAmount = discountApplied ? discountApplied.amount : 0
   const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? activeShippingFee : 0)
 
+  // Tam Adres Oluşturucu (İl, İlçe, Mahalle ve Cadde/Sokak birleşimi)
+  const computeFullAddress = useCallback((form: typeof formData) => {
+    const finalDist = form.district === "Diğer" ? form.customDistrict.trim() : form.district.trim()
+    const finalMah = form.neighborhood === "Diğer" ? form.customNeighborhood.trim() : form.neighborhood.trim()
+    const mahFormatted = finalMah ? (finalMah.toLowerCase().includes("mah") ? finalMah : `${finalMah} Mah.`) : ""
+    
+    return [
+      mahFormatted,
+      form.streetAddress.trim(),
+      finalDist,
+      form.city.trim()
+    ].filter(Boolean).join(", ")
+  }, [])
+
   // Banabikurye Fiyat Hesaplama İstek Fonksiyonu
   const calculateBanabiPrice = useCallback(async (addressText: string, districtText: string, cityText: string) => {
-    if (!addressText || addressText.trim().length < 8) {
+    if (isTestCart) {
+      setBanabiFee(0)
+      setBanabiError(null)
+      return
+    }
+
+    if (!addressText || addressText.trim().length < 6) {
       setBanabiFee(null)
-      setBanabiError("Fiyat için teslimat adresinizi giriniz.")
+      setBanabiError("Fiyat için cadde, sokak ve kapı no bilginizi giriniz.")
       return
     }
 
@@ -119,7 +154,7 @@ export default function CheckoutPage() {
           address: addressText.trim(),
           district: districtText.trim(),
           city: cityText.trim(),
-          items: items.map(i => ({ id: i.id, quantity: i.quantity }))
+          items: items.map(i => ({ id: i.id, quantity: i.quantity, name: i.name }))
         })
       })
 
@@ -141,25 +176,88 @@ export default function CheckoutPage() {
     } finally {
       setIsCalculatingBanabi(false)
     }
-  }, [items])
+  }, [items, isTestCart])
 
-  // Adres veya İlçe değiştikçe Banabikurye fiyatını debounce ile yeniden hesapla
+  // Adres veya Seçimler değiştikçe Banabikurye fiyatını debounce ile yeniden hesapla
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  const triggerBanabiCalc = useCallback((updatedForm: typeof formData) => {
+    if (isTestCart) {
+      setBanabiFee(0)
+      return
+    }
+    setBanabiFee(null)
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
+
+    if (deliveryMethod === "banabikurye" && !isAfterCutoff) {
+      debounceTimerRef.current = setTimeout(() => {
+        const fullAddr = computeFullAddress(updatedForm)
+        const finalDist = updatedForm.district === "Diğer" ? updatedForm.customDistrict.trim() : updatedForm.district.trim()
+        calculateBanabiPrice(fullAddr, finalDist, updatedForm.city)
+      }, 700)
+    }
+  }, [isTestCart, deliveryMethod, isAfterCutoff, computeFullAddress, calculateBanabiPrice])
+
+  // İl Değişimi
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCity = e.target.value
+    const districts = getDistrictsForProvince(newCity)
+    const firstDistrict = districts[0] || "Merkez"
+    const neighborhoods = getNeighborhoodsForDistrict(firstDistrict, newCity)
+    const firstNeighborhood = neighborhoods[0] || "Merkez Mah."
+
+    const updated = {
+      ...formData,
+      city: newCity,
+      district: firstDistrict,
+      customDistrict: "",
+      neighborhood: firstNeighborhood,
+      customNeighborhood: ""
+    }
+    setFormData(updated)
+    setAvailableDistricts(districts)
+    setAvailableNeighborhoods(neighborhoods)
+    triggerBanabiCalc(updated)
+  }
+
+  // İlçe Değişimi
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newDistrict = e.target.value
+    const neighborhoods = newDistrict === "Diğer" ? [] : getNeighborhoodsForDistrict(newDistrict, formData.city)
+    const firstNeighborhood = neighborhoods[0] || (newDistrict === "Diğer" ? "Diğer" : "Merkez Mah.")
+
+    const updated = {
+      ...formData,
+      district: newDistrict,
+      customDistrict: newDistrict === "Diğer" ? "" : formData.customDistrict,
+      neighborhood: firstNeighborhood,
+      customNeighborhood: ""
+    }
+    setFormData(updated)
+    setAvailableNeighborhoods(neighborhoods)
+    triggerBanabiCalc(updated)
+  }
+
+  // Mahalle Değişimi
+  const handleNeighborhoodChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newNeighborhood = e.target.value
+    const updated = {
+      ...formData,
+      neighborhood: newNeighborhood,
+      customNeighborhood: newNeighborhood === "Diğer" ? "" : formData.customNeighborhood
+    }
+    setFormData(updated)
+    triggerBanabiCalc(updated)
+  }
+
+  // Genel Input Değişimi (Ad, soyad, telefon, sokak vb.)
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     const updatedForm = { ...formData, [name]: value }
     setFormData(updatedForm)
 
-    // Eğer adres alanları değişiyorsa ve kurye seçiliyse veya seçilebilir durumdaysa fiyatı sıfırla ve yeniden hesapla
-    if (name === "address" || name === "district" || name === "city") {
-      setBanabiFee(null)
-      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current)
-
-      if (deliveryMethod === "banabikurye" && !isAfterCutoff) {
-        debounceTimerRef.current = setTimeout(() => {
-          calculateBanabiPrice(updatedForm.address, updatedForm.district, updatedForm.city)
-        }, 800)
-      }
+    if (name === "streetAddress" || name === "customDistrict" || name === "customNeighborhood") {
+      triggerBanabiCalc(updatedForm)
     }
   }
 
@@ -169,13 +267,19 @@ export default function CheckoutPage() {
     setErrorMessage(null)
 
     if (method === "banabikurye") {
-      if (isAfterCutoff) {
+      if (isAfterCutoff && !isTestCart) {
         setErrorMessage("Bugün için Aynı Gün Teslimat sipariş saati (17:00) sona ermiştir. Standart kargo ile devam edebilirsiniz.")
         setDeliveryMethod("standard")
         return
       }
+      if (isTestCart) {
+        setBanabiFee(0)
+        return
+      }
       if (banabiFee === null) {
-        calculateBanabiPrice(formData.address, formData.district, formData.city)
+        const fullAddr = computeFullAddress(formData)
+        const finalDist = formData.district === "Diğer" ? formData.customDistrict.trim() : formData.district.trim()
+        calculateBanabiPrice(fullAddr, finalDist, formData.city)
       }
     }
   }
@@ -226,6 +330,9 @@ export default function CheckoutPage() {
     e.preventDefault()
     setErrorMessage(null)
 
+    const finalDistrict = formData.district === "Diğer" ? formData.customDistrict.trim() : formData.district.trim()
+    const finalMahalle = formData.neighborhood === "Diğer" ? formData.customNeighborhood.trim() : formData.neighborhood.trim()
+
     if (!formData.firstName.trim() || !formData.lastName.trim()) {
       setErrorMessage("Lütfen ad ve soyadınızı giriniz.")
       return
@@ -238,13 +345,25 @@ export default function CheckoutPage() {
       setErrorMessage("Lütfen geçerli bir cep telefonu numarası giriniz.")
       return
     }
-    if (!formData.address.trim()) {
-      setErrorMessage("Lütfen teslimat adresinizi eksiksiz giriniz.")
+    if (!formData.city.trim()) {
+      setErrorMessage("Lütfen il seçiniz.")
+      return
+    }
+    if (!finalDistrict) {
+      setErrorMessage("Lütfen ilçe seçiniz veya elle yazınız.")
+      return
+    }
+    if (!finalMahalle) {
+      setErrorMessage("Lütfen mahalle seçiniz veya elle yazınız.")
+      return
+    }
+    if (!formData.streetAddress.trim()) {
+      setErrorMessage("Lütfen açık adresinizi (cadde, sokak, bina no, daire no) giriniz.")
       return
     }
 
-    // Aynı gün teslimat seçilmişse geçerli bir kurye fiyatı olmalı
-    if (deliveryMethod === "banabikurye") {
+    // Aynı gün teslimat seçilmişse geçerli bir kurye fiyatı olmalı (test ürünü hariç)
+    if (deliveryMethod === "banabikurye" && !isTestCart) {
       if (isAfterCutoff) {
         setErrorMessage("Aynı Gün Teslimat için saat 17:00 sınırı aşılmıştır. Lütfen Standart Kargo seçeneğini kullanınız.")
         setDeliveryMethod("standard")
@@ -259,7 +378,7 @@ export default function CheckoutPage() {
     setIsProcessing(true)
 
     try {
-      const fullAddress = `${formData.address.trim()} ${formData.district ? formData.district + ' / ' : ''}${formData.city}`.trim()
+      const fullAddress = computeFullAddress(formData)
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -283,7 +402,7 @@ export default function CheckoutPage() {
             email: formData.email.trim(),
             gsmNumber: formData.phone.trim(),
             city: formData.city.trim(),
-            district: formData.district.trim(),
+            district: finalDistrict,
             identityNumber: formData.identityNumber.trim() || "11111111111"
           },
           discountCode: discountApplied ? discountApplied.code : null
@@ -456,60 +575,169 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* 2. Teslimat Adresi */}
-              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
-                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                  <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">2</span> 
-                  Teslimat & Fatura Adresi
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">İl *</label>
-                    <input 
-                      required 
-                      type="text" 
-                      name="city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      placeholder="İstanbul, Ankara, İzmir..."
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
-                    />
+              {/* Test Ürünü Bilgi Kartı */}
+              {isTestCart && (
+                <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-emerald-50 to-teal-50 border border-emerald-300 shadow-sm flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                    <Sparkles className="w-4 h-4" />
                   </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-700">İlçe</label>
-                    <input 
-                      type="text" 
-                      name="district"
-                      value={formData.district}
-                      onChange={handleInputChange}
-                      placeholder="Kadıköy, Üsküdar vb."
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
-                    />
-                  </div>
-                  <div className="space-y-1.5 md:col-span-2">
-                    <label className="text-xs font-bold text-slate-700">Açık Adres (Mahalle, Cadde, Sokak, Kapı No) *</label>
-                    <textarea 
-                      required 
-                      rows={3} 
-                      name="address"
-                      value={formData.address}
-                      onChange={handleInputChange}
-                      placeholder="Açık adresinizi eksiksiz yazınız. Kurye ve kargo teslimatı bu adrese yapılacaktır."
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
-                    />
-                  </div>
-                  <div className="space-y-1.5 md:col-span-2">
-                    <label className="text-xs font-bold text-slate-700">Sipariş Notu (Opsiyonel)</label>
-                    <input 
-                      type="text" 
-                      name="orderNotes"
-                      value={formData.orderNotes}
-                      onChange={handleInputChange}
-                      placeholder="Kurye için zil bilgisi, özel teslimat talebi vb."
-                      className="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
-                    />
+                  <div>
+                    <h3 className="text-sm font-extrabold text-emerald-950 flex items-center gap-2">
+                      <span>Test Siparişi Özel Kargo Kampanyası</span>
+                      <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">0 TL</span>
+                    </h3>
+                    <p className="text-xs text-emerald-800 mt-0.5 leading-relaxed">
+                      Sepetinizde test ürünü bulunduğu için bu siparişte kargo ücreti <strong>0,00 TL (Ücretsiz)</strong> olarak tanımlanmıştır.
+                    </p>
                   </div>
                 </div>
+              )}
+
+              {/* 2. Teslimat Adresi */}
+              <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+                    <span className="w-7 h-7 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold">2</span> 
+                    Teslimat & Fatura Adresi
+                  </h2>
+                  <span className="text-xs text-slate-500 font-medium">Hızlı Seçim: İl / İlçe / Mahalle</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* İl Seçimi */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                      <span>İl *</span>
+                      <span className="text-[10px] text-slate-400 font-normal">81 İl</span>
+                    </label>
+                    <select 
+                      required 
+                      name="city"
+                      value={formData.city}
+                      onChange={handleCityChange}
+                      className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 bg-white cursor-pointer font-medium" 
+                    >
+                      {TURKEY_PROVINCES.map((p) => (
+                        <option key={p} value={p}>{p}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* İlçe Seçimi */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                      <span>İlçe *</span>
+                      <span className="text-[10px] text-slate-400 font-normal">Listeden Seçin</span>
+                    </label>
+                    <select 
+                      required 
+                      name="district"
+                      value={formData.district}
+                      onChange={handleDistrictChange}
+                      className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 bg-white cursor-pointer font-medium" 
+                    >
+                      {availableDistricts.map((d) => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                      <option value="Diğer">Diğer / Listede Yok</option>
+                    </select>
+                  </div>
+
+                  {/* Mahalle Seçimi */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                      <span>Mahalle *</span>
+                      <span className="text-[10px] text-slate-400 font-normal">Listeden Seçin</span>
+                    </label>
+                    <select 
+                      required 
+                      name="neighborhood"
+                      value={formData.neighborhood}
+                      onChange={handleNeighborhoodChange}
+                      className="w-full border border-slate-300 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 bg-white cursor-pointer font-medium" 
+                    >
+                      {availableNeighborhoods.map((m) => (
+                        <option key={m} value={m}>{m.endsWith("Mah.") || m.endsWith("Mahallesi") ? m : `${m} Mah.`}</option>
+                      ))}
+                      <option value="Diğer">Diğer / Listede Yok</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Eğer İlçe veya Mahalle için Diğer seçildiyse manuel giriş alanları */}
+                {(formData.district === "Diğer" || formData.neighborhood === "Diğer") && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 p-4 bg-amber-50/60 border border-amber-200/80 rounded-xl">
+                    {formData.district === "Diğer" && (
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-amber-950">İlçe Adı (Elle Yazınız) *</label>
+                        <input 
+                          required 
+                          type="text" 
+                          name="customDistrict"
+                          value={formData.customDistrict}
+                          onChange={handleInputChange}
+                          placeholder="Örn: İlçenizi yazınız"
+                          className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 bg-white" 
+                        />
+                      </div>
+                    )}
+                    {formData.neighborhood === "Diğer" && (
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-amber-950">Mahalle Adı (Elle Yazınız) *</label>
+                        <input 
+                          required 
+                          type="text" 
+                          name="customNeighborhood"
+                          value={formData.customNeighborhood}
+                          onChange={handleInputChange}
+                          placeholder="Örn: Mahallenizi yazınız"
+                          className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 bg-white" 
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Geri Kalanı Elle Yazsın: Cadde, Sokak, Bina No, Kapı/Daire No */}
+                <div className="space-y-1.5 mt-4">
+                  <label className="text-xs font-bold text-slate-700 flex items-center justify-between">
+                    <span>Açık Adres (Cadde, Sokak, Bina No, Kapı/Daire No) *</span>
+                    <span className="text-[10px] text-slate-500 font-normal">Geri kalanı elle yazınız</span>
+                  </label>
+                  <textarea 
+                    required 
+                    rows={3} 
+                    name="streetAddress"
+                    value={formData.streetAddress}
+                    onChange={handleInputChange}
+                    placeholder="Örn: Bağdat Caddesi No: 42 Daire: 5 (Apartman, blok veya zil bilgisi)"
+                    className="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-slate-900 leading-relaxed" 
+                  />
+                </div>
+
+                {/* Sipariş Notu */}
+                <div className="space-y-1.5 mt-4">
+                  <label className="text-xs font-bold text-slate-700">Sipariş Notu (Opsiyonel)</label>
+                  <input 
+                    type="text" 
+                    name="orderNotes"
+                    value={formData.orderNotes}
+                    onChange={handleInputChange}
+                    placeholder="Kurye için zil bilgisi, özel teslimat talebi vb."
+                    className="w-full border border-slate-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-amber-500 text-slate-900" 
+                  />
+                </div>
+
+                {/* Seçilen Adres Önizleme Rozeti */}
+                {(formData.streetAddress.trim() || formData.neighborhood) && (
+                  <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-start gap-2.5 text-xs text-slate-600">
+                    <MapPin className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-bold text-slate-800">Teslimat Adresi Özeti: </span>
+                      <span className="text-slate-700 font-medium">{computeFullAddress(formData)}</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* 3. TESLİMAT SEÇENEKLERİ (Standart Kargo & Aynı Gün Teslimat Banabikurye) */}
@@ -523,7 +751,7 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* SEÇENEK 1: STANDART KARGO (Sabit 199 TL) */}
+                  {/* SEÇENEK 1: STANDART KARGO (Sabit 199 TL veya Test için 0 TL) */}
                   <label 
                     onClick={() => handleSelectDeliveryMethod("standard")}
                     className={`relative p-5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
@@ -555,16 +783,18 @@ export default function CheckoutPage() {
                     </div>
 
                     <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs text-slate-500 font-medium">Sabit Kargo Ücreti:</span>
-                      <span className="text-base font-black text-slate-900">199,00 TL</span>
+                      <span className="text-xs text-slate-500 font-medium">Kargo Ücreti:</span>
+                      <span className={`text-base font-black ${isTestCart ? "text-emerald-600" : "text-slate-900"}`}>
+                        {isTestCart ? "0,00 TL (Test Ücretsiz)" : "199,00 TL"}
+                      </span>
                     </div>
                   </label>
 
                   {/* SEÇENEK 2: AYNI GÜN TESLİMAT (Banabikurye) */}
                   <label 
-                    onClick={() => !isAfterCutoff && handleSelectDeliveryMethod("banabikurye")}
+                    onClick={() => (!isAfterCutoff || isTestCart) && handleSelectDeliveryMethod("banabikurye")}
                     className={`relative p-5 rounded-2xl border-2 transition-all flex flex-col justify-between ${
-                      isAfterCutoff 
+                      isAfterCutoff && !isTestCart
                         ? "border-slate-200 bg-slate-50/70 opacity-60 cursor-not-allowed" 
                         : deliveryMethod === "banabikurye" 
                         ? "border-amber-500 bg-amber-50/30 shadow-sm cursor-pointer" 
@@ -577,9 +807,9 @@ export default function CheckoutPage() {
                           <input 
                             type="radio" 
                             name="deliveryMethodRadio" 
-                            disabled={isAfterCutoff}
+                            disabled={isAfterCutoff && !isTestCart}
                             checked={deliveryMethod === "banabikurye"} 
-                            onChange={() => !isAfterCutoff && handleSelectDeliveryMethod("banabikurye")}
+                            onChange={() => (!isAfterCutoff || isTestCart) && handleSelectDeliveryMethod("banabikurye")}
                             className="w-4 h-4 accent-amber-500 disabled:opacity-40" 
                           />
                           <span className="font-extrabold text-slate-900 text-base flex items-center gap-1">
@@ -597,11 +827,11 @@ export default function CheckoutPage() {
                       </p>
 
                       {/* Uyarılar & Durum Mesajları */}
-                      {isAfterCutoff ? (
+                      {isAfterCutoff && !isTestCart ? (
                         <div className="text-[11px] font-semibold text-rose-700 bg-rose-50 border border-rose-200 rounded-lg p-2 my-2">
                           Bugün için sipariş saati sona erdi (17:00).
                         </div>
-                      ) : banabiError && deliveryMethod === "banabikurye" ? (
+                      ) : banabiError && deliveryMethod === "banabikurye" && !isTestCart ? (
                         <div className="text-[11px] font-semibold text-amber-800 bg-amber-100/60 border border-amber-200 rounded-lg p-2 my-2 flex items-start gap-1.5">
                           <AlertCircle className="w-3.5 h-3.5 text-amber-700 mt-0.5 flex-shrink-0" />
                           <span>{banabiError}</span>
@@ -612,7 +842,9 @@ export default function CheckoutPage() {
                     <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                       <span className="text-xs text-slate-500 font-medium">Kurye Ücreti:</span>
                       <div>
-                        {isAfterCutoff ? (
+                        {isTestCart ? (
+                          <span className="text-base font-black text-emerald-600">0,00 TL (Test Ücretsiz)</span>
+                        ) : isAfterCutoff ? (
                           <span className="text-xs font-bold text-slate-400">Kapalı</span>
                         ) : isCalculatingBanabi ? (
                           <span className="inline-flex items-center gap-1 text-xs font-bold text-amber-700">
@@ -749,8 +981,10 @@ export default function CheckoutPage() {
                   <span>
                     {deliveryMethod === "banabikurye" ? "Aynı Gün Teslimat (Banabikurye)" : "Standart Kargo"}
                   </span>
-                  <span className="font-bold text-slate-900">
-                    {deliveryMethod === "banabikurye" && isCalculatingBanabi ? (
+                  <span className={`font-bold ${isTestCart ? "text-emerald-600" : "text-slate-900"}`}>
+                    {isTestCart ? (
+                      "0,00 TL (Test Ücretsiz)"
+                    ) : deliveryMethod === "banabikurye" && isCalculatingBanabi ? (
                       "Hesaplanıyor..."
                     ) : (
                       `${activeShippingFee.toLocaleString('tr-TR')} TL`
@@ -767,7 +1001,7 @@ export default function CheckoutPage() {
               <button 
                 type="submit" 
                 form="checkout-form"
-                disabled={isProcessing || (deliveryMethod === "banabikurye" && (banabiFee === null || isCalculatingBanabi))}
+                disabled={isProcessing || (deliveryMethod === "banabikurye" && !isTestCart && (banabiFee === null || isCalculatingBanabi))}
                 className="w-full bg-blue-600 text-white font-black py-4 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors shadow-lg shadow-blue-200 flex justify-center items-center gap-2 text-base"
               >
                 {isProcessing ? (
