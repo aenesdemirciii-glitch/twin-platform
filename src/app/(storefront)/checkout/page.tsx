@@ -23,6 +23,8 @@ export default function CheckoutPage() {
 
   const [discountCode, setDiscountCode] = useState("")
   const [discountApplied, setDiscountApplied] = useState<{ code: string; amount: number } | null>(null)
+  const [couponError, setCouponError] = useState<string | null>(null)
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false)
   const [iyzicoHtml, setIyzicoHtml] = useState<string | null>(null)
 
   // Müşteri İletişim ve Teslimat Form Verileri
@@ -142,9 +144,45 @@ export default function CheckoutPage() {
     }
   }
 
-  const applyDiscount = async () => {
+  const applyDiscount = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault()
     if (!discountCode.trim()) return
-    alert("Kupon sistemi şu anda güncelleniyor.")
+    setIsApplyingCoupon(true)
+    setCouponError(null)
+
+    try {
+      const res = await fetch("/api/coupon/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: discountCode.trim().toUpperCase(), cartTotal: subtotal })
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || "Geçersiz kupon kodu.")
+      }
+
+      const c = data.coupon
+      let calculatedAmount = 0
+      if (c.type === "PERCENTAGE") {
+        calculatedAmount = (subtotal * c.value) / 100
+      } else if (c.type === "FIXED") {
+        calculatedAmount = Math.min(subtotal, c.value)
+      } else if (c.type === "FREE_SHIPPING") {
+        calculatedAmount = activeShippingFee
+      }
+
+      setDiscountApplied({
+        code: c.code,
+        amount: calculatedAmount
+      })
+      setDiscountCode("")
+    } catch (err: any) {
+      setCouponError(err.message || "Kupon doğrulanamadı.")
+    } finally {
+      setIsApplyingCoupon(false)
+    }
   }
 
   // Ödemeyi Başlat
@@ -624,21 +662,28 @@ export default function CheckoutPage() {
                 
                 {/* İndirim Kodu Alanı */}
                 {!discountApplied ? (
-                  <div className="flex gap-2 mb-2">
-                    <input 
-                      type="text" 
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                      placeholder="İndirim Kodu" 
-                      className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-amber-500 text-slate-900 uppercase" 
-                    />
-                    <button 
-                      type="button" 
-                      onClick={applyDiscount}
-                      className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition-colors"
-                    >
-                      Uygula
-                    </button>
+                  <div className="mb-2">
+                    <div className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={discountCode}
+                        onChange={(e) => { setDiscountCode(e.target.value); setCouponError(null); }}
+                        onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyDiscount(); } }}
+                        placeholder="İndirim Kodu" 
+                        className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-amber-500 text-slate-900 uppercase" 
+                      />
+                      <button 
+                        type="button" 
+                        onClick={applyDiscount}
+                        disabled={isApplyingCoupon || !discountCode.trim()}
+                        className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 disabled:opacity-50 transition-colors flex items-center gap-1"
+                      >
+                        {isApplyingCoupon ? <Loader2 className="w-3 h-3 animate-spin" /> : "Uygula"}
+                      </button>
+                    </div>
+                    {couponError && (
+                      <p className="text-[11px] text-rose-600 font-semibold mt-1.5">{couponError}</p>
+                    )}
                   </div>
                 ) : (
                   <div className="flex items-center justify-between bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg mb-2">
@@ -648,7 +693,7 @@ export default function CheckoutPage() {
                     </div>
                     <button 
                       type="button" 
-                      onClick={() => { setDiscountApplied(null); setDiscountCode(""); }}
+                      onClick={() => { setDiscountApplied(null); setDiscountCode(""); setCouponError(null); }}
                       className="text-xs font-bold text-rose-600 hover:underline"
                     >
                       İptal
