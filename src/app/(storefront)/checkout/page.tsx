@@ -5,6 +5,42 @@ import Link from "next/link"
 import { useCartStore } from "@/store/useCartStore"
 import { ShieldCheck, CreditCard, ArrowLeft, CheckCircle2, Lock, AlertCircle, Loader2, Truck, Zap, Clock, MapPin } from "lucide-react"
 
+// İyzico Scriptlerini Çalıştıran Dinamik Form Bileşeni
+function IyzicoCheckoutForm({ htmlContent }: { htmlContent: string }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!containerRef.current || !htmlContent) return
+
+    containerRef.current.innerHTML = ""
+
+    try {
+      const range = document.createRange()
+      const fragment = range.createContextualFragment(htmlContent)
+      containerRef.current.appendChild(fragment)
+
+      const scripts = containerRef.current.querySelectorAll("script")
+      scripts.forEach((oldScript) => {
+        const newScript = document.createElement("script")
+        Array.from(oldScript.attributes).forEach((attr) => {
+          newScript.setAttribute(attr.name, attr.value)
+        })
+        newScript.textContent = oldScript.textContent
+        oldScript.parentNode?.replaceChild(newScript, oldScript)
+      })
+    } catch (e) {
+      console.error("Iyzico script execution error:", e)
+    }
+  }, [htmlContent])
+
+  return (
+    <div 
+      ref={containerRef} 
+      className="w-full min-h-[480px]"
+    />
+  )
+}
+
 export default function CheckoutPage() {
   const { items, getTotal } = useCartStore()
   const [mounted, setMounted] = useState(false)
@@ -315,11 +351,7 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          <div
-            id="iyzipay-checkout-form"
-            className="w-full responsive min-h-[450px]"
-            dangerouslySetInnerHTML={{ __html: iyzicoHtml }}
-          />
+          <IyzicoCheckoutForm htmlContent={iyzicoHtml} />
         </div>
       </div>
     )
