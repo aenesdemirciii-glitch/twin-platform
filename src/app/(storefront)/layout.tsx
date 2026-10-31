@@ -1,6 +1,7 @@
 import { Header } from "@/components/storefront/Header"
 import { Footer } from "@/components/storefront/Footer"
 import { CookieBanner } from "@/components/storefront/CookieBanner"
+import { CartNotificationModal } from "@/components/storefront/CartNotificationModal"
 
 export default function StorefrontLayout({
   children,
@@ -15,6 +16,7 @@ export default function StorefrontLayout({
       </main>
       <Footer />
       <CookieBanner />
+      <CartNotificationModal />
       
       {/* Floating WhatsApp Button */}
       <a 

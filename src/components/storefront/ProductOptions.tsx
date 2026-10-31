@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ShoppingCart, Heart } from "lucide-react"
+import { ShoppingCart, Heart, Check } from "lucide-react"
 import { useCartStore } from "@/store/useCartStore"
 
 export function ProductOptions({ product }: { product: any }) {
@@ -12,6 +12,7 @@ export function ProductOptions({ product }: { product: any }) {
     
   const [selectedVariant, setSelectedVariant] = useState(sortedVariants[0] || null)
   const [quantity, setQuantity] = useState(1)
+  const [added, setAdded] = useState(false)
 
   const currentPrice = selectedVariant?.price || product.price
 
@@ -54,6 +55,7 @@ export function ProductOptions({ product }: { product: any }) {
            <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 hover:bg-slate-50 text-slate-600 transition-colors">+</button>
          </div>
          <button 
+           disabled={added}
            onClick={() => {
              const cartItem = {
                id: selectedVariant ? selectedVariant.id : product.id,
@@ -65,11 +67,13 @@ export function ProductOptions({ product }: { product: any }) {
                sku: selectedVariant ? selectedVariant.sku : product.sku,
              }
              addItem(cartItem)
+             setAdded(true)
+             setTimeout(() => setAdded(false), 2000)
            }}
-           className="flex-1 bg-brand-slate text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg shadow-slate-200"
+           className="flex-1 bg-brand-slate text-white h-14 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-800 disabled:opacity-90 transition-colors shadow-lg shadow-slate-200"
          >
-           <ShoppingCart className="h-5 w-5" />
-           Sepete Ekle
+           {added ? <Check className="h-5 w-5 text-brand-gold" /> : <ShoppingCart className="h-5 w-5" />}
+           <span>{added ? "Sepete Eklendi!" : "Sepete Ekle"}</span>
          </button>
          <button className="h-14 w-14 border border-slate-300 rounded-xl flex items-center justify-center text-slate-400 hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors">
            <Heart className="h-6 w-6" />

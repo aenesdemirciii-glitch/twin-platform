@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 export interface CartItem {
-  id: string // variantId
+  id: string // variantId or productId
   productId: string
   name: string
   price: number
@@ -13,11 +13,16 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[]
+  lastAddedItem: CartItem | null
+  isCartModalOpen: boolean
   addItem: (item: CartItem) => void
   removeItem: (id: string) => void
   updateQuantity: (id: string, quantity: number) => void
   clearCart: () => void
+  openCartModal: (item: CartItem) => void
+  closeCartModal: () => void
   getTotal: () => number
+  getItemCount: () => number
   coupon: { code: string; type: string; value: number } | null
   applyCoupon: (coupon: { code: string; type: string; value: number } | null) => void
   getDiscount: () => number
@@ -28,30 +33,52 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      lastAddedItem: null,
+      isCartModalOpen: false,
+
       addItem: (item) => set((state) => {
         const existingItem = state.items.find((i) => i.id === item.id)
+        let updatedItems: CartItem[] = []
         if (existingItem) {
-          return {
-            items: state.items.map((i) =>
-              i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
-            ),
-          }
+          updatedItems = state.items.map((i) =>
+            i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+          )
+        } else {
+          updatedItems = [...state.items, item]
         }
-        return { items: [...state.items, item] }
+        return { 
+          items: updatedItems,
+          lastAddedItem: item,
+          isCartModalOpen: true
+        }
       }),
+
+      openCartModal: (item) => set({ lastAddedItem: item, isCartModalOpen: true }),
+      closeCartModal: () => set({ isCartModalOpen: false }),
+
       removeItem: (id) => set((state) => ({
         items: state.items.filter((i) => i.id !== id),
       })),
+
       updateQuantity: (id, quantity) => set((state) => ({
         items: state.items.map((i) => (i.id === id ? { ...i, quantity } : i)),
       })),
-      clearCart: () => set({ items: [] }),
+
+      clearCart: () => set({ items: [], lastAddedItem: null, isCartModalOpen: false }),
+
       getTotal: () => {
         const { items } = get()
         return items.reduce((total, item) => total + item.price * item.quantity, 0)
       },
+
+      getItemCount: () => {
+        const { items } = get()
+        return items.reduce((count, item) => count + item.quantity, 0)
+      },
+
       coupon: null,
       applyCoupon: (coupon) => set({ coupon }),
+
       getDiscount: () => {
         const { getTotal, coupon } = get()
         if (!coupon) return 0
@@ -63,6 +90,7 @@ export const useCartStore = create<CartState>()(
         }
         return 0 // FREE_SHIPPING is handled separately if needed
       },
+
       getGrandTotal: () => {
         const { getTotal, getDiscount } = get()
         return Math.max(0, getTotal() - getDiscount())
@@ -70,6 +98,10 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: 'ecommerce-cart',
+      partialize: (state) => ({
+        items: state.items,
+        coupon: state.coupon,
+      }),
     }
   )
 )
