@@ -36,11 +36,13 @@ export default async function HomePage() {
     return val || fallback
   }
 
-  const heroImage = getSetting("home_hero_image", "")
+  const rawHeroImage = getSetting("home_hero_image", "/images/kis-paketi.jpg")
+  const heroImage = rawHeroImage && rawHeroImage.trim() !== "" ? rawHeroImage : "/images/kis-paketi.jpg"
   const heroTitle = getSetting("home_hero_title", "Dolu Kış Paketi ile Enerjinizi Katlayın")
   const heroSubtitle = getSetting("home_hero_subtitle", "Sevdiklerinizle paylaşacağınız en taze ve seçkin lezzetler tek bir pakette. Sadece sınırlı bir süre için özel fiyatla.")
   const heroBtnText = getSetting("home_hero_button_text", "Paketi İncele")
-  const heroBtnLink = getSetting("home_hero_button_link", "/urun/kis-paketi")
+  const rawHeroBtnLink = getSetting("home_hero_button_link", "/urun/k-paketi")
+  const heroBtnLink = (rawHeroBtnLink === "/urun/kis-paketi" || !rawHeroBtnLink) ? "/urun/k-paketi" : rawHeroBtnLink
   const heroTag = getSetting("home_hero_tag", "KIŞA HAZIR")
 
   // Çok Satanlar
@@ -130,13 +132,21 @@ export default async function HomePage() {
                 {heroBtnText} <ArrowRight className="h-5 w-5" />
               </Link>
             </div>
-            <div className={`relative h-[400px] lg:h-[500px] bg-white rounded-2xl flex items-center justify-center overflow-hidden ${heroImage ? '' : 'border-2 border-dashed border-brand-slate/20'}`}>
+            <Link 
+              href={heroBtnLink}
+              className={`relative h-[400px] lg:h-[500px] bg-white rounded-2xl flex items-center justify-center overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group block ${heroImage ? '' : 'border-2 border-dashed border-brand-slate/20'}`}
+              title={heroTitle}
+            >
               {heroImage ? (
-                <img src={heroImage} alt={heroTitle} className="absolute inset-0 w-full h-full object-cover rounded-2xl" />
+                <img 
+                  src={heroImage} 
+                  alt={heroTitle} 
+                  className="absolute inset-0 w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-500" 
+                />
               ) : (
                 <span className="text-brand-slate/40 font-bold relative z-10">Ana Görsel Alanı (Hero Banner)</span>
               )}
-            </div>
+            </Link>
           </div>
         </div>
       </section>

@@ -8,7 +8,7 @@ export function ClientBannerForm({ initialSettings }: { initialSettings: Record<
   const [isPending, setIsPending] = useState(false)
   const [message, setMessage] = useState("")
   
-  const [bannerUrl, setBannerUrl] = useState(initialSettings['home_hero_image'] || "")
+  const [bannerUrl, setBannerUrl] = useState(initialSettings['home_hero_image'] || "/images/kis-paketi.jpg")
   const [isUploading, setIsUploading] = useState(false)
   
   const inputRef = useRef<HTMLInputElement>(null)
@@ -162,7 +162,7 @@ export function ClientBannerForm({ initialSettings }: { initialSettings: Record<
                 <input 
                   type="text" 
                   name="home_hero_button_link" 
-                  defaultValue={initialSettings['home_hero_button_link'] || ""}
+                  defaultValue={initialSettings['home_hero_button_link'] || "/urun/k-paketi"}
                   className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition-all text-sm"
                 />
               </div>

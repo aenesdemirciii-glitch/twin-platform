@@ -15,7 +15,7 @@ function normalizeTitle(str: string): string {
 
 export async function getProductBySlug(slug: string) {
   try {
-    const product = await prisma.product.findUnique({
+    let product = await prisma.product.findUnique({
       where: { slug },
       include: {
         images: { orderBy: { sortOrder: 'asc' } },
@@ -25,8 +25,56 @@ export async function getProductBySlug(slug: string) {
         brand: true,
       }
     })
+
+    // If not found, check alternative slug for winter package
+    if (!product && (slug === 'k-paketi' || slug === 'kis-paketi')) {
+      const altSlug = slug === 'k-paketi' ? 'kis-paketi' : 'k-paketi'
+      product = await prisma.product.findUnique({
+        where: { slug: altSlug },
+        include: {
+          images: { orderBy: { sortOrder: 'asc' } },
+          variants: true,
+          attributes: true,
+          category: true,
+          brand: true,
+        }
+      })
+    }
+
+    // Secondary fallback for winter package by name if still not found
+    if (!product && (slug === 'k-paketi' || slug === 'kis-paketi')) {
+      product = await prisma.product.findFirst({
+        where: {
+          OR: [
+            { name: { contains: 'Kış Paketi' } },
+            { name: { contains: 'Kis Paketi' } }
+          ],
+          isActive: true
+        },
+        include: {
+          images: { orderBy: { sortOrder: 'asc' } },
+          variants: true,
+          attributes: true,
+          category: true,
+          brand: true,
+        }
+      })
+    }
     
     if (product) {
+      // If winter package product has no images, provide the uploaded photo
+      if ((product.slug === 'k-paketi' || product.slug === 'kis-paketi' || slug === 'k-paketi' || slug === 'kis-paketi') && (!product.images || product.images.length === 0)) {
+        product.images = [
+          {
+            id: 'kis-paketi-banner-img',
+            productId: product.id,
+            url: '/images/kis-paketi.jpg',
+            sortOrder: 0,
+            createdAt: new Date(),
+          } as any
+        ]
+      }
+
       // If DB description is empty or default, fallback to Excel descriptions
       if (!product.shortDescription || product.shortDescription.trim() === '') {
         const targetNorm = normalizeTitle(product.name)
