@@ -38,7 +38,7 @@ Baharat ve doğal ürün alışverişinde ürün bilgisinin, izlenebilirliğin v
 
 ### İletişim
 
-Sorularınız, siparişleriniz ve toptan alım talepleriniz için **0534 720 19 00**, **info@ikizlerbaharatcilik.com** veya mağaza iletişim sayfamız üzerinden bize ulaşabilirsiniz.`
+Sorularınız, siparişleriniz ve toptan alım talepleriniz için **0534 720 19 03**, **info@ikizlerbaharatcilik.com** veya mağaza iletişim sayfamız üzerinden bize ulaşabilirsiniz.`
   },
 
   "toptan": {
@@ -87,7 +87,7 @@ Toplu siparişlerinizde işletmenize özel gramaj, ambalajlama ve periyodik sevk
 * **Ticaret Unvanı:** İkizler Baharatçılık
 * **Vergi Dairesi / No:** Kadıköy V.D.
 * **Adres:** Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul
-* **Telefon:** 0534 720 19 00
+* **Telefon:** 0534 720 19 03
 * **E-posta:** info@ikizlerbaharatcilik.com
 * **KEP Adresi:** info@ikizlerbaharatcilik.com
 
@@ -141,7 +141,7 @@ Sipariş konusu ürünün tesliminin imkânsızlaşması hâlinde Satıcı durum
 
 Tüketici sıfatını taşıyan Alıcı, yasal istisnalar dışında, ürünü kendisinin veya belirlediği üçüncü kişinin teslim aldığı günden itibaren 14 gün içinde gerekçe göstermeden ve cezai şart ödemeden cayabilir. Alıcı, sözleşmenin kurulmasından ürünün teslimine kadar olan sürede de cayma hakkını kullanabilir.
 
-Cayma bildiriminin süre içinde info@ikizlerbaharatcilik.com, 0534 720 19 00 veya Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul adresi üzerinden Satıcıya yöneltilmesi yeterlidir.
+Cayma bildiriminin süre içinde info@ikizlerbaharatcilik.com, 0534 720 19 03 veya Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul adresi üzerinden Satıcıya yöneltilmesi yeterlidir.
 
 ### Madde 9 İade Süreci
 
@@ -227,7 +227,7 @@ Satıcı, ürün müşteriye teslim edilene kadar oluşan kayıp ve hasardan sor
 
 ### İletişim
 
-Teslimat soruları için sipariş numaranızla birlikte **info@ikizlerbaharatcilik.com** veya **0534 720 19 00** üzerinden bize ulaşabilirsiniz.`
+Teslimat soruları için sipariş numaranızla birlikte **info@ikizlerbaharatcilik.com** veya **0534 720 19 03** üzerinden bize ulaşabilirsiniz.`
   },
 
   "iade-ve-iptal-kosullari": {
@@ -237,7 +237,7 @@ Teslimat soruları için sipariş numaranızla birlikte **info@ikizlerbaharatcil
     menuLocation: "Yasal",
     content: `### Sipariş İptali
 
-Siparişiniz kargoya veya kuryeye teslim edilmeden önce **info@ikizlerbaharatcilik.com** ya da **0534 720 19 00** üzerinden iptal talebi iletebilirsiniz. Hazırlanmış veya taşıyıcıya teslim edilmiş siparişlerde cayma ve iade süreci uygulanır.
+Siparişiniz kargoya veya kuryeye teslim edilmeden önce **info@ikizlerbaharatcilik.com** ya da **0534 720 19 03** üzerinden iptal talebi iletebilirsiniz. Hazırlanmış veya taşıyıcıya teslim edilmiş siparişlerde cayma ve iade süreci uygulanır.
 
 ### Cayma Hakkı
 
@@ -281,7 +281,7 @@ Yanlış, eksik, hasarlı ya da ayıplı ürünlerde cayma hakkından bağımsı
 ### Başvuru Kanalları
 
 * **E-posta:** info@ikizlerbaharatcilik.com
-* **Telefon:** 0534 720 19 00
+* **Telefon:** 0534 720 19 03
 * **Posta Adresi:** Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul`
   },
 
@@ -305,7 +305,7 @@ Yanlış, eksik, hasarlı ya da ayıplı ürünlerde cayma hakkından bağımsı
 * **Adres:** Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul
 * **Vergi Dairesi:** Kadıköy V.D.
 * **E-posta:** info@ikizlerbaharatcilik.com
-* **Telefon:** 0534 720 19 00
+* **Telefon:** 0534 720 19 03
 
 Bu metin; internet sitesi ziyaretçileri, üyeler, müşteriler, potansiyel müşteriler, iletişim veya teklif formu gönderenler ile müşteri hizmetlerine başvuran kişiler için geçerlidir.
 
@@ -423,7 +423,7 @@ Site, yasal işlem ehliyeti olmayan kişilerin tek başına alışveriş yapmas�
 
 ### Güncelleme ve İletişim
 
-Sorularınız için: **info@ikizlerbaharatcilik.com** veya **0534 720 19 00**.  
+Sorularınız için: **info@ikizlerbaharatcilik.com** veya **0534 720 19 03**.  
 Son güncelleme: 12 Ekim 2026`
   },
 
@@ -498,7 +498,7 @@ Kalite sertifikasyonlarımız ve analiz raporlarımız hakkında daha fazla bilg
     content: `### Kadıköy Mağazamız
 
 * **Adres:** Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul
-* **Telefon:** 0534 720 19 00
+* **Telefon:** 0534 720 19 03
 * **E-posta:** info@ikizlerbaharatcilik.com
 * **Çalışma Saatleri:** Pazartesi - Cumartesi: 09:00 - 20:00
 

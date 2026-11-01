@@ -137,7 +137,7 @@ export function ClientSettingsForm({ initialSettings }: { initialSettings: Recor
             <input 
               type="text" 
               name="store_phone"
-              defaultValue={initialSettings['store_phone'] || "0534 720 19 00"}
+              defaultValue={initialSettings['store_phone'] || "0534 720 19 03"}
               className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg text-slate-700 focus:ring-2 focus:ring-amber-400 focus:outline-none transition-all"
             />
           </div>

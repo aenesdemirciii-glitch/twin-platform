@@ -7,6 +7,10 @@ export async function Footer() {
   const categories = await getCategories()
   const logoSetting = await prisma.settings.findUnique({ where: { key: "site_logo" } })
   const logoUrl = logoSetting?.value
+  const phoneSetting = await prisma.settings.findUnique({ where: { key: "store_phone" } })
+  const rawPhone = phoneSetting?.value
+  const displayPhone = (rawPhone && rawPhone !== "0534 720 19 00") ? rawPhone : "0534 720 19 03"
+  const telLink = `tel:${displayPhone.replace(/\s+/g, "")}`
 
   return (
     <footer className="bg-white pt-12 border-t-4 border-brand-gold">
@@ -63,8 +67,16 @@ export async function Footer() {
               </p>
               <div className="text-sm text-brand-slate/80 font-medium space-y-4">
                 <p>Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul</p>
-                <p className="font-black text-brand-slate text-base">0534 720 19 00</p>
-                <p>info@ikizlerbaharatcilik.com</p>
+                <p className="font-black text-brand-slate text-base">
+                  <a href={telLink} className="hover:text-brand-gold transition-colors">
+                    {displayPhone}
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:info@ikizlerbaharatcilik.com" className="hover:text-brand-gold transition-colors">
+                    info@ikizlerbaharatcilik.com
+                  </a>
+                </p>
               </div>
               <div className="flex items-center gap-3 mt-6">
                 <Link href="https://www.facebook.com/ikizlerbaharatcilik/" target="_blank" className="w-8 h-8 rounded-full border border-brand-slate/30 flex items-center justify-center cursor-pointer hover:bg-brand-gold hover:text-brand-slate hover:border-brand-gold transition-colors font-bold text-brand-slate/70 text-xs">FB</Link>
@@ -114,7 +126,18 @@ export async function Footer() {
         </div>
 
         <div className="py-6 border-t border-brand-slate/20 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-bold text-brand-slate/60">
-          <p>Copyright &copy; 2026 Tüm hakları saklıdır. - Hoppo Agency Tarafından Tasarlanmıştır</p>
+          <p>
+            Copyright &copy; 2026 Tüm hakları saklıdır. -{" "}
+            <a
+              href="https://hoppoagency.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-slate hover:text-brand-gold transition-colors underline underline-offset-2"
+            >
+              Hoppo Agency
+            </a>{" "}
+            Tarafından Tasarlanmıştır
+          </p>
           <div className="flex items-center gap-3">
             <div className="px-3 py-1 bg-white border-2 border-brand-slate/20 rounded text-brand-slate">256-bit SSL</div>
             <div className="px-3 py-1 bg-white border-2 border-brand-slate/20 rounded text-brand-slate italic">VISA</div>

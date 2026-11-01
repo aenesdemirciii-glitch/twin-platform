@@ -31,7 +31,9 @@ export default async function HomePage() {
   })
 
   const getSetting = (key: string, fallback: string) => {
-    return settings.find(s => s.key === key)?.value || fallback
+    const val = settings.find(s => s.key === key)?.value
+    if (key === "store_phone" && val === "0534 720 19 00") return fallback
+    return val || fallback
   }
 
   const heroImage = getSetting("home_hero_image", "")

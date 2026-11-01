@@ -86,7 +86,7 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
             {isSpecial === "toptan" && (
               <div className="flex flex-col sm:flex-row gap-3 shrink-0">
                 <a
-                  href="https://wa.me/905347201900?text=Merhaba,%20toptan%20ürün%20fiyat%20teklifi%20almak%20istiyorum."
+                  href="https://wa.me/905347201903?text=Merhaba,%20toptan%20ürün%20fiyat%20teklifi%20almak%20istiyorum."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-[#25D366] hover:bg-[#1EBE57] text-white font-bold text-sm rounded-xl shadow-md transition-all hover:scale-105"
@@ -95,7 +95,7 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
                   WhatsApp ile Teklif Al
                 </a>
                 <a
-                  href="tel:05347201900"
+                  href="tel:05347201903"
                   className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-brand-slate hover:bg-brand-slate/90 text-white font-bold text-sm rounded-xl shadow-md transition-all hover:scale-105"
                 >
                   <Phone className="h-5 w-5" />
@@ -156,7 +156,7 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
               </div>
               <div className="flex items-center gap-3 w-full md:w-auto">
                 <a
-                  href="https://wa.me/905347201900?text=Merhaba,%20toptan%20ürün%20fiyat%20teklifi%20almak%20istiyorum."
+                  href="https://wa.me/905347201903?text=Merhaba,%20toptan%20ürün%20fiyat%20teklifi%20almak%20istiyorum."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#1EBE57] text-white font-bold text-sm rounded-xl shadow transition-colors"
@@ -165,11 +165,11 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
                   WhatsApp
                 </a>
                 <a
-                  href="tel:05347201900"
+                  href="tel:05347201903"
                   className="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-gold hover:bg-amber-400 text-brand-slate font-bold text-sm rounded-xl shadow transition-colors"
                 >
                   <Phone className="h-5 w-5" />
-                  0534 720 19 00
+                  0534 720 19 03
                 </a>
               </div>
             </div>
@@ -189,7 +189,7 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
                 <Phone className="h-5 w-5 text-brand-gold shrink-0 mt-0.5" />
                 <div>
                   <div className="font-bold text-xs uppercase text-slate-400 tracking-wider">Telefon</div>
-                  <div className="text-sm font-semibold text-brand-slate mt-0.5">0534 720 19 00</div>
+                  <div className="text-sm font-semibold text-brand-slate mt-0.5">0534 720 19 03</div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
