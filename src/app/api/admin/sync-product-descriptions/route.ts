@@ -30,21 +30,23 @@ export async function GET() {
     for (const item of productDescriptions) {
       const targetNorm = normalizeTitle(item.name)
       
-      // Find matching product in DB by exact name, normalized name, or inclusion
+      // Find matching product in DB by exact name, slug, normalized name, or inclusion
       const matched = dbProducts.find(p => {
         const pNorm = normalizeTitle(p.name)
-        return pNorm === targetNorm || p.name.toLowerCase() === item.name.toLowerCase()
+        const isWinter = (item.name === "Kış Paketi" || item.name === "K Paketi") && (p.slug === "k-paketi" || p.slug === "kis-paketi" || pNorm.includes("kispaketi") || pNorm.includes("kpaketi"))
+        return isWinter || pNorm === targetNorm || p.name.toLowerCase() === item.name.toLowerCase()
       }) || dbProducts.find(p => {
         const pNorm = normalizeTitle(p.name)
         return pNorm.includes(targetNorm) || targetNorm.includes(pNorm)
       })
 
       if (matched) {
+        const longDesc = (item as any).longDescription || item.description
         await prisma.product.update({
           where: { id: matched.id },
           data: {
             shortDescription: item.description,
-            longDescription: item.description,
+            longDescription: longDesc,
             seoDescription: item.seoDescription,
             seoTitle: `${matched.name} | İkizler Baharatçılık`
           }

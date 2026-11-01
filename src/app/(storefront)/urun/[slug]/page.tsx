@@ -5,6 +5,7 @@ import { getProductBySlug, getActiveProducts } from "@/services/productService"
 import { ShoppingCart, Heart, ShieldCheck, Truck } from "lucide-react"
 import { ProductOptions } from "@/components/storefront/ProductOptions"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
+import { MarkdownRenderer } from "@/components/storefront/MarkdownRenderer"
 
 export default async function ProductDetailPage(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
@@ -43,7 +44,9 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
               {product.name}
             </h1>
             <p className="text-slate-600 leading-relaxed mb-6">
-              {product.shortDescription || "Bu ürün için henüz bir açıklama eklenmedi. En taze ve doğal ürünlerimizden biridir."}
+              {product.shortDescription?.startsWith("#")
+                ? product.shortDescription.replace(/^#+\s+[^\n]+\n+/, "").split("\n\n")[0]
+                : (product.shortDescription || "Bu ürün için henüz bir açıklama eklenmedi. En taze ve doğal ürünlerimizden biridir.")}
             </p>
             
             <ProductOptions product={product} />
@@ -67,6 +70,21 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
           </div>
         </div>
       </div>
+
+      {/* Product Detailed Description & Specifications */}
+      {(product.longDescription || product.shortDescription) && (
+        <div className="mt-16 pt-12 border-t border-brand-slate/10">
+          <div className="bg-slate-50/70 rounded-3xl p-6 lg:p-10 border border-slate-200/80">
+            <h2 className="text-2xl lg:text-3xl font-black text-brand-slate mb-6 flex items-center gap-3">
+              <span className="w-2.5 h-8 bg-brand-gold rounded-full inline-block"></span>
+              Ürün Açıklaması ve Paket Detayları
+            </h2>
+            <div className="prose prose-slate max-w-none text-brand-slate leading-relaxed">
+              <MarkdownRenderer content={product.longDescription || product.shortDescription || ""} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bunları da Deneyebilirsiniz / Popüler Ürünler */}
       {popularProducts && popularProducts.length > 0 && (
