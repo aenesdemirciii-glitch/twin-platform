@@ -113,8 +113,8 @@ export async function getProductBySlug(slug: string) {
         id: 'kis-paketi-virtual-id',
         name: 'Kış Paketi',
         slug: slug,
-        price: 999 as any,
-        salePrice: null,
+        price: 3500 as any,
+        discountPrice: 3000 as any,
         stock: 100,
         isActive: true,
         isFeatured: true,
@@ -149,17 +149,18 @@ export async function getProductBySlug(slug: string) {
         product.name.toLowerCase().includes('kis paketi')
 
       if (isKisPaketi) {
-        if (!product.images || product.images.length === 0) {
-          product.images = [
-            {
-              id: 'kis-paketi-banner-img',
-              productId: product.id,
-              url: '/images/kis-paketi.jpg',
-              sortOrder: 0,
-              createdAt: new Date(),
-            } as any
-          ]
-        }
+        product.price = 3500 as any
+        product.discountPrice = 3000 as any
+        product.images = [
+          {
+            id: 'kis-paketi-banner-img',
+            productId: product.id,
+            url: '/images/kis-paketi.jpg',
+            sortOrder: 0,
+            createdAt: new Date(),
+          } as any,
+          ...(product.images ? product.images.filter((img: any) => img.url !== '/images/kis-paketi.jpg') : [])
+        ]
         product.shortDescription = KIS_PAKETI_SHORT_DESC
         product.longDescription = KIS_PAKETI_LONG_DESC
         product.seoDescription = KIS_PAKETI_SEO_DESC
@@ -207,7 +208,20 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
       orderBy: { createdAt: 'desc' }
     })
     
-    return products
+    const mapProduct = (p: any) => {
+      const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
+      if (isWinter) {
+        return {
+          ...p,
+          price: 3500 as any,
+          discountPrice: 3000 as any,
+          images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
+        }
+      }
+      return p
+    }
+
+    return products.map(mapProduct)
   } catch (error) {
     console.error("Error fetching active products:", error)
     return []
@@ -237,7 +251,20 @@ export async function getCategoryData(slug: string, params?: { take?: number, sk
     
     const total = await prisma.product.count({ where: whereClause })
     
-    return { category, products, total }
+    const mapProduct = (p: any) => {
+      const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
+      if (isWinter) {
+        return {
+          ...p,
+          price: 3500 as any,
+          discountPrice: 3000 as any,
+          images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
+        }
+      }
+      return p
+    }
+
+    return { category, products: products.map(mapProduct), total }
   } catch (error) {
     console.error("Error fetching category data:", error)
     return { category: null, products: [], total: 0 }

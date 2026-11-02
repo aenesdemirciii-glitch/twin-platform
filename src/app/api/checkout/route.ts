@@ -84,7 +84,10 @@ export async function POST(req: Request) {
       }
 
       const qty = Math.max(1, Number(item.quantity) || 1)
-      const unitPrice = Number(dbProduct.discountPrice || dbProduct.price)
+      const isWinter = 
+        dbProduct.name.toLowerCase().includes('kış paketi') || 
+        dbProduct.name.toLowerCase().includes('kis paketi')
+      const unitPrice = isWinter ? 3000 : Number(dbProduct.discountPrice || dbProduct.price)
       const itemTotal = unitPrice * qty
       subtotal += itemTotal
       totalWeight += qty * 0.5 // Ortalama ürün ağırlığı

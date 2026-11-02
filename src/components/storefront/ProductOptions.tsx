@@ -14,14 +14,38 @@ export function ProductOptions({ product }: { product: any }) {
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
 
-  const currentPrice = selectedVariant?.price || product.price
+  const isWinter = 
+    product.slug === 'k-paketi' || 
+    product.slug === 'kis-paketi' || 
+    product.name?.toLowerCase().includes('kış paketi') || 
+    product.name?.toLowerCase().includes('kis paketi')
+
+  const basePrice = isWinter ? 3500 : Number(selectedVariant?.price || product.price)
+  const discountPrice = isWinter 
+    ? 3000 
+    : (selectedVariant?.discountPrice !== undefined && selectedVariant?.discountPrice !== null)
+      ? Number(selectedVariant.discountPrice)
+      : (product.discountPrice ? Number(product.discountPrice) : null)
+
+  const effectivePrice = discountPrice && discountPrice < basePrice ? discountPrice : basePrice
+  const hasDiscount = discountPrice && discountPrice < basePrice
 
   return (
     <div className="flex flex-col">
-       <div className="flex items-center gap-4 mb-8">
+       <div className="flex flex-wrap items-baseline gap-3.5 mb-8">
          <span className="text-4xl font-extrabold text-brand-slate">
-           {Number(currentPrice).toLocaleString('tr-TR')} TL
+           {Number(effectivePrice).toLocaleString('tr-TR')} TL
          </span>
+         {hasDiscount && (
+           <>
+             <span className="text-2xl text-slate-400 line-through font-semibold">
+               {Number(basePrice).toLocaleString('tr-TR')} TL
+             </span>
+             <span className="px-3 py-1 text-xs lg:text-sm font-extrabold bg-red-100 text-red-600 rounded-full">
+               %{Math.round(((basePrice - discountPrice) / basePrice) * 100)} İndirim
+             </span>
+           </>
+         )}
        </div>
 
        {sortedVariants.length > 0 && (
@@ -61,9 +85,9 @@ export function ProductOptions({ product }: { product: any }) {
                id: selectedVariant ? selectedVariant.id : product.id,
                productId: product.id,
                name: selectedVariant ? `${product.name} (${selectedVariant.name})` : product.name,
-               price: Number(currentPrice),
+               price: Number(effectivePrice),
                quantity: quantity,
-               image: product.images?.[0]?.url,
+               image: product.images?.[0]?.url || (isWinter ? "/images/kis-paketi.jpg" : undefined),
                sku: selectedVariant ? selectedVariant.sku : product.sku,
              }
              addItem(cartItem)

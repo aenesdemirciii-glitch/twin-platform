@@ -28,7 +28,12 @@ export default async function ProductDetailPage(props: { params: Promise<{ slug:
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
         {/* Product Images (Left) */}
         <div className="space-y-4">
-          <div className="relative w-full pb-[100%] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden">
+          <div className="relative w-full pb-[100%] bg-slate-100 rounded-2xl border-2 border-slate-200 overflow-hidden shadow-sm">
+            {product.discountPrice && Number(product.discountPrice) < Number(product.price) && (
+              <div className="absolute top-4 left-4 z-10 bg-red-600 text-white font-black text-xs lg:text-sm px-3.5 py-1.5 rounded-full shadow-md">
+                %{Math.round(((Number(product.price) - Number(product.discountPrice)) / Number(product.price)) * 100)} İNDİRİM
+              </div>
+            )}
             {product.images && product.images[0] ? (
               <img src={product.images[0].url} alt={product.name} className="absolute inset-0 w-full h-full object-cover" />
             ) : (

@@ -42,13 +42,15 @@ export async function GET() {
 
       if (matched) {
         const longDesc = (item as any).longDescription || item.description
+        const isWinterMatch = matched.slug === "k-paketi" || matched.slug === "kis-paketi" || matched.name.toLowerCase().includes("kış paketi") || matched.name.toLowerCase().includes("kis paketi")
         await prisma.product.update({
           where: { id: matched.id },
           data: {
             shortDescription: item.description,
             longDescription: longDesc,
             seoDescription: item.seoDescription,
-            seoTitle: `${matched.name} | İkizler Baharatçılık`
+            seoTitle: `${matched.name} | İkizler Baharatçılık`,
+            ...(isWinterMatch ? { price: 3500, discountPrice: 3000 } : {})
           }
         })
         updatedCount++

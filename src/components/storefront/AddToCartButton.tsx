@@ -28,13 +28,23 @@ export function AddToCartButton({
     // Determine what to add. If variant is provided use it, otherwise use product (or its first variant).
     const selectedVariant = variant || (product.variants && product.variants.length > 0 ? product.variants[0] : null)
     
+    const isWinter = 
+      product.slug === 'k-paketi' || 
+      product.slug === 'kis-paketi' || 
+      product.name?.toLowerCase().includes('kış paketi') || 
+      product.name?.toLowerCase().includes('kis paketi')
+
+    const itemPrice = isWinter 
+      ? 3000 
+      : Number(selectedVariant ? (selectedVariant.discountPrice || selectedVariant.price) : (product.discountPrice || product.price))
+
     const cartItem = {
       id: selectedVariant ? selectedVariant.id : product.id,
       productId: product.id,
       name: selectedVariant ? `${product.name} (${selectedVariant.name})` : product.name,
-      price: Number(selectedVariant ? selectedVariant.price : product.price),
+      price: itemPrice,
       quantity: quantity,
-      image: product.images?.[0]?.url,
+      image: product.images?.[0]?.url || (isWinter ? "/images/kis-paketi.jpg" : undefined),
       sku: selectedVariant ? selectedVariant.sku : product.sku,
     }
 

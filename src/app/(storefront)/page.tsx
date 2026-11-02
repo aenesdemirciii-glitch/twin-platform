@@ -88,6 +88,22 @@ export default async function HomePage() {
     popularProducts = [...popularProducts, ...fallbackPop]
   }
 
+  const mapWinterProduct = (p: any) => {
+    const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
+    if (isWinter) {
+      return {
+        ...p,
+        price: 3500,
+        discountPrice: 3000,
+        images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
+      }
+    }
+    return p
+  }
+
+  products = products.map(mapWinterProduct)
+  popularProducts = popularProducts.map(mapWinterProduct)
+
   // Blog Yazıları (Maksimum 4)
   let dbBlogPosts: any[] = []
   try {
@@ -122,9 +138,23 @@ export default async function HomePage() {
               <h1 className="text-4xl lg:text-6xl font-black leading-tight mb-6">
                 {heroTitle}
               </h1>
-              <p className="text-lg text-brand-slate/80 mb-8 font-medium leading-relaxed">
+              <p className="text-lg text-brand-slate/80 mb-6 font-medium leading-relaxed">
                 {heroSubtitle}
               </p>
+
+              {/* Price / Discount Display */}
+              <div className="flex flex-wrap items-center gap-3.5 mb-8">
+                <span className="text-3xl lg:text-4xl font-black text-brand-slate">
+                  3.000 TL
+                </span>
+                <span className="text-xl lg:text-2xl text-slate-400 line-through font-bold">
+                  3.500 TL
+                </span>
+                <span className="px-3.5 py-1 bg-red-600 text-white font-extrabold text-xs lg:text-sm rounded-full shadow-sm tracking-wide">
+                  500 TL İNDİRİM
+                </span>
+              </div>
+
               <Link 
                 href={heroBtnLink} 
                 className="inline-flex items-center justify-center gap-2 bg-brand-gold text-brand-slate font-black px-8 py-4 rounded-lg hover:bg-white hover:text-brand-slate hover:border-brand-gold border-2 border-brand-gold transition-all shadow-lg"
@@ -137,6 +167,10 @@ export default async function HomePage() {
               className={`relative h-[400px] lg:h-[500px] bg-white rounded-2xl flex items-center justify-center overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group block ${heroImage ? '' : 'border-2 border-dashed border-brand-slate/20'}`}
               title={heroTitle}
             >
+              <div className="absolute top-4 left-4 z-20 bg-red-600 text-white font-black text-xs lg:text-sm px-4 py-1.5 rounded-full shadow-lg flex items-center gap-2">
+                <span className="line-through text-red-200">3.500 TL</span>
+                <span className="text-yellow-300 font-extrabold text-sm lg:text-base">3.000 TL</span>
+              </div>
               {heroImage ? (
                 <img 
                   src={heroImage} 
@@ -208,7 +242,16 @@ export default async function HomePage() {
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                   <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
-                    <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                    <div className="flex items-baseline gap-2 mb-3 lg:mb-4">
+                      <span className="text-base lg:text-xl font-black text-brand-slate">
+                        {Number(prod.discountPrice || prod.price).toLocaleString('tr-TR')} TL
+                      </span>
+                      {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                        <span className="text-xs lg:text-sm text-slate-400 line-through font-semibold">
+                          {Number(prod.price).toLocaleString('tr-TR')} TL
+                        </span>
+                      )}
+                    </div>
                     <AddToCartButton product={prod} />
                   </div>
                 </div>
@@ -286,7 +329,16 @@ export default async function HomePage() {
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                   <h3 className="font-bold text-sm lg:text-lg mb-2 line-clamp-2 group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
-                    <p className="text-base lg:text-xl font-black mb-3 lg:mb-4">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                    <div className="flex items-baseline gap-2 mb-3 lg:mb-4">
+                      <span className="text-base lg:text-xl font-black text-brand-slate">
+                        {Number(prod.discountPrice || prod.price).toLocaleString('tr-TR')} TL
+                      </span>
+                      {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                        <span className="text-xs lg:text-sm text-slate-400 line-through font-semibold">
+                          {Number(prod.price).toLocaleString('tr-TR')} TL
+                        </span>
+                      )}
+                    </div>
                     <AddToCartButton product={prod} />
                   </div>
                 </div>
