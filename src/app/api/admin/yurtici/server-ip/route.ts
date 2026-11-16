@@ -20,3 +20,4 @@ export async function GET() {
     return NextResponse.json({ ip: "Belirlenemedi (Ağ kısıtlı)" })
   }
 }
+

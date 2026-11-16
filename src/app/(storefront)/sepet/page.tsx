@@ -128,9 +128,25 @@ export default function CartPage() {
                 </div>
               )}
               
+              {getTotal() >= 3000 ? (
+                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800 font-bold flex items-center gap-2 mb-4">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Tebrikler! 3.000 TL üzeri ücretsiz kargo hakkı kazandınız.</span>
+                </div>
+              ) : (
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 font-medium flex items-center justify-between gap-2 mb-4">
+                  <span>Ücretsiz kargo için kalan tutar:</span>
+                  <strong className="font-bold text-amber-950 font-mono">{(3000 - getTotal()).toFixed(2)} TL</strong>
+                </div>
+              )}
+              
               <div className="flex justify-between text-slate-600">
                 <span>Kargo</span>
-                <span className="text-slate-800 font-medium">Ödeme Adımında Belirlenir (Min 199 TL)</span>
+                {getTotal() >= 3000 ? (
+                  <span className="text-emerald-600 font-black">0,00 TL (Ücretsiz)</span>
+                ) : (
+                  <span className="text-slate-800 font-medium">199,00 TL (3.000 TL üzeri Ücretsiz)</span>
+                )}
               </div>
             </div>
             

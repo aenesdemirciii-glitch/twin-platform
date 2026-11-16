@@ -131,13 +131,16 @@ export default function CheckoutPage() {
     i.name?.toLowerCase().includes("test")
   )
 
+  const subtotal = getTotal()
+  // 3.000 TL ve üzeri siparişlerde Standart Kargo ÜCRETSİZ
+  const isFreeShipping = (subtotal >= 3000) || isTestCart
+
   // Aktif Kargo Ücreti
-  const effectiveStandardFee = isTestCart ? 0 : standardFee
+  const effectiveStandardFee = isFreeShipping ? 0 : standardFee
   const activeShippingFee = deliveryMethod === "banabikurye" 
     ? (isTestCart ? 0 : (banabiFee !== null ? banabiFee : standardFee)) 
     : effectiveStandardFee
 
-  const subtotal = getTotal()
   const discountAmount = discountApplied ? discountApplied.amount : 0
   const totalAmount = Math.max(0, subtotal - discountAmount) + (items.length > 0 ? activeShippingFee : 0)
 
@@ -819,10 +822,23 @@ export default function CheckoutPage() {
 
                     <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
                       <span className="text-xs text-slate-500 font-medium">Kargo Ücreti:</span>
-                      <span className={`text-base font-black ${isTestCart ? "text-emerald-600" : "text-slate-900"}`}>
-                        {isTestCart ? "0,00 TL (Test Ücretsiz)" : "199,00 TL"}
+                      <span className={`text-base font-black ${isFreeShipping ? "text-emerald-600" : "text-slate-900"}`}>
+                        {isTestCart 
+                          ? "0,00 TL (Test Ücretsiz)" 
+                          : isFreeShipping 
+                          ? "0,00 TL (Ücretsiz)" 
+                          : "199,00 TL"}
                       </span>
                     </div>
+                    {isFreeShipping && !isTestCart ? (
+                      <p className="text-[11px] text-emerald-700 font-bold mt-1.5 flex items-center gap-1">
+                        ✓ 3.000 TL üzeri kargo bedava kampanyası uygulandı
+                      </p>
+                    ) : !isFreeShipping ? (
+                      <p className="text-[11px] text-amber-700 font-medium mt-1.5">
+                        3.000 TL üzeri kargo bedava (Kalan: {(3000 - subtotal).toLocaleString('tr-TR')} TL)
+                      </p>
+                    ) : null}
                   </label>
 
                   {/* SEÇENEK 2: AYNI GÜN TESLİMAT (Banabikurye) */}
@@ -1016,9 +1032,11 @@ export default function CheckoutPage() {
                   <span>
                     {deliveryMethod === "banabikurye" ? "Aynı Gün Teslimat (Banabikurye)" : "Standart Kargo"}
                   </span>
-                  <span className={`font-bold ${isTestCart ? "text-emerald-600" : "text-slate-900"}`}>
+                  <span className={`font-bold ${(isFreeShipping && deliveryMethod === "standard") || isTestCart ? "text-emerald-600 font-black" : "text-slate-900"}`}>
                     {isTestCart ? (
                       "0,00 TL (Test Ücretsiz)"
+                    ) : deliveryMethod === "standard" && isFreeShipping ? (
+                      "0,00 TL (Ücretsiz Kargo)"
                     ) : deliveryMethod === "banabikurye" && isCalculatingBanabi ? (
                       "Hesaplanıyor..."
                     ) : (

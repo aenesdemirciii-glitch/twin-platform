@@ -119,6 +119,18 @@ export async function POST(req: Request) {
     let shippingCost = banabiConfig.standardShippingFee || 199.00
     let deliveryTitle = "Standart Kargo"
 
+    // Veritabanından ücretsiz kargo eşiğini al (Varsayılan: 3000 TL)
+    let freeShippingThreshold = 3000
+    try {
+      const freeShippingSetting = await prisma.settings.findUnique({
+        where: { key: "free_shipping_threshold" }
+      })
+      if (freeShippingSetting?.value) {
+        const parsed = parseFloat(freeShippingSetting.value)
+        if (!isNaN(parsed) && parsed > 0) freeShippingThreshold = parsed
+      }
+    } catch (e) {}
+
     // Test ürünü kontrolü: Eğer sepette "test" adında bir ürün varsa (örn: 1 TL test ürünü), kargo bedeli 0 TL olsun
     const hasTestProduct = dbOrderItems.some((i: any) => i.productName?.toLowerCase().trim() === "test" || i.productName?.toLowerCase().includes("test"))
 
@@ -162,9 +174,14 @@ export async function POST(req: Request) {
       shippingCost = banabiCalc.price
       deliveryTitle = "Aynı Gün Teslimat (Banabikurye)"
     } else {
-      // Standart Kargo: Sabit 199 TL (Sepet tutarından bağımsız kural)
-      shippingCost = banabiConfig.standardShippingFee || 199.00
-      deliveryTitle = "Standart Kargo"
+      // Standart Kargo: 3.000 TL ve üzeri ÜCRETSİZ KARGO
+      if (subtotal >= freeShippingThreshold) {
+        shippingCost = 0
+        deliveryTitle = "Standart Kargo (3.000 TL Üzeri Ücretsiz)"
+      } else {
+        shippingCost = banabiConfig.standardShippingFee || 199.00
+        deliveryTitle = "Standart Kargo"
+      }
     }
 
     // 3. Kupon İndirim Hesaplaması
