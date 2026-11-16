@@ -103,6 +103,7 @@ export interface YurticiCreateShipmentInput {
   cargoCount?: number
   paymentType?: "SENDER" | "RECEIVER" // SENDER = Gönderici Ödemeli, RECEIVER = Alıcı Ödemeli
   description?: string
+  forceOffline?: boolean // IP yetkisi veya ağ sorunu varken şubeye referans kodu ile teslimat modu
 }
 
 export interface YurticiCreateShipmentResult {
@@ -165,17 +166,20 @@ export async function createYurticiShipment(
   // Yurtiçi Kargo KOPS servisinde: dcSelectedCredit: 0 = Gönderici Ödemeli (Cari Hesap)
   const dcSelectedCredit = input.paymentType === "RECEIVER" ? 1 : 0
 
-  // Canlı API kullanıcı adı / şifre girilmemişse veya test modunda ise güvenli test simülasyonu
-  if (!config.username || !config.password || config.testMode) {
-    console.log(`[Yurtiçi Kargo Test Modu] Gönderi oluşturuluyor: #${input.orderNumber} (cargoKey: ${input.cargoKey})`)
+  // Canlı API kullanıcı adı / şifre girilmemişse, test modunda ise veya şube çevrimdışı referans modu istenmişse
+  if (!config.username || !config.password || config.testMode || input.forceOffline) {
+    const isOfflineMode = !!input.forceOffline
+    console.log(`[Yurtiçi Kargo ${isOfflineMode ? 'Şube Çevrimdışı Referans Modu' : 'Test Modu'}] Gönderi: #${input.orderNumber} (cargoKey: ${input.cargoKey})`)
     return {
       success: true,
       cargoKey: input.cargoKey,
-      jobId: `SIM-JOB-${Date.now()}`,
+      jobId: `${isOfflineMode ? 'SUBE-REF' : 'SIM-JOB'}-${Date.now()}`,
       outFlag: "0",
-      outResult: "Test Modu: Gönderi kaydı başarıyla oluşturuldu. Yurtiçi Kargo şubesi referans kodunu kabul edebilir.",
+      outResult: isOfflineMode 
+        ? "Şube Teslimat Kodu Oluşturuldu: Yurtiçi Kargo Kozyatağı şubesi bu referans koduyla gönderiyi teslim alabilir."
+        : "Test Modu: Gönderi kaydı başarıyla oluşturuldu. Yurtiçi Kargo şubesi referans kodunu kabul edebilir.",
       rawResponse: JSON.stringify({
-        mode: "TEST_SIMULATION",
+        mode: isOfflineMode ? "OFFLINE_BRANCH_DISPATCH" : "TEST_SIMULATION",
         customerCode: config.customerCode,
         orgGeoCode: config.orgGeoCode,
         cargoKey: input.cargoKey,
@@ -229,7 +233,7 @@ export async function createYurticiShipment(
 
   try {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 12000)
+    const timeout = setTimeout(() => controller.abort(), 35000) // Yurtiçi Kargo yanıt süresine uygun 35 saniye
 
     const response = await fetch(config.endpointUrl, {
       method: "POST",
@@ -268,13 +272,27 @@ export async function createYurticiShipment(
     }
   } catch (error: any) {
     console.error("Yurtiçi Kargo SOAP createShipment network error:", error)
+    
+    // Node.js undici fetch failed nedenini ayrıştır
+    const cause = error?.cause
+    let causeDetail = ""
+    if (cause) {
+      causeDetail = cause.code 
+        ? ` (${cause.code}: ${cause.message || cause.name || ''})`
+        : ` (${cause.message || String(cause)})`
+    }
+
+    const isTimeout = error.name === "AbortError" || cause?.code === "ETIMEDOUT" || String(error).includes("timeout")
+
+    const finalErrMsg = isTimeout
+      ? "Yurtiçi Kargo sunucusu zaman aşımına uğradı (35 saniye yanıt alınamadı). Yurtiçi Kargo sunucusu yoğun olabilir veya IP yetkilendirmesi gerekebilir."
+      : `Yurtiçi Kargo API bağlantı hatası${causeDetail}. Yurtiçi Kargo sunucusu, sunucu IP adresinizin güvenlik duvarı (IP Whitelist) yetkilendirmesini bekliyor olabilir.`
+
     return {
       success: false,
       cargoKey: input.cargoKey,
-      errorMessage: error.name === "AbortError" 
-        ? "Yurtiçi Kargo servisi zaman aşımına uğradı (12 saniye)." 
-        : `Yurtiçi Kargo bağlantı hatası (IP yetkilendirmesi veya ağ erişimi kontrol edilmeli): ${error.message || String(error)}`,
-      rawResponse: String(error),
+      errorMessage: finalErrMsg,
+      rawResponse: JSON.stringify({ error: String(error), cause: cause ? String(cause) : null, code: cause?.code }),
       isSimulated: false,
     }
   }

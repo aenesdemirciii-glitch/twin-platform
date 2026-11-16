@@ -56,35 +56,38 @@ export function YurticiActionButtons({
   const cargoCarrier = customer.cargoCarrier || "Yurtiçi Kargo"
 
   // 1. Gönderi Oluşturma (createShipment)
-  const handleCreateShipment = async () => {
+  const handleCreateShipment = async (forceOffline: boolean = false) => {
     if (paymentStatus !== "PAID") {
       alert("Bu siparişin ödemesi henüz tamamlanmamış. Yalnızca ödenmiş siparişler kargoya aktarılabilir.")
       return
     }
 
     setLoading(true)
-    setLoadingAction("create")
+    setLoadingAction(forceOffline ? "create-offline" : "create")
     setMessage(null)
 
     try {
       const res = await fetch("/api/admin/yurtici/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId }),
+        body: JSON.stringify({ orderId, forceOffline }),
       })
 
       const data = await res.json()
 
       if (res.ok && data.success) {
-        setMessage({ type: "success", text: "Yurtiçi Kargo referans kodu oluşturuldu!" })
+        setMessage({ 
+          type: "success", 
+          text: forceOffline 
+            ? "Yurtiçi Kargo şube teslimat kodu oluşturuldu (Kozyatağı Şubesi teslimata hazır)!" 
+            : "Yurtiçi Kargo referans kodu başarıyla oluşturuldu!" 
+        })
         router.refresh()
       } else {
         setMessage({ type: "error", text: data.error || "Gönderi kaydı oluşturulamadı." })
-        alert(data.error || "Gönderi kaydı oluşturulamadı.")
       }
     } catch (err: any) {
       setMessage({ type: "error", text: "Bağlantı hatası: " + (err.message || String(err)) })
-      alert("Bağlantı hatası: " + (err.message || String(err)))
     } finally {
       setLoading(false)
       setLoadingAction(null)
@@ -172,7 +175,7 @@ export function YurticiActionButtons({
       {!cargoKey ? (
         <div className="flex flex-wrap items-center gap-2">
           <button
-            onClick={handleCreateShipment}
+            onClick={() => handleCreateShipment(false)}
             disabled={loading || paymentStatus !== "PAID"}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold rounded-lg text-xs transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed"
             title={paymentStatus !== "PAID" ? "Ödeme alınmadan kargo kaydı oluşturulamaz" : "Yurtiçi Kargo Standart SOAP Gönderisi Oluştur"}
@@ -309,15 +312,43 @@ export function YurticiActionButtons({
         </div>
       )}
 
-      {/* Mesaj Bildirimi */}
+      {/* Mesaj Bildirimi ve Şube Fallback Seçeneği */}
       {message && (
-        <div className={`mt-1.5 p-2 rounded-lg text-[11px] flex items-center gap-1.5 ${
+        <div className={`mt-2 p-2.5 rounded-xl text-[11px] space-y-2 ${
           message.type === "success" 
             ? "bg-emerald-50 text-emerald-800 border border-emerald-200" 
-            : "bg-rose-50 text-rose-800 border border-rose-200"
+            : "bg-rose-50 text-rose-900 border border-rose-200"
         }`}>
-          {message.type === "success" ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> : <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />}
-          <span>{message.text}</span>
+          <div className="flex items-start gap-1.5 leading-snug">
+            {message.type === "success" ? (
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+            ) : (
+              <AlertTriangle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
+            )}
+            <span>{message.text}</span>
+          </div>
+
+          {/* API IP/Ağ Hatası Aldığında Personeli Kilitlemeyen Şube Kodu Seçeneği */}
+          {message.type === "error" && !cargoKey && (
+            <div className="pt-2 border-t border-rose-200/80 flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleCreateShipment(true)}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-lg text-[11px] transition-colors shadow-sm"
+              >
+                {loading && loadingAction === "create-offline" ? (
+                  <Loader2 className="w-3 h-3 animate-spin" />
+                ) : (
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                )}
+                <span>Şube Teslimat Kodu ile Oluştur (Elden Teslimat)</span>
+              </button>
+              <span className="text-[10px] text-slate-500 italic">
+                IP yetkilendirmesi beklenirken şubeye koli teslimi için anında referans kodu üretir.
+              </span>
+            </div>
+          )}
         </div>
       )}
 

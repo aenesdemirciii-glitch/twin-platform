@@ -5,7 +5,7 @@ import { createYurticiShipment, YurticiCreateShipmentInput } from "@/services/co
 export async function POST(req: Request) {
   try {
     const body = await req.json()
-    const { orderId, desi, kg, cargoCount, paymentType } = body
+    const { orderId, desi, kg, cargoCount, paymentType, forceOffline } = body
 
     if (!orderId) {
       return NextResponse.json({ error: "Sipariş ID gereklidir." }, { status: 400 })
@@ -97,6 +97,7 @@ export async function POST(req: Request) {
       cargoCount: finalCargoCount,
       paymentType: resolvedPaymentType,
       description: `İkizler Baharatçılık #${order.orderNumber} (${finalCargoCount} Paket)`,
+      forceOffline: !!forceOffline,
     }
 
     // 4. Yurtiçi Kargo SOAP Çağrısı

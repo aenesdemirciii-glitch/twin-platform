@@ -1,12 +1,29 @@
 "use client"
 
-import { useState } from "react"
-import { Save, CheckCircle2 } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Save, CheckCircle2, ShieldAlert, Globe, Copy, Check } from "lucide-react"
 import { saveSettings } from "../ayarlar/actions" // We can reuse this!
 
 export function ClientShippingForm({ initialSettings }: { initialSettings: Record<string, string> }) {
   const [isPending, setIsPending] = useState(false)
   const [message, setMessage] = useState("")
+  const [serverIp, setServerIp] = useState<string>("Yükleniyor...")
+  const [copiedIp, setCopiedIp] = useState(false)
+
+  useEffect(() => {
+    fetch("/api/admin/yurtici/server-ip")
+      .then((res) => res.json())
+      .then((data) => setServerIp(data.ip || "Belirlenemedi"))
+      .catch(() => setServerIp("Belirlenemedi"))
+  }, [])
+
+  const copyIp = () => {
+    if (serverIp && serverIp !== "Yükleniyor...") {
+      navigator.clipboard.writeText(serverIp)
+      setCopiedIp(true)
+      setTimeout(() => setCopiedIp(false), 2000)
+    }
+  }
 
   async function action(formData: FormData) {
     setIsPending(true)
@@ -149,6 +166,32 @@ export function ClientShippingForm({ initialSettings }: { initialSettings: Recor
               <option value="false">Canlı Mod (Aktif)</option>
             </select>
           </div>
+        </div>
+
+        {/* IP Whitelist Bilgilendirme Kartı */}
+        <div className="mt-4 p-4 bg-amber-50/70 border border-amber-200 rounded-xl space-y-2 text-xs text-amber-900">
+          <div className="flex items-center justify-between">
+            <span className="font-bold flex items-center gap-1.5 text-amber-950">
+              <Globe className="w-4 h-4 text-amber-700" />
+              Sunucu Çıkış IP Adresiniz (Yurtiçi Kargo Güvenlik Duvarı İçin):
+            </span>
+            <div className="flex items-center gap-2">
+              <code className="bg-amber-100 text-amber-950 px-2 py-0.5 rounded font-mono font-bold text-xs">
+                {serverIp}
+              </code>
+              <button
+                type="button"
+                onClick={copyIp}
+                className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-200 hover:bg-amber-300 text-amber-950 rounded font-bold text-[11px] transition-colors"
+              >
+                {copiedIp ? <Check className="w-3 h-3 text-emerald-700" /> : <Copy className="w-3 h-3" />}
+                <span>{copiedIp ? "Kopyalandı" : "IP Kopyala"}</span>
+              </button>
+            </div>
+          </div>
+          <p className="text-[11px] text-amber-800 leading-relaxed">
+            <strong>Önemli:</strong> Yurtiçi Kargo KOPS SOAP web servisi, dışarıdan gelen isteklerde statik IP yetkilendirmesi (IP Whitelist) uygular. Sunucu IP adresiniz Yurtiçi Kargo IT departmanına tanımlanana kadar bağlantı hatası (fetch failed / timeout) almamak için <em>Test Modu</em>'nu açık tutabilir veya siparişler ekranından doğrudan <em>Şube Teslimat Kodu</em> üreterek mağazadan koli sevk edebilirsiniz.
+          </p>
         </div>
       </div>
 
