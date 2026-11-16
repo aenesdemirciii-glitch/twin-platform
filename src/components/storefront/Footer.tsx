@@ -102,6 +102,7 @@ export async function Footer() {
             <div>
               <h4 className="font-black mb-6 text-lg">Kurumsal</h4>
               <ul className="space-y-3 text-sm font-semibold text-brand-slate/80">
+                <li><Link href="/siparis-takip" className="text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1.5"><Truck className="w-4 h-4 inline" /> Sipariş & Kargo Takibi</Link></li>
                 <li><Link href="/sayfa/hakkimizda" className="hover:text-brand-gold transition-colors">Hakkımızda</Link></li>
                 <li><Link href="/sayfa/toptan" className="hover:text-brand-gold transition-colors">Toptan Satış & Kurumsal</Link></li>
                 <li><Link href="/sayfa/iletisim" className="hover:text-brand-gold transition-colors">Mağazalarımız & İletişim</Link></li>

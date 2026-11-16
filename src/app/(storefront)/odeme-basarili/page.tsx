@@ -55,6 +55,12 @@ function SuccessContent() {
 
       <div className="space-y-3">
         <Link 
+          href={`/siparis-takip?orderNumber=${encodeURIComponent(orderNumber.replace(/^#/, ''))}`}
+          className="inline-flex items-center justify-center w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 px-6 rounded-xl transition-colors text-sm shadow-md"
+        >
+          <Truck className="mr-2 w-4 h-4" /> Kargo Durumunu Takip Et
+        </Link>
+        <Link 
           href="/" 
           className="inline-flex items-center justify-center w-full bg-slate-900 text-white font-bold py-3.5 px-6 rounded-xl hover:bg-slate-800 transition-colors text-sm shadow-md"
         >

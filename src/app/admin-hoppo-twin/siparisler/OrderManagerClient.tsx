@@ -19,6 +19,7 @@ import {
   ChevronDown
 } from "lucide-react"
 import { CourierActionButtons } from "./CourierActionButtons"
+import { YurticiActionButtons } from "./YurticiActionButtons"
 import { OrderDetailModal } from "./OrderDetailModal"
 
 interface OrderManagerClientProps {
@@ -76,6 +77,19 @@ export function parseOrderCustomer(order: any) {
     banabiTrackingUrl: notesObj.banabiTrackingUrl,
     banabiStatus: notesObj.banabiStatus,
     banabiError: notesObj.banabiError,
+    // Yurtiçi Kargo Alanları
+    cargoCarrier: notesObj.cargoCarrier || (deliveryMethod === "banabikurye" ? "Banabikurye" : "Yurtiçi Kargo"),
+    cargoKey: notesObj.cargoKey || null,
+    cargoJobId: notesObj.cargoJobId || null,
+    trackingNumber: notesObj.trackingNumber || null,
+    trackingUrl: notesObj.trackingUrl || null,
+    cargoStatus: notesObj.cargoStatus || null,
+    cargoShippedAt: notesObj.cargoShippedAt || null,
+    cargoPaymentType: notesObj.cargoPaymentType || null,
+    cargoLastError: notesObj.cargoLastError || null,
+    desi: notesObj.desi || null,
+    kg: notesObj.kg || null,
+    cargoCount: notesObj.cargoCount || 1,
   }
 }
 
@@ -100,6 +114,58 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
 
   // Durum Güncelleme Loading State
   const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null)
+
+  // Toplu Sipariş Seçimi (Batch Selection)
+  const [selectedOrderIds, setSelectedOrderIds] = useState<string[]>([])
+  const [isBatchProcessing, setIsBatchProcessing] = useState(false)
+  const [batchReport, setBatchReport] = useState<any | null>(null)
+
+  const handleToggleSelectAll = () => {
+    if (selectedOrderIds.length === orders.length) {
+      setSelectedOrderIds([])
+    } else {
+      setSelectedOrderIds(orders.map((o) => o.id))
+    }
+  }
+
+  const handleToggleSelectOrder = (orderId: string) => {
+    setSelectedOrderIds((prev) =>
+      prev.includes(orderId) ? prev.filter((id) => id !== orderId) : [...prev, orderId]
+    )
+  }
+
+  // Toplu Yurtiçi Kargo Aktarımı
+  const handleBatchYurticiDispatch = async () => {
+    if (selectedOrderIds.length === 0) return
+
+    const confirmMsg = `${selectedOrderIds.length} adet seçili sipariş Yurtiçi Kargo'ya aktarılacak. Onaylıyor musunuz?`
+    if (!window.confirm(confirmMsg)) return
+
+    setIsBatchProcessing(true)
+    setBatchReport(null)
+
+    try {
+      const res = await fetch("/api/admin/yurtici/batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderIds: selectedOrderIds }),
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        setBatchReport(data.results)
+        setSelectedOrderIds([])
+        router.refresh()
+      } else {
+        alert(data.error || "Toplu kargo aktarımı sırasında bir sorun oluştu.")
+      }
+    } catch (err: any) {
+      alert("Hata: " + (err.message || String(err)))
+    } finally {
+      setIsBatchProcessing(false)
+    }
+  }
 
   // Sipariş Detayını Aç
   const handleOpenDetail = (order: any) => {
@@ -168,13 +234,79 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
 
   return (
     <>
+      {/* Toplu Sipariş İşlemleri Paneli */}
+      {selectedOrderIds.length > 0 && (
+        <div className="bg-amber-500 text-slate-950 px-6 py-3 border-b border-amber-600 flex flex-wrap items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="flex items-center gap-3">
+            <span className="font-extrabold text-sm bg-slate-950 text-white px-2.5 py-0.5 rounded-full">
+              {selectedOrderIds.length}
+            </span>
+            <span className="font-bold text-sm">sipariş seçildi</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleBatchYurticiDispatch}
+              disabled={isBatchProcessing}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-950 hover:bg-slate-900 text-white font-bold rounded-xl text-xs transition-colors shadow-sm disabled:opacity-50"
+            >
+              {isBatchProcessing ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Kargoya Aktarılıyor...</span>
+                </>
+              ) : (
+                <>
+                  <Truck className="w-3.5 h-3.5" />
+                  <span>Seçilenleri Yurtiçi Kargo'ya Aktar</span>
+                </>
+              )}
+            </button>
+
+            <button
+              onClick={() => setSelectedOrderIds([])}
+              className="px-3 py-2 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-xl text-xs transition-colors"
+            >
+              Seçimi Temizle
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Toplu İşlem Raporu */}
+      {batchReport && (
+        <div className="p-4 bg-slate-900 text-white flex items-center justify-between text-xs">
+          <div>
+            <strong className="text-amber-400 font-bold">Toplu Kargo Raporu: </strong>
+            <span>
+              {batchReport.successful?.length || 0} Başarılı, {batchReport.skipped?.length || 0} Atlandı, {batchReport.failed?.length || 0} Hatalı
+            </span>
+          </div>
+          <button
+            onClick={() => setBatchReport(null)}
+            className="text-slate-400 hover:text-white underline text-xs ml-4"
+          >
+            Kapat
+          </button>
+        </div>
+      )}
+
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-slate-600">
           <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 text-xs uppercase tracking-wider font-semibold">
             <tr>
+              <th className="px-4 py-4 w-10 text-center">
+                <input
+                  type="checkbox"
+                  checked={orders.length > 0 && selectedOrderIds.length === orders.length}
+                  onChange={handleToggleSelectAll}
+                  className="rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer"
+                  title="Tümünü Seç / Kaldır"
+                />
+              </th>
               <th className="px-6 py-4">Sipariş No & Tarih</th>
               <th className="px-6 py-4">Müşteri & İletişim</th>
-              <th className="px-6 py-4">Teslimat & Kurye</th>
+              <th className="px-6 py-4">Teslimat & Kargo</th>
               <th className="px-6 py-4">Ürünler</th>
               <th className="px-6 py-4">Tutar</th>
               <th className="px-6 py-4">Ödeme Durumu</th>
@@ -187,12 +319,23 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
               orders.map((order) => {
                 const customer = parseOrderCustomer(order)
                 const isUpdating = updatingOrderId === order.id
+                const isSelected = selectedOrderIds.includes(order.id)
 
                 return (
                   <tr 
                     key={order.id} 
-                    className="hover:bg-slate-50/70 transition-colors group"
+                    className={`hover:bg-slate-50/70 transition-colors group ${isSelected ? "bg-amber-50/40" : ""}`}
                   >
+                    {/* Checkbox */}
+                    <td className="px-4 py-4 align-top text-center">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleToggleSelectOrder(order.id)}
+                        className="rounded border-slate-300 text-amber-600 focus:ring-amber-500 w-4 h-4 cursor-pointer mt-1"
+                      />
+                    </td>
+
                     {/* Sipariş No & Tarih */}
                     <td className="px-6 py-4 align-top">
                       <button
@@ -223,8 +366,8 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
                       )}
                     </td>
 
-                    {/* Teslimat Yöntemi & Adresi */}
-                    <td className="px-6 py-4 align-top max-w-xs">
+                    {/* Teslimat Yöntemi, Adresi & Kargo Yönetimi */}
+                    <td className="px-6 py-4 align-top max-w-sm">
                       <div className="space-y-1">
                         {customer.deliveryMethod === "banabikurye" ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
@@ -240,6 +383,7 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
                           {customer.address}
                         </p>
 
+                        {/* Banabikurye Kurye Butonları */}
                         <CourierActionButtons
                           orderId={order.id}
                           orderNumber={order.orderNumber}
@@ -248,6 +392,18 @@ export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
                           banabiTrackingUrl={customer.banabiTrackingUrl}
                           banabiStatus={customer.banabiStatus}
                           banabiError={customer.banabiError}
+                        />
+
+                        {/* Yurtiçi Kargo API Yönetim Butonları & Referans Kodu */}
+                        <YurticiActionButtons
+                          orderId={order.id}
+                          orderNumber={order.orderNumber}
+                          customerName={customer.name}
+                          customerPhone={customer.phone}
+                          paymentStatus={order.paymentStatus}
+                          orderStatus={order.status}
+                          customer={customer}
+                          order={order}
                         />
                       </div>
                     </td>

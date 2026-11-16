@@ -4,7 +4,20 @@ import { ClientShippingForm } from "./ClientShippingForm"
 export default async function AdminShippingPage() {
   const settings = await prisma.settings.findMany({
     where: {
-      key: { in: ['free_shipping_threshold', 'shipping_cost', 'same_day_anadolu', 'same_day_avrupa'] }
+      key: { 
+        in: [
+          'free_shipping_threshold', 
+          'shipping_cost', 
+          'same_day_anadolu', 
+          'same_day_avrupa',
+          'yurtici_username',
+          'yurtici_password',
+          'yurtici_customer_code',
+          'yurtici_org_geo_code',
+          'yurtici_endpoint_url',
+          'yurtici_test_mode'
+        ] 
+      }
     }
   })
 

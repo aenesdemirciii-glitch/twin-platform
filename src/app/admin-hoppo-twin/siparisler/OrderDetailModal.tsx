@@ -24,6 +24,7 @@ import {
   AlertTriangle
 } from "lucide-react"
 import { CourierActionButtons } from "./CourierActionButtons"
+import { YurticiActionButtons } from "./YurticiActionButtons"
 
 interface OrderDetailModalProps {
   order: any
@@ -268,6 +269,18 @@ export function OrderDetailModal({
                   banabiTrackingUrl={customer.banabiTrackingUrl}
                   banabiStatus={customer.banabiStatus}
                   banabiError={customer.banabiError}
+                />
+
+                {/* Yurtiçi Kargo API Yönetimi */}
+                <YurticiActionButtons
+                  orderId={order.id}
+                  orderNumber={order.orderNumber}
+                  customerName={customer.name}
+                  customerPhone={customer.phone}
+                  paymentStatus={order.paymentStatus}
+                  orderStatus={order.status}
+                  customer={customer}
+                  order={order}
                 />
               </div>
             </div>
