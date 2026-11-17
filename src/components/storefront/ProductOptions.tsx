@@ -20,7 +20,7 @@ export function ProductOptions({ product }: { product: any }) {
     product.name?.toLowerCase().includes('kış paketi') || 
     product.name?.toLowerCase().includes('kis paketi')
 
-  const basePrice = isWinter ? 3500 : Number(selectedVariant?.price || product.price)
+  const basePrice = isWinter ? 3600 : Number(selectedVariant?.price || product.price)
   const discountPrice = isWinter 
     ? 3000 
     : (selectedVariant?.discountPrice !== undefined && selectedVariant?.discountPrice !== null)

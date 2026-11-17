@@ -50,7 +50,7 @@ export async function GET() {
             longDescription: longDesc,
             seoDescription: item.seoDescription,
             seoTitle: `${matched.name} | İkizler Baharatçılık`,
-            ...(isWinterMatch ? { price: 3500, discountPrice: 3000 } : {})
+            ...(isWinterMatch ? { price: 3600, discountPrice: 3000 } : {})
           }
         })
         updatedCount++

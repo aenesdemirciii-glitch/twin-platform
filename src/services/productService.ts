@@ -59,6 +59,74 @@ Hem kendiniz hem de sevdikleriniz için hazırlanan Kış Paketi, lezzetli bir k
 
 const KIS_PAKETI_SEO_DESC = `İkizler Baharatçılık Kış Paketi, 14 farklı kuruyemiş, bitki çayı, saf nar ekşisi, tahin ve doğal bakım ürünleriyle kış boyu lezzet ve enerji sunar.`
 
+// Tüm ürünlerde orijinal fiyatı %20 fazlası ve 5'in katlarına yuvarlayıp, mevcut fiyatı indirimli fiyat yapan fonksiyon
+export function applyDiscountPricing(product: any) {
+  if (!product) return product
+
+  const isWinter = 
+    product.slug === 'k-paketi' || 
+    product.slug === 'kis-paketi' || 
+    product.name?.toLowerCase().includes('kış paketi') || 
+    product.name?.toLowerCase().includes('kis paketi')
+
+  if (isWinter) {
+    product.price = 3600 // 3000 TL'nin %20 fazlası (5'in katı)
+    product.discountPrice = 3000
+    if (product.images && !product.images.some((img: any) => img.url === '/images/kis-paketi.jpg')) {
+      product.images = [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }, ...(product.images || [])]
+    }
+    return product
+  }
+
+  // Mevcut satış fiyatı: Eğer önceden discountPrice ve price girilmişse indirimli olanı baz al, yoksa price'ı baz al
+  let currentSellingPrice = 0
+  if (product.discountPrice && Number(product.discountPrice) > 0 && Number(product.discountPrice) < Number(product.price)) {
+    currentSellingPrice = Number(product.discountPrice)
+  } else {
+    currentSellingPrice = Number(product.price) || 0
+  }
+
+  if (currentSellingPrice > 0) {
+    // Orijinal fiyat: Mevcut fiyatın %20 fazlası ve 5 ve katlarına yukarı yuvarlanmış hali
+    const rawOriginal = currentSellingPrice * 1.20
+    let originalPrice = Math.ceil(rawOriginal / 5) * 5
+    if (originalPrice <= currentSellingPrice) {
+      originalPrice = currentSellingPrice + 5
+    }
+
+    product.price = originalPrice
+    product.discountPrice = currentSellingPrice
+  }
+
+  // Varyantlar için de aynı mantık
+  if (Array.isArray(product.variants) && product.variants.length > 0) {
+    product.variants = product.variants.map((v: any) => {
+      let vCurrent = 0
+      if (v.discountPrice && Number(v.discountPrice) > 0 && Number(v.discountPrice) < Number(v.price)) {
+        vCurrent = Number(v.discountPrice)
+      } else {
+        vCurrent = Number(v.price || currentSellingPrice) || 0
+      }
+
+      if (vCurrent > 0) {
+        const vRawOriginal = vCurrent * 1.20
+        let vOriginal = Math.ceil(vRawOriginal / 5) * 5
+        if (vOriginal <= vCurrent) {
+          vOriginal = vCurrent + 5
+        }
+        return {
+          ...v,
+          price: vOriginal,
+          discountPrice: vCurrent,
+        }
+      }
+      return v
+    })
+  }
+
+  return product
+}
+
 export async function getProductBySlug(slug: string) {
   try {
     let product = await prisma.product.findUnique({
@@ -113,7 +181,7 @@ export async function getProductBySlug(slug: string) {
         id: 'kis-paketi-virtual-id',
         name: 'Kış Paketi',
         slug: slug,
-        price: 3500 as any,
+        price: 3600 as any,
         discountPrice: 3000 as any,
         stock: 100,
         isActive: true,
@@ -149,7 +217,7 @@ export async function getProductBySlug(slug: string) {
         product.name.toLowerCase().includes('kis paketi')
 
       if (isKisPaketi) {
-        product.price = 3500 as any
+        product.price = 3600 as any
         product.discountPrice = 3000 as any
         product.images = [
           {
@@ -181,6 +249,9 @@ export async function getProductBySlug(slug: string) {
           }
         }
       }
+
+      // İndirimli ve %20 orijinal fiyatlandırma kuralını uygula
+      product = applyDiscountPricing(product)
     }
 
     return product
@@ -201,27 +272,15 @@ export async function getActiveProducts(params?: { categorySlug?: string, take?:
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {
-        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 }
+        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 },
+        variants: true,
       },
       take: params?.take || 20,
       skip: params?.skip || 0,
       orderBy: { createdAt: 'desc' }
     })
-    
-    const mapProduct = (p: any) => {
-      const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
-      if (isWinter) {
-        return {
-          ...p,
-          price: 3500 as any,
-          discountPrice: 3000 as any,
-          images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
-        }
-      }
-      return p
-    }
 
-    return products.map(mapProduct)
+    return products.map(applyDiscountPricing)
   } catch (error) {
     console.error("Error fetching active products:", error)
     return []
@@ -242,7 +301,8 @@ export async function getCategoryData(slug: string, params?: { take?: number, sk
     const products = await prisma.product.findMany({
       where: whereClause,
       include: {
-        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 }
+        images: { orderBy: [{ isMain: 'desc' }, { sortOrder: 'asc' }], take: 1 },
+        variants: true,
       },
       take: params?.take || 12,
       skip: params?.skip || 0,
@@ -250,21 +310,8 @@ export async function getCategoryData(slug: string, params?: { take?: number, sk
     })
     
     const total = await prisma.product.count({ where: whereClause })
-    
-    const mapProduct = (p: any) => {
-      const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
-      if (isWinter) {
-        return {
-          ...p,
-          price: 3500 as any,
-          discountPrice: 3000 as any,
-          images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
-        }
-      }
-      return p
-    }
 
-    return { category, products: products.map(mapProduct), total }
+    return { category, products: products.map(applyDiscountPricing), total }
   } catch (error) {
     console.error("Error fetching category data:", error)
     return { category: null, products: [], total: 0 }

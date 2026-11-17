@@ -56,6 +56,11 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             {products.map((prod: any, i: number) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors">
                 <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
+                  {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                    <div className="absolute top-2 left-2 lg:top-3 lg:left-3 bg-red-600 text-white text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10">
+                      %{Math.round(((Number(prod.price) - Number(prod.discountPrice)) / Number(prod.price)) * 100)} İNDİRİM
+                    </div>
+                  )}
                   {prod.images && prod.images[0] ? (
                     <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
@@ -65,8 +70,15 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                 <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                   <h3 className="font-bold text-sm lg:text-base mb-2 line-clamp-2 text-brand-slate group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                   <div className="mt-auto pt-2">
-                    <div className="flex items-center gap-2 mb-3">
-                      <p className="text-base lg:text-xl font-black text-brand-slate">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                    <div className="flex items-baseline gap-2 mb-3">
+                      <span className="text-base lg:text-xl font-black text-brand-slate">
+                        {Number(prod.discountPrice || prod.price).toLocaleString('tr-TR')} TL
+                      </span>
+                      {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                        <span className="text-xs lg:text-sm text-slate-400 line-through font-semibold">
+                          {Number(prod.price).toLocaleString('tr-TR')} TL
+                        </span>
+                      )}
                     </div>
                     <AddToCartButton product={prod} />
                   </div>

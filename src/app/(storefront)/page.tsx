@@ -4,7 +4,7 @@ import Script from "next/script"
 import { ArrowRight, Truck, ShieldCheck, Undo2, Clock, Trophy, Play, Percent, MessageCircle, Eye } from "lucide-react"
 
 import prisma from "@/lib/prisma"
-import { getCategories } from "@/services/productService"
+import { getCategories, applyDiscountPricing } from "@/services/productService"
 import { AddToCartButton } from "@/components/storefront/AddToCartButton"
 import { blogPosts as fallbackBlogPosts } from "@/lib/blogData"
 
@@ -88,21 +88,8 @@ export default async function HomePage() {
     popularProducts = [...popularProducts, ...fallbackPop]
   }
 
-  const mapWinterProduct = (p: any) => {
-    const isWinter = p.slug === 'k-paketi' || p.slug === 'kis-paketi' || p.name?.toLowerCase().includes('kış paketi') || p.name?.toLowerCase().includes('kis paketi')
-    if (isWinter) {
-      return {
-        ...p,
-        price: 3500,
-        discountPrice: 3000,
-        images: [{ id: 'kis-cover', url: '/images/kis-paketi.jpg' }]
-      }
-    }
-    return p
-  }
-
-  products = products.map(mapWinterProduct)
-  popularProducts = popularProducts.map(mapWinterProduct)
+  products = products.map(applyDiscountPricing)
+  popularProducts = popularProducts.map(applyDiscountPricing)
 
   // Blog Yazıları (Maksimum 4)
   let dbBlogPosts: any[] = []
@@ -228,6 +215,11 @@ export default async function HomePage() {
             {popularProducts.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
+                  {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                    <div className="absolute top-2 left-2 lg:top-3 lg:left-3 bg-red-600 text-white text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10">
+                      %{Math.round(((Number(prod.price) - Number(prod.discountPrice)) / Number(prod.price)) * 100)} İNDİRİM
+                    </div>
+                  )}
                   {prod.images && prod.images[0] ? (
                     <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
@@ -315,6 +307,11 @@ export default async function HomePage() {
             {products.map((prod, i) => (
               <Link href={`/urun/${prod.slug}`} key={prod.id || i} className="lg:min-w-[320px] bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 lg:snap-start flex flex-col group hover:border-brand-gold transition-colors block">
                 <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
+                  {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                    <div className="absolute top-2 left-2 lg:top-3 lg:left-3 bg-red-600 text-white text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10">
+                      %{Math.round(((Number(prod.price) - Number(prod.discountPrice)) / Number(prod.price)) * 100)} İNDİRİM
+                    </div>
+                  )}
                   {prod.images && prod.images[0] ? (
                     <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                   ) : (

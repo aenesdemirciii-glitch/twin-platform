@@ -1,13 +1,14 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import prisma from "@/lib/prisma"
+import { applyDiscountPricing } from "@/services/productService"
 
 export default async function SearchPage(props: { searchParams: Promise<{ q?: string }> }) {
   const searchParams = await props.searchParams;
   const q = searchParams?.q || "";
 
   // Perform a simple case-insensitive search across name and descriptions
-  const products = await prisma.product.findMany({
+  const rawProducts = await prisma.product.findMany({
     where: {
       isActive: true,
       OR: [
@@ -15,9 +16,11 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
         { shortDescription: { contains: q } }
       ]
     },
-    include: { images: true },
+    include: { images: true, variants: true },
     orderBy: { createdAt: 'desc' }
   })
+
+  const products = rawProducts.map(applyDiscountPricing)
 
   return (
     <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16 min-h-[60vh]">
@@ -41,6 +44,11 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
           {products.map((prod) => (
             <Link href={`/urun/${prod.slug}`} key={prod.id} className="bg-white rounded-2xl overflow-hidden border-2 border-brand-slate/10 flex flex-col group hover:border-brand-gold transition-colors block">
               <div className="relative w-full pb-[100%] bg-brand-slate/5 overflow-hidden">
+                {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                  <div className="absolute top-2 left-2 lg:top-3 lg:left-3 bg-red-600 text-white text-[10px] lg:text-xs font-black px-2 py-1 rounded shadow-sm z-10">
+                    %{Math.round(((Number(prod.price) - Number(prod.discountPrice)) / Number(prod.price)) * 100)} İNDİRİM
+                  </div>
+                )}
                 {prod.images && prod.images[0] ? (
                   <img src={prod.images[0].url} alt={prod.name} className="absolute inset-0 w-full h-full object-cover" />
                 ) : (
@@ -50,7 +58,16 @@ export default async function SearchPage(props: { searchParams: Promise<{ q?: st
               <div className="p-3 lg:p-5 flex flex-col flex-1 border-t border-brand-slate/5">
                 <h3 className="font-bold text-sm lg:text-base mb-2 line-clamp-2 text-brand-slate group-hover:text-brand-gold transition-colors">{prod.name}</h3>
                 <div className="mt-auto pt-2">
-                  <p className="text-base lg:text-xl font-black text-brand-slate mb-3">{Number(prod.price).toLocaleString('tr-TR')} TL</p>
+                  <div className="flex items-baseline gap-2 mb-3">
+                    <span className="text-base lg:text-xl font-black text-brand-slate">
+                      {Number(prod.discountPrice || prod.price).toLocaleString('tr-TR')} TL
+                    </span>
+                    {prod.discountPrice && Number(prod.discountPrice) < Number(prod.price) && (
+                      <span className="text-xs lg:text-sm text-slate-400 line-through font-semibold">
+                        {Number(prod.price).toLocaleString('tr-TR')} TL
+                      </span>
+                    )}
+                  </div>
                   <button className="w-full bg-brand-slate text-white font-bold py-2 lg:py-2.5 rounded-lg hover:bg-brand-gold hover:text-brand-slate transition-colors text-xs lg:text-sm">
                     İncele
                   </button>

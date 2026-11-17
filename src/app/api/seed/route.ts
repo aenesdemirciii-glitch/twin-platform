@@ -66,6 +66,9 @@ export async function GET() {
 
       // 3. Product
       let product = await prisma.product.findFirst({ where: { name: productName } });
+      const rawOriginal = price > 0 ? Math.ceil((price * 1.20) / 5) * 5 : price;
+      const originalPrice = rawOriginal <= price && price > 0 ? price + 5 : rawOriginal;
+
       if (!product) {
         const productSlug = generateSlug(productName) + '-' + Date.now();
         product = await prisma.product.create({
@@ -73,7 +76,8 @@ export async function GET() {
             name: productName,
             slug: productSlug,
             sku: 'SKU-' + Date.now() + Math.floor(Math.random() * 1000),
-            price: price,
+            price: originalPrice,
+            discountPrice: price > 0 ? price : null,
             stock: stock,
             categoryId: category.id,
             brandId: brand ? brand.id : null,
@@ -93,7 +97,8 @@ export async function GET() {
               productId: product.id,
               sku: variantSku,
               name: variantName,
-              price: price,
+              price: originalPrice,
+              discountPrice: price > 0 ? price : null,
               stock: stock
             }
           });

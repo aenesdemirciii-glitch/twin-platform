@@ -90,6 +90,34 @@ export function FastPriceClient({ initialProducts }: { initialProducts: ProductD
     setIsPending(false)
   }
 
+  const handleApply20PercentDiscountAll = () => {
+    const newEdits: Record<string, Partial<ProductData>> = { ...editedItems }
+    for (const p of products) {
+      const isWinter = p.name.toLowerCase().includes('kış paketi') || p.name.toLowerCase().includes('kis paketi')
+      let currentSelling = 0
+      if (isWinter) {
+        currentSelling = 3000
+      } else if (p.discountPrice && p.discountPrice > 0 && p.discountPrice < p.price) {
+        currentSelling = p.discountPrice
+      } else {
+        currentSelling = p.price
+      }
+
+      if (currentSelling > 0) {
+        const rawOriginal = currentSelling * 1.20
+        let originalPrice = isWinter ? 3600 : Math.ceil(rawOriginal / 5) * 5
+        if (originalPrice <= currentSelling) originalPrice = currentSelling + 5
+        newEdits[p.id] = {
+          ...newEdits[p.id],
+          price: originalPrice,
+          discountPrice: currentSelling
+        }
+      }
+    }
+    setEditedItems(newEdits)
+    setMessage("Tüm ürünler için %20 zamlı orijinal fiyat ve 5'in katlarına yuvarlama uygulandı. Kaydetmek için 'Değişiklikleri Kaydet' butonuna tıklayınız.")
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -104,18 +132,28 @@ export function FastPriceClient({ initialProducts }: { initialProducts: ProductD
           />
         </div>
 
-        <button
-          onClick={handleSave}
-          disabled={!hasChanges || isPending}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${
-            hasChanges 
-              ? "bg-amber-400 text-slate-900 hover:bg-amber-500 shadow-sm" 
-              : "bg-slate-100 text-slate-400 cursor-not-allowed"
-          }`}
-        >
-          {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          {isPending ? "Kaydediliyor..." : `Değişiklikleri Kaydet ${hasChanges ? `(${Object.keys(editedItems).length})` : ''}`}
-        </button>
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={handleApply20PercentDiscountAll}
+            className="px-4 py-2.5 rounded-lg border border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100 font-bold text-xs sm:text-sm transition-colors shadow-sm"
+          >
+            Tüm Ürünleri İndirime Çevir (%20 Orijinal, 5'e Yuvarla)
+          </button>
+
+          <button
+            onClick={handleSave}
+            disabled={!hasChanges || isPending}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all ${
+              hasChanges 
+                ? "bg-amber-400 text-slate-900 hover:bg-amber-500 shadow-sm" 
+                : "bg-slate-100 text-slate-400 cursor-not-allowed"
+            }`}
+          >
+            {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+            {isPending ? "Kaydediliyor..." : `Değişiklikleri Kaydet ${hasChanges ? `(${Object.keys(editedItems).length})` : ''}`}
+          </button>
+        </div>
       </div>
 
       {message && (
