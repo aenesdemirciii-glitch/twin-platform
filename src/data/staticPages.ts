@@ -11,11 +11,11 @@ export interface StaticPageData {
 export const STATIC_PAGES: Record<string, StaticPageData> = {
   "hakkimizda": {
     title: "Hakkımızda",
-    seoTitle: "Hakkımızda | İkizler Baharatçılık - 2008'den Beri Güvenle",
-    metaDescription: "İkizler Baharatçılık, 2008'den bu yana baharat, kuruyemiş, kuru meyve ve yöresel lezzetleri güven ve şeffaflıkla sofralarınıza taşıyor.",
+    seoTitle: "Hakkımızda | İkizler Baharatçılık - 2020'den Beri Güvenle",
+    metaDescription: "İkizler Baharatçılık, 2020'den bu yana baharat, kuruyemiş, kuru meyve ve yöresel lezzetleri güven ve şeffaflıkla sofralarınıza taşıyor.",
     menuLocation: "Kurumsal",
     isSpecial: "hakkimizda",
-    content: `İkizler Baharatçılık, 2008'den bu yana baharat, kuruyemiş, kuru meyve ve yöresel ürünleri müşterileriyle buluşturuyor. İstanbul Kadıköy'deki adresimiz ve online mağazamız üzerinden bireysel müşterilere ve işletmelere hizmet veriyoruz.
+    content: `İkizler Baharatçılık, 2020'den bu yana baharat, kuruyemiş, kuru meyve ve yöresel ürünleri müşterileriyle buluşturuyor. İstanbul Kadıköy'deki adresimiz ve online mağazamız üzerinden bireysel müşterilere ve işletmelere hizmet veriyoruz.
 
 Ürün yelpazemizde baharatlar, kuruyemişler, kuru meyveler, bal ve arı ürünleri, pekmezler, sirkeler, kahveler, fonksiyonel çaylar, yağ ve aromalar, lokum ve şekerlemeler ile bitkisel kozmetik ve sabun çeşitleri yer alır. Her ürünün içeriği, gramajı, kullanım veya saklama bilgisi ve varsa alerjen uyarısı ürün sayfasında ya da ambalajında açıkça gösterilir.
 
@@ -479,7 +479,7 @@ Son güncelleme: 12 Ekim 2026`
     seoTitle: "Kalite Belgelerimiz | İkizler Baharatçılık",
     metaDescription: "İkizler Baharatçılık kalite, hijyen ve gıda güvenliği sertifikaları.",
     menuLocation: "Kurumsal",
-    content: `İkizler Baharatçılık olarak 2008 yılından bu yana sunduğumuz tüm baharat, kuruyemiş ve doğal ürünlerde en yüksek kalite, hijyen ve gıda güvenliği standartlarını titizlikle uyguluyoruz.
+    content: `İkizler Baharatçılık olarak 2020 yılından bu yana sunduğumuz tüm baharat, kuruyemiş ve doğal ürünlerde en yüksek kalite, hijyen ve gıda güvenliği standartlarını titizlikle uyguluyoruz.
 
 ### Gıda Güvenliği Standartlarımız
 

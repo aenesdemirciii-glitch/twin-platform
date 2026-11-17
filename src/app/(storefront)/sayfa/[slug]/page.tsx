@@ -70,7 +70,7 @@ export default async function CorporatePage(props: { params: Promise<{ slug: str
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 text-brand-gold rounded-full text-xs font-bold mb-3 border border-amber-200">
                 <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-                <span>İkizler Baharatçılık 2008</span>
+                <span>İkizler Baharatçılık 2020</span>
               </div>
               <h1 className="text-3xl lg:text-4xl font-black text-brand-slate tracking-tight">
                 {title}
