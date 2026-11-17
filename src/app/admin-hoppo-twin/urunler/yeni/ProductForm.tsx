@@ -107,7 +107,12 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
       sku: formData.get("sku"),
       categoryId: formData.get("categoryId"),
       price: formData.get("price"),
+      discountPrice: formData.get("discountPrice"),
       stock: formData.get("stock"),
+      shortDescription: formData.get("shortDescription"),
+      longDescription: formData.get("longDescription"),
+      seoTitle: formData.get("seoTitle"),
+      seoDescription: formData.get("seoDescription"),
       isActive: formData.get("isActive") === "on",
       isFeatured: formData.get("isFeatured") === "on",
       isNew: formData.get("isNew") === "on",
@@ -164,17 +169,85 @@ export function ProductForm({ categories, initialData }: { categories: any[], in
               </div>
             </div>
 
+            {/* Ürün Açıklamaları */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-5">
+              <div className="border-b border-slate-100 pb-2">
+                <h3 className="font-semibold text-slate-800 text-base">Ürün Açıklamaları</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Sitede ürün detay sayfasında ve listelerde görünen açıklamaları buradan düzenleyin.</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Kısa Açıklama (Ürün Özeti / Üst Açıklama)
+                </label>
+                <textarea 
+                  rows={3}
+                  name="shortDescription" 
+                  defaultValue={initialData?.shortDescription || ""} 
+                  placeholder="Ürün sayfasında fiyatın ve başlığın hemen altında görünen özet tanıtım metni..."
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 outline-none text-sm text-slate-800"
+                />
+                <span className="text-[11px] text-slate-400 mt-1 block">
+                  Ürünün en belirgin özelliklerini anlatan 1-2 cümlelik kısa tanıtım.
+                </span>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-sm font-medium text-slate-700">
+                    Detaylı Ürün Açıklaması & Paket Detayları
+                  </label>
+                  <span className="text-[11px] text-amber-800 font-semibold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                    Markdown Destekli (Başlıklar, Maddeler)
+                  </span>
+                </div>
+                <textarea 
+                  rows={8}
+                  name="longDescription" 
+                  defaultValue={initialData?.longDescription || ""} 
+                  placeholder={"## Ürün Açıklaması\nİkizler Baharatçılık kalitesiyle hazırlanan bu özel lezzet...\n\n### Faydaları ve Özellikleri\n- %100 Doğal ve Taze\n- Katkısız ve Koruyucusuz\n- Serin ve kuru yerde muhafaza ediniz."}
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-amber-400 outline-none text-sm font-mono text-slate-800 leading-relaxed"
+                />
+                <div className="flex flex-wrap items-center gap-2 mt-1.5 text-[11px] text-slate-500">
+                  <span>İpuçları:</span>
+                  <code className="bg-slate-100 px-1 py-0.5 rounded font-bold text-slate-700">## Başlık</code>
+                  <code className="bg-slate-100 px-1 py-0.5 rounded font-bold text-slate-700">### Alt Başlık</code>
+                  <code className="bg-slate-100 px-1 py-0.5 rounded font-bold text-slate-700">- Madde işareti</code>
+                  <code className="bg-slate-100 px-1 py-0.5 rounded font-bold text-slate-700">**Kalın Yazı**</code>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
               <h3 className="font-semibold text-slate-800 border-b border-slate-100 pb-2">Fiyat ve Stok</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Fiyat (TL)</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Orijinal Fiyat (TL)</label>
                   <input required type="number" step="0.01" name="price" defaultValue={initialData?.price ? Number(initialData.price) : ""} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                  <span className="text-[11px] text-slate-400 mt-1 block">İndirim yoksa satış fiyatı, indirim varsa üstü çizili fiyat</span>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">İndirimli Fiyat (TL)</label>
+                  <input type="number" step="0.01" name="discountPrice" defaultValue={initialData?.discountPrice ? Number(initialData.discountPrice) : ""} placeholder="Örn: 100" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
+                  <span className="text-[11px] text-slate-400 mt-1 block">Müşterinin ödeyeceği tutar (opsiyonel)</span>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Stok Adedi</label>
                   <input required type="number" name="stock" defaultValue={initialData?.stock ?? 0} className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none" />
                 </div>
+              </div>
+            </div>
+
+            {/* SEO Bilgileri */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+              <h3 className="font-semibold text-slate-800 border-b border-slate-100 pb-2">Arama Motoru (SEO)</h3>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Başlığı</label>
+                <input type="text" name="seoTitle" defaultValue={initialData?.seoTitle || ""} placeholder="Ürün Adı | İkizler Baharatçılık" className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none text-sm" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1">SEO Açıklaması</label>
+                <textarea rows={2} name="seoDescription" defaultValue={initialData?.seoDescription || ""} placeholder="Google aramalarında çıkacak meta açıklaması..." className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:ring-amber-400 outline-none text-sm" />
               </div>
             </div>
 

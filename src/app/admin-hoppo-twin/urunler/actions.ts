@@ -11,7 +11,23 @@ export async function createProduct(data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, isFeatured, isNew, images, variants } = data
+  const { 
+    name, 
+    sku, 
+    categoryId, 
+    price, 
+    discountPrice, 
+    stock, 
+    shortDescription, 
+    longDescription, 
+    seoTitle, 
+    seoDescription, 
+    isActive, 
+    isFeatured, 
+    isNew, 
+    images, 
+    variants 
+  } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -66,7 +82,12 @@ export async function createProduct(data: any) {
       slug: uniqueSlug,
       sku,
       price: parseFloat(price),
+      discountPrice: discountPrice && parseFloat(discountPrice) > 0 ? parseFloat(discountPrice) : null,
       stock: parseInt(stock) || 0,
+      shortDescription: shortDescription ? String(shortDescription).trim() : null,
+      longDescription: longDescription ? String(longDescription).trim() : null,
+      seoTitle: seoTitle ? String(seoTitle).trim() : null,
+      seoDescription: seoDescription ? String(seoDescription).trim() : null,
       categoryId: categoryId || null,
       isActive: isActive === true,
       isFeatured: isFeatured === true,
@@ -100,7 +121,23 @@ export async function updateProduct(id: string, data: any) {
     throw new Error("Yetkisiz işlem")
   }
 
-  const { name, sku, categoryId, price, stock, isActive, isFeatured, isNew, images, variants } = data
+  const { 
+    name, 
+    sku, 
+    categoryId, 
+    price, 
+    discountPrice, 
+    stock, 
+    shortDescription, 
+    longDescription, 
+    seoTitle, 
+    seoDescription, 
+    isActive, 
+    isFeatured, 
+    isNew, 
+    images, 
+    variants 
+  } = data
 
   if (!name || !sku || !price) {
     throw new Error("İsim, SKU ve Fiyat zorunludur.")
@@ -137,7 +174,12 @@ export async function updateProduct(id: string, data: any) {
       name,
       sku,
       price: parseFloat(price),
+      discountPrice: discountPrice && parseFloat(discountPrice) > 0 ? parseFloat(discountPrice) : null,
       stock: parseInt(stock) || 0,
+      shortDescription: shortDescription ? String(shortDescription).trim() : null,
+      longDescription: longDescription ? String(longDescription).trim() : null,
+      seoTitle: seoTitle ? String(seoTitle).trim() : null,
+      seoDescription: seoDescription ? String(seoDescription).trim() : null,
       categoryId: categoryId || null,
       isActive: isActive === true,
       isFeatured: isFeatured === true,
