@@ -414,12 +414,14 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map((i) => ({
-            productId: i.id,
+          items: items.map((i: any) => ({
+            id: i.id,
+            productId: i.productId || i.id,
+            variantId: i.variantId || (i.productId && i.id !== i.productId ? i.id : null),
             name: i.name,
             quantity: i.quantity,
             price: i.price,
-            variantId: (i as any).variantId || null
+            sku: i.sku || null,
           })),
           shippingAddress: fullAddress,
           billingAddress: fullAddress,

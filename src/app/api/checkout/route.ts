@@ -65,19 +65,126 @@ export async function POST(req: Request) {
     const dbOrderItems: any[] = []
 
     for (const item of items) {
-      const dbProduct = await prisma.product.findUnique({
-        where: { id: item.productId || item.id },
-        select: {
-          id: true,
-          name: true,
-          sku: true,
-          price: true,
-          discountPrice: true,
-          taxRate: true,
-          categoryId: true,
-          stock: true,
+      const searchId = item.productId || item.id
+      let dbProduct: any = null
+      let dbVariant: any = null
+
+      // 1. Ürün ID'si ile bul
+      if (searchId) {
+        dbProduct = await prisma.product.findUnique({
+          where: { id: searchId },
+          select: {
+            id: true,
+            name: true,
+            sku: true,
+            price: true,
+            discountPrice: true,
+            taxRate: true,
+            categoryId: true,
+            stock: true,
+          }
+        })
+      }
+
+      // 2. Eğer ürün bulunamadıysa, aranan ID bir Varyant ID'si olabilir (ör: sepete 100g, 250g varyantı eklendiğinde)
+      if (!dbProduct && searchId) {
+        const variant = await prisma.productVariant.findUnique({
+          where: { id: searchId },
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                sku: true,
+                price: true,
+                discountPrice: true,
+                taxRate: true,
+                categoryId: true,
+                stock: true,
+              }
+            }
+          }
+        })
+        if (variant) {
+          dbProduct = variant.product
+          dbVariant = variant
         }
-      })
+      }
+
+      // 3. Eğer varyant açıkça gönderilmişse
+      if (item.variantId && !dbVariant) {
+        dbVariant = await prisma.productVariant.findUnique({
+          where: { id: item.variantId }
+        })
+      }
+
+      // 4. Kış Paketi kontrolü (virtual id veya isim eşleşmesi)
+      const isWinterItem = 
+        item.name?.toLowerCase().includes('kış paketi') || 
+        item.name?.toLowerCase().includes('kis paketi') ||
+        searchId === 'kis-paketi-virtual-id'
+
+      if (!dbProduct && isWinterItem) {
+        dbProduct = await prisma.product.findFirst({
+          where: {
+            OR: [
+              { slug: 'k-paketi' },
+              { slug: 'kis-paketi' },
+              { name: { contains: 'Kış Paketi' } },
+              { name: { contains: 'Kis Paketi' } }
+            ]
+          },
+          select: {
+            id: true,
+            name: true,
+            sku: true,
+            price: true,
+            discountPrice: true,
+            taxRate: true,
+            categoryId: true,
+            stock: true,
+          }
+        })
+      }
+
+      // 5. Hala bulunamadıysa SKU veya İsim ile esnek arama
+      if (!dbProduct && item.sku) {
+        dbProduct = await prisma.product.findUnique({
+          where: { sku: item.sku },
+          select: {
+            id: true,
+            name: true,
+            sku: true,
+            price: true,
+            discountPrice: true,
+            taxRate: true,
+            categoryId: true,
+            stock: true,
+          }
+        })
+      }
+
+      if (!dbProduct && item.name) {
+        const cleanName = item.name.replace(/\s*\([^)]*\)\s*$/, '').trim()
+        dbProduct = await prisma.product.findFirst({
+          where: {
+            OR: [
+              { name: item.name },
+              { name: cleanName }
+            ]
+          },
+          select: {
+            id: true,
+            name: true,
+            sku: true,
+            price: true,
+            discountPrice: true,
+            taxRate: true,
+            categoryId: true,
+            stock: true,
+          }
+        })
+      }
 
       if (!dbProduct) {
         return NextResponse.json({ error: `Seçtiğiniz ürün artık mevcut değil: ${item.name || 'Ürün'}` }, { status: 400 })
@@ -85,18 +192,32 @@ export async function POST(req: Request) {
 
       const qty = Math.max(1, Number(item.quantity) || 1)
       const isWinter = 
+        isWinterItem ||
         dbProduct.name.toLowerCase().includes('kış paketi') || 
         dbProduct.name.toLowerCase().includes('kis paketi')
-      const unitPrice = isWinter ? 3000 : Number(dbProduct.discountPrice || dbProduct.price)
+
+      // Fiyat Belirleme: Eğer varyant varsa onun fiyatı, yoksa ürünün indirimli/normal fiyatı
+      let baseUnitPrice = 0
+      if (dbVariant) {
+        baseUnitPrice = Number(dbVariant.discountPrice || dbVariant.price)
+      }
+      if (!baseUnitPrice || baseUnitPrice <= 0) {
+        baseUnitPrice = Number(dbProduct.discountPrice || dbProduct.price)
+      }
+      if (!baseUnitPrice || baseUnitPrice <= 0) {
+        baseUnitPrice = Number(item.price) || 0
+      }
+
+      const unitPrice = isWinter ? 3000 : baseUnitPrice
       const itemTotal = unitPrice * qty
       subtotal += itemTotal
       totalWeight += qty * 0.5 // Ortalama ürün ağırlığı
 
       dbOrderItems.push({
         productId: dbProduct.id,
-        variantId: item.variantId || null,
-        productName: dbProduct.name,
-        sku: dbProduct.sku || `SKU-${dbProduct.id.slice(0, 8)}`,
+        variantId: dbVariant?.id || item.variantId || null,
+        productName: dbVariant ? `${dbProduct.name} (${dbVariant.name})` : (item.name || dbProduct.name),
+        sku: dbVariant?.sku || dbProduct.sku || `SKU-${dbProduct.id.slice(0, 8)}`,
         quantity: qty,
         unitPrice: unitPrice,
         taxRate: Number(dbProduct.taxRate) || 18,
@@ -105,8 +226,8 @@ export async function POST(req: Request) {
       })
 
       basketItems.push({
-        id: dbProduct.id,
-        name: dbProduct.name.slice(0, 45),
+        id: dbVariant?.id || dbProduct.id,
+        name: (dbVariant ? `${dbProduct.name} (${dbVariant.name})` : dbProduct.name).slice(0, 45),
         category1: dbProduct.categoryId || "Baharat & Şifalı Bitkiler",
         itemType: "PHYSICAL",
         price: itemTotal.toFixed(2)
