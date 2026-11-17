@@ -52,7 +52,7 @@ export async function Footer() {
               </div>
               <div>
                 <h4 className="font-bold mb-1">Kaliteli Üretim</h4>
-                <p className="text-sm text-brand-slate/70">1989'dan bu yana tecrübe ve kalite belgeleri ile yapılan yerli üretim</p>
+                <p className="text-sm text-brand-slate/70">2008'den bu yana tecrübe ve kalite belgeleri ile yapılan yerli üretim</p>
               </div>
             </div>
           </div>
@@ -63,7 +63,7 @@ export async function Footer() {
             {/* Column 1: Info */}
             <div>
               <p className="text-sm text-brand-slate/80 mb-6 font-medium leading-relaxed">
-                1989 yılından günümüze, en taze ve kaliteli kuruyemişleri özenle işleyerek sofralarınıza taşıyoruz. Güvenilir ve sağlıklı lezzetler.
+                2008 yılından günümüze, en taze ve kaliteli kuruyemişleri özenle işleyerek sofralarınıza taşıyoruz. Güvenilir ve sağlıklı lezzetler.
               </p>
               <div className="text-sm text-brand-slate/80 font-medium space-y-4">
                 <p>Kozyatağı Mah. Kocayol Cad Argun Apt, 34742 Kadıköy/İstanbul</p>

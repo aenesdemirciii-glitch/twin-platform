@@ -38,7 +38,7 @@ Tüketiciler arasında yaygın bir yanılgı, kristalleşen (donan) balın sahte
 ### Bal Tüketirken Dikkat Edilmesi Gereken Püf Noktalar
 Balın içerisindeki canlı enzimlerin ve şifalı bileşenlerin zarar görmemesi için **asla kaynar çaya, kaynar süte veya kaynayan suya karıştırılmamalıdır**. İçeceklerin sıcaklığı 40°C'nin altına düştüğünde (içilebilir ılık kıvamdayken) eklenmeli ya da tercihen tahta kaşıkla doğrudan tüketilmelidir.
 
-İkizler Baharatçılık olarak 1989'dan bugüne, katkısız ve analiz edilmiş en saf yayla ve çam ballarını sofralarınıza güvenle ulaştırmaktan gurur duyuyoruz.`,
+İkizler Baharatçılık olarak 2008'den bugüne, katkısız ve analiz edilmiş en saf yayla ve çam ballarını sofralarınıza güvenle ulaştırmaktan gurur duyuyoruz.`,
     isActive: true
   },
   {
