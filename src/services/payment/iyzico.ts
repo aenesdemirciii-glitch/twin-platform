@@ -49,16 +49,28 @@ export async function getIyzicoClient(): Promise<any> {
 
 // Abstraction for creating a payment checkout form (3D Secure compatible)
 export const createCheckoutForm = async (requestData: any): Promise<any> => {
-  const client = await getIyzicoClient()
-  return new Promise((resolve, reject) => {
-    client.checkoutFormInitialize.create(requestData, (err: any, result: any) => {
-      if (err) {
-        reject(err)
-      } else {
-        resolve(result)
-      }
+  try {
+    const client = await getIyzicoClient()
+    return new Promise((resolve) => {
+      client.checkoutFormInitialize.create(requestData, (err: any, result: any) => {
+        if (err) {
+          console.error("Iyzipay initialize error:", err)
+          resolve({
+            status: "failure",
+            errorMessage: err.message || err.errorMessage || "Ödeme altyapısına bağlanılamadı."
+          })
+        } else {
+          resolve(result)
+        }
+      })
     })
-  })
+  } catch (e: any) {
+    console.error("getIyzicoClient error:", e)
+    return {
+      status: "failure",
+      errorMessage: e.message || "Ödeme servisi başlatılamadı."
+    }
+  }
 }
 
 // Abstraction for retrieving payment result

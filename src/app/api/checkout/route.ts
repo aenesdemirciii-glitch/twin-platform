@@ -215,7 +215,7 @@ export async function POST(req: Request) {
 
       dbOrderItems.push({
         productId: dbProduct.id,
-        variantId: dbVariant?.id || item.variantId || null,
+        variantId: dbVariant?.id || null,
         productName: dbVariant ? `${dbProduct.name} (${dbVariant.name})` : (item.name || dbProduct.name),
         sku: dbVariant?.sku || dbProduct.sku || `SKU-${dbProduct.id.slice(0, 8)}`,
         quantity: qty,
@@ -226,7 +226,7 @@ export async function POST(req: Request) {
       })
 
       basketItems.push({
-        id: dbVariant?.id || dbProduct.id,
+        id: `ITEM-${dbOrderItems.length}-${(dbVariant?.id || dbProduct.id).slice(0, 8)}`,
         name: (dbVariant ? `${dbProduct.name} (${dbVariant.name})` : dbProduct.name).slice(0, 45),
         category1: dbProduct.categoryId || "Baharat & Şifalı Bitkiler",
         itemType: "PHYSICAL",
@@ -407,10 +407,14 @@ export async function POST(req: Request) {
     const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "85.34.78.112"
 
     // 8. İyzico Checkout Form İsteğini Hazırla
+    // İyzico kuralı: price değeri, basketItems içindeki fiyatların kuruşu kuruşuna toplamına eşit olmalıdır
+    const basketSum = basketItems.reduce((acc, curr) => acc + (parseFloat(curr.price) || 0), 0)
+    const finalPrice = basketSum.toFixed(2)
+
     const requestData = {
       locale: "tr",
       conversationId: newOrder.id,
-      price: catalogPrice.toFixed(2),
+      price: finalPrice,
       paidPrice: grandTotal.toFixed(2),
       currency: "TRY",
       basketId: newOrder.id,
@@ -470,7 +474,9 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Checkout Internal Error:", error)
     return NextResponse.json({
-      error: "Sipariş oluşturulurken bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
+      error: error?.message 
+        ? `Sipariş oluşturulamadı: ${error.message}` 
+        : "Sipariş oluşturulurken bir hata oluştu. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz."
     }, { status: 500 })
   }
 }
