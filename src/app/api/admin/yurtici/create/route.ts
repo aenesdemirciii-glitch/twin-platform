@@ -74,8 +74,9 @@ export async function POST(req: Request) {
     let fullAddress = parsedNotes.shippingAddress || order.address?.address || ""
 
     // Benzersiz ve Karışmayan cargoKey (Referans Kodu) Üretimi
-    // Yurtiçi Kargo için Sipariş Numarasını baz alan temiz referans
-    const cargoKey = `IKZ-${order.orderNumber.replace(/[^a-zA-Z0-9]/g, "")}`
+    // Yurtiçi Kargo için Sipariş Numarasını baz alan temiz referans (tek IKZ öneki)
+    const cleanOrderNum = order.orderNumber.replace(/[^a-zA-Z0-9]/g, "")
+    const cargoKey = cleanOrderNum.startsWith("IKZ") ? cleanOrderNum : `IKZ-${cleanOrderNum}`
 
     // 3. Kargo Ödeme Tipi Belirleme (İkizler Baharatçılık Kuralları)
     // 3.000 TL ve üzeri siparişler ücretsiz kargo -> Gönderici Ödemeli

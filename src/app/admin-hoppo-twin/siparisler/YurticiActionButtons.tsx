@@ -114,7 +114,18 @@ export function YurticiActionButtons({
         })
         router.refresh()
       } else {
-        setMessage({ type: "error", text: data.error || "Gönderi kaydı oluşturulamadı." })
+        const match = data.error?.match(/Referans Kodu:\s*([A-Za-z0-9-]+)/)
+        if (match && match[1]) {
+          setCargoKey(match[1])
+          customer.cargoKey = match[1]
+          setMessage({
+            type: "success",
+            text: `Aktif gönderi referans kodu yüklendi: ${match[1]}`,
+          })
+          router.refresh()
+        } else {
+          setMessage({ type: "error", text: data.error || "Gönderi kaydı oluşturulamadı." })
+        }
       }
     } catch (err: any) {
       setMessage({ type: "error", text: "Bağlantı hatası: " + (err.message || String(err)) })
