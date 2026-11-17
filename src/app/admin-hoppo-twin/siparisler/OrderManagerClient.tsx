@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { 
   Package, 
@@ -104,6 +104,10 @@ const STATUS_OPTIONS = [
 export function OrderManagerClient({ initialOrders }: OrderManagerClientProps) {
   const router = useRouter()
   const [orders, setOrders] = useState<any[]>(initialOrders)
+
+  useEffect(() => {
+    setOrders(initialOrders)
+  }, [initialOrders])
   const [selectedOrder, setSelectedOrder] = useState<any | null>(null)
   const [selectedCustomer, setSelectedCustomer] = useState<any | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { 
   Truck, 
@@ -48,12 +48,20 @@ export function YurticiActionButtons({
   const [showCancelModal, setShowCancelModal] = useState(false)
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null)
 
-  const cargoKey = customer.cargoKey
-  const trackingNumber = customer.trackingNumber
-  const trackingUrl = customer.trackingUrl
-  const cargoStatus = customer.cargoStatus
-  const cargoShippedAt = customer.cargoShippedAt
+  const [cargoKey, setCargoKey] = useState<string | null>(customer.cargoKey || null)
+  const [trackingNumber, setTrackingNumber] = useState<string | null>(customer.trackingNumber || null)
+  const [trackingUrl, setTrackingUrl] = useState<string | null>(customer.trackingUrl || null)
+  const [cargoStatus, setCargoStatus] = useState<string | null>(customer.cargoStatus || null)
+  const [cargoShippedAt, setCargoShippedAt] = useState<string | null>(customer.cargoShippedAt || null)
   const cargoCarrier = customer.cargoCarrier || "Yurtiçi Kargo"
+
+  useEffect(() => {
+    if (customer.cargoKey !== undefined) setCargoKey(customer.cargoKey || null)
+    if (customer.trackingNumber !== undefined) setTrackingNumber(customer.trackingNumber || null)
+    if (customer.trackingUrl !== undefined) setTrackingUrl(customer.trackingUrl || null)
+    if (customer.cargoStatus !== undefined) setCargoStatus(customer.cargoStatus || null)
+    if (customer.cargoShippedAt !== undefined) setCargoShippedAt(customer.cargoShippedAt || null)
+  }, [customer.cargoKey, customer.trackingNumber, customer.trackingUrl, customer.cargoStatus, customer.cargoShippedAt])
 
   // 1. Gönderi Oluşturma (createShipment)
   const handleCreateShipment = async (forceOffline: boolean = false) => {
@@ -76,11 +84,33 @@ export function YurticiActionButtons({
       const data = await res.json()
 
       if (res.ok && data.success) {
+        if (data.cargoKey) {
+          setCargoKey(data.cargoKey)
+          customer.cargoKey = data.cargoKey
+        }
+        if (data.trackingNumber) {
+          setTrackingNumber(data.trackingNumber)
+          customer.trackingNumber = data.trackingNumber
+        }
+        if (data.cargoStatus) {
+          setCargoStatus(data.cargoStatus)
+          customer.cargoStatus = data.cargoStatus
+        }
         setMessage({ 
           type: "success", 
-          text: forceOffline 
-            ? "Yurtiçi Kargo şube teslimat kodu oluşturuldu (Kozyatağı Şubesi teslimata hazır)!" 
-            : "Yurtiçi Kargo referans kodu başarıyla oluşturuldu!" 
+          text: data.alreadyExists
+            ? `Aktif gönderi referans kodu yüklendi: ${data.cargoKey}`
+            : forceOffline 
+              ? "Yurtiçi Kargo şube teslimat kodu oluşturuldu (Kozyatağı Şubesi teslimata hazır)!" 
+              : "Yurtiçi Kargo referans kodu başarıyla oluşturuldu!" 
+        })
+        router.refresh()
+      } else if (data.cargoKey) {
+        setCargoKey(data.cargoKey)
+        customer.cargoKey = data.cargoKey
+        setMessage({ 
+          type: "success", 
+          text: `Aktif gönderi referans kodu yüklendi: ${data.cargoKey}` 
         })
         router.refresh()
       } else {
@@ -113,6 +143,8 @@ export function YurticiActionButtons({
 
       if (res.ok && data.success) {
         if (data.isRealTrackingAvailable) {
+          setTrackingNumber(data.trackingNumber)
+          customer.trackingNumber = data.trackingNumber
           setMessage({ type: "success", text: `Takip no güncellendi: ${data.trackingNumber}` })
         } else {
           setMessage({ type: "success", text: `Durum güncellendi: ${data.cargoStatus || "Şube Kabulü Bekleniyor"}` })
@@ -131,7 +163,7 @@ export function YurticiActionButtons({
   }
 
   // 3. Gönderiyi İptal Et (cancelShipment)
-  const handleCancelShipment = async () => {
+  const handleCancelShipment = async (force: boolean = false) => {
     if (!cargoKey) return
 
     setLoading(true)
@@ -142,16 +174,30 @@ export function YurticiActionButtons({
       const res = await fetch("/api/admin/yurtici/cancel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId }),
+        body: JSON.stringify({ orderId, force }),
       })
 
       const data = await res.json()
 
       if (res.ok && data.success) {
+        setCargoKey(null)
+        setTrackingNumber(null)
+        setTrackingUrl(null)
+        setCargoStatus("Gönderi İptal Edildi")
+        customer.cargoKey = null
+        customer.trackingNumber = null
+        customer.cargoStatus = "Gönderi İptal Edildi"
         setMessage({ type: "success", text: "Yurtiçi Kargo gönderisi iptal edildi." })
         setShowCancelModal(false)
         router.refresh()
       } else {
+        if (data.canForce && !force) {
+          const confirmForce = window.confirm(`${data.error || "Yurtiçi Kargo servisinden iptal yanıtı alınamadı."}\n\nYine de bu siparişin gönderi referans kodunu sistemden kaldırıp sıfırlamak istiyor musunuz?`)
+          if (confirmForce) {
+            await handleCancelShipment(true)
+            return
+          }
+        }
         alert(data.error || "Gönderi iptal edilemedi.")
       }
     } catch (err: any) {
@@ -357,7 +403,7 @@ export function YurticiActionButtons({
         isOpen={showLabelModal}
         onClose={() => setShowLabelModal(false)}
         order={order}
-        customer={customer}
+        customer={{ ...customer, cargoKey, trackingNumber, trackingUrl, cargoStatus }}
       />
 
       {/* Gönderi İptal Onay Modalı */}
@@ -383,7 +429,7 @@ export function YurticiActionButtons({
               </button>
               <button
                 type="button"
-                onClick={handleCancelShipment}
+                onClick={() => handleCancelShipment(false)}
                 disabled={loading && loadingAction === "cancel"}
                 className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition-colors shadow-sm disabled:opacity-50"
               >

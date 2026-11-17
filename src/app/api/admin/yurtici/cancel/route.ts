@@ -36,13 +36,24 @@ export async function POST(req: Request) {
       }, { status: 400 })
     }
 
-    // Yurtiçi Kargo SOAP cancelShipment çağrısı
-    const cancelResult = await cancelYurticiShipment(cargoKey)
+    const force = !!body.force
+    let cancelError = null
 
-    if (!cancelResult.success) {
+    // Yurtiçi Kargo SOAP cancelShipment çağrısı
+    try {
+      const cancelResult = await cancelYurticiShipment(cargoKey)
+      if (!cancelResult.success && !force) {
+        cancelError = cancelResult.errorMessage || cancelResult.outResult || "Gönderi iptal edilemedi."
+      }
+    } catch (e: any) {
+      if (!force) cancelError = e.message || String(e)
+    }
+
+    if (cancelError && !force) {
       return NextResponse.json({
         success: false,
-        error: cancelResult.errorMessage || cancelResult.outResult || "Gönderi iptal edilemedi.",
+        error: cancelError,
+        canForce: true,
       }, { status: 502 })
     }
 

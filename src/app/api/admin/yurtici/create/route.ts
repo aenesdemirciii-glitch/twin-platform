@@ -41,15 +41,6 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Mükerrer Gönderi Koruması
-    if (parsedNotes.cargoKey && !body.forceNew) {
-      return NextResponse.json({
-        error: `Bu sipariş için zaten aktif bir Yurtiçi Kargo gönderi kaydı mevcut! (Referans Kodu: ${parsedNotes.cargoKey})`,
-        cargoKey: parsedNotes.cargoKey,
-        alreadyExists: true,
-      }, { status: 409 })
-    }
-
     // Alıcı ve Adres Bilgilerini Çözümle
     let receiverName = parsedNotes.customerName || order.address?.fullName || ""
     if (!receiverName && order.user) {
@@ -59,6 +50,23 @@ export async function POST(req: Request) {
 
     const receiverPhone = parsedNotes.customerPhone || order.address?.phone || order.user?.phone || ""
     const emailAddress = parsedNotes.customerEmail || order.user?.email || ""
+
+    // 2. Mükerrer Gönderi Koruması: Zaten oluşturulmuşsa mevcut kaydı başarıyla döndür
+    if (parsedNotes.cargoKey && !body.forceNew) {
+      return NextResponse.json({
+        success: true,
+        alreadyExists: true,
+        cargoKey: parsedNotes.cargoKey,
+        jobId: parsedNotes.cargoJobId || null,
+        trackingNumber: parsedNotes.trackingNumber || null,
+        trackingUrl: parsedNotes.trackingUrl || null,
+        cargoStatus: parsedNotes.cargoStatus || "Kargo Referans Kodu Hazır (Şube Kabulü Bekleniyor)",
+        message: `Bu sipariş için zaten aktif bir Yurtiçi Kargo gönderi kaydı mevcuttur (Referans Kodu: ${parsedNotes.cargoKey}).`,
+        customerName: receiverName,
+        customerPhone: receiverPhone,
+        orderNumber: order.orderNumber,
+      }, { status: 200 })
+    }
 
     // İl ve İlçe
     let cityName = parsedNotes.city || order.address?.city || "İstanbul"
